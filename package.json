@@ -1,0 +1,51 @@
+{
+  "name": "empty-project-template",
+  "main": "node_modules/expo/AppEntry.js",
+  "private": true,
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "eject": "expo eject"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
+  },
+  "dependencies": {
+    "@ercpereda/react-native-accordion": "^2.0.6",
+    "@expo/vector-icons": "^6.3.1",
+    "apisauce": "^0.16.0",
+    "expo": "^29.0.0",
+    "file-base64": "^1.0.0",
+    "firebase": "^5.0.3",
+    "immutability-helper": "^2.7.1",
+    "install": "^0.12.1",
+    "moment": "^2.22.2",
+    "native-base": "^2.4.2",
+    "npm": "^6.3.0",
+    "react": "16.3.1",
+    "react-native": "^0.55.4",
+    "react-native-accordion": "^1.0.1",
+    "react-native-android-back-button": "^0.3.0",
+    "react-native-awesome-alerts": "^1.0.8",
+    "react-native-base": "^1.1.0",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-drawer": "^2.5.0",
+    "react-native-easy-toast": "^1.1.0",
+    "react-native-firebase": "^4.3.8",
+    "react-native-modal-dropdown": "^0.6.2",
+    "react-native-phone-call": "^1.0.7",
+    "react-native-render-html": "^3.10.0",
+    "react-native-router-flux": "^4.0.1",
+    "react-native-storage": "^0.2.2",
+    "react-native-swiper": "^1.5.13",
+    "react-native-swiper-flatlist": "^1.0.7",
+    "react-native-webview-bridge": "^0.33.0",
+    "react-navigation": "^2.11.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "sudo": "^1.0.3"
+  }
+}

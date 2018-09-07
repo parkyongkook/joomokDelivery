@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "joomok",
+    "description": "This project is really great.",
+    "slug": "doomok0813",
+    "privacy": "public",
+    "sdkVersion": "29.0.0",
+    "platforms": ["ios", "android"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon":"./assets/icon.png",
+    "scheme": "joomok",
+    "splash": {
+      "image": "./assets/img/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#0099ff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "co.pyk.joomok"
+    },
+    "android" :{
+      "versionCode": 3,
+      "package" : "co.pyk.joomok"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#000000"
+    }
+  }
+}

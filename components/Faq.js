@@ -50,7 +50,6 @@ export default class Faw extends Component {
     return fetch('https://api.joomok.net/boards/faq?usridx='+this.props.usridx+'&key=title&word=두몫&istart=0&ilimit=10')
       .then((response) => response.json())
       .then((faqBoardData) => {
-        console.log('faqBoardData',faqBoardData)
         this.setState({
             faqBoardData: 
             faqBoardData.data.map((faqData, i) => {

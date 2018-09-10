@@ -41,9 +41,6 @@ console.warn = message => {
   }
 };
 
-
-
-
 // import MapLocation from './components/MapLocation';
 // import PaymentFinal from './components/PaymentFinal';
 // import CameraExample from './components/CameraExample';
@@ -59,7 +56,7 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isReady: false
+            isReady: false,
           };
     }
     
@@ -82,14 +79,15 @@ export default class App extends React.Component {
 
     //안드로이드 하드웨어 백버튼 앱종료 방지 시작
     componentDidMount(){
-        BackHandler.addEventListener('hardwareBackPress', this.handleAndroidBack)
+        BackHandler.addEventListener('hardwareBackPress', this.handleAndroidBack())
     }
     
     componentWillUnmount(){
-        BackHandler.removeEventListener('hardwareBackPress', this.handleAndroidBack)
+        BackHandler.removeEventListener('hardwareBackPress', this.handleAndroidBack())
     }
     
     handleAndroidBack = () =>{
+
         if( drawerState === true ){
             this.closeDrawer()
             return true
@@ -103,27 +101,15 @@ export default class App extends React.Component {
         if ( Actions.currentScene === 'Main' || Actions.currentScene === 'Login'  ) {
             BackHandler.exitApp ();
             return true
-            // return Alert.alert(
-            //     '홈화면으로 이동 하시겠습니까?',
-            //     '이동을 원하시면 확인을 아니면 취소를 눌러주세요',
-            //     [
-            //       { text: '취소', onPress: () => {
-            //             Actions.Main()
-            //         } },
-            //       { text: '확인', onPress: () => {
-            //             BackHandler.exitApp ();
-            //             Actions.reset('Login');
-            //         } },
-            //     ],
-            //     { cancelable: false }
-            // ) 
         }
         Actions.pop()
         return true
     }
     //안드로이드 하드웨어 백버튼 앱종료 방지 끝
 
+
     render() {
+
         if (!this.state.isReady) {
             return <AppLoading />;
         }
@@ -161,13 +147,13 @@ export default class App extends React.Component {
                                 closeDrawerHome={this.closeDrawer}
                                 component={Login}
                                 hideNavBar={true}
-                                initial={true}
+                                initial={true} 
                             />
                             <Scene key='OrderMain'
                                 component={OrderMain}
                                 hideNavBar={true}
                                 openDrawer={this.openDrawer}
-                                closeDrawerHome={this.closeDrawer}
+                                closeDrawerHome={this.closeDrawer} 
                             />
                             <Scene key='Cart'
                                 component={Cart}
@@ -192,6 +178,7 @@ export default class App extends React.Component {
                                 hideNavBar={true}
                                 openDrawer={this.openDrawer}
                                 closeDrawerHome={this.closeDrawer}
+
                             />
                             <Scene key='OrderSelect'
                                 component={OrderSelect}

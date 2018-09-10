@@ -198,7 +198,7 @@ class androidSwiper extends Component {
                                     >
                                     <Text style={{fontSize:14, color:"yellow",}}>최근구매내역</Text>
                                     </Button>
-                                    <Button style={{
+                                    {/* <Button style={{
                                         flex:1, 
                                         marginLeft:5, 
                                         height:30,
@@ -210,8 +210,8 @@ class androidSwiper extends Component {
                                         title : '구매내역'
                                     })}
                                     >
-                                    <Text style={{fontSize:14, color:"#fff",}}>구매내역</Text>
-                                    </Button>
+                                        <Text style={{fontSize:14, color:"#fff",}}>구매내역</Text>
+                                    </Button> */}
                                     <Button 
                                     style={{
                                         flex:1, 

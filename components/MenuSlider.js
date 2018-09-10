@@ -177,7 +177,7 @@ class MenuSlider extends Component {
                                     </TouchableOpacity>
                                 </ListItem>
 
-                                <ListItem last style={styles.listItem}>
+                                {/*<ListItem last style={styles.listItem}>
                                     <TouchableOpacity onPress={() => {
                                         Actions.OrderSelect()
                                         this.props.closeDrawer()
@@ -185,7 +185,7 @@ class MenuSlider extends Component {
                                         <Text style={styles.slideText}>결제목록</Text>
                                     </TouchableOpacity>
 
-                                </ListItem>
+                                </ListItem>*/}
 
                                 <ListItem last style={styles.listItem}>
                                     <TouchableOpacity

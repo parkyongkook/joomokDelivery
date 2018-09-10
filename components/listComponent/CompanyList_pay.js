@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Platform } from 'react-native';
 import { Container, Header, Title, 
     Content, Footer, Button,Left,Icon,Body,Right,Item,Input,Text,Row,Col,Grid,CheckBox,CardItem,Badge } from 'native-base';
 import {Actions} from 'react-native-router-flux';
@@ -32,8 +32,11 @@ export default class CompanyList_pay extends React.Component {
     }
 
     clickToCheckBox(){
+
+
+
         this.props.createFinalPriceData(this.state.createFinalPriceData, this.props.index, this.props.midx)
-        
+
         this.setState({
             idSaveChecked: !this.state.idSaveChecked
         }) 
@@ -46,31 +49,33 @@ export default class CompanyList_pay extends React.Component {
                     <Row style={{ height:230, borderTopWidth:1, borderTopColor:"#bbb" }}>
 
                         <TouchableOpacity 
-                            style={{width:40, height:40, marginTop:10, }}
+                            style={{
+                                width:30,
+                                 height:30, 
+                                 marginTop:10, 
+                                 justifyContent:"center",
+                            }}
                             onPress={ ()=> this.clickToCheckBox() } 
                         > 
-                            <CheckBox 
+                            <CheckBox
                                 checked={this.state.idSaveChecked} 
                                 //체크박스 옵션
                                 onPress={ ()=> this.clickToCheckBox() } 
                             />
                         </TouchableOpacity>
 
-                        <Col style={{marginTop:10,}}> 
+                        <View style={{flex:1, marginTop:10,}}> 
                             <Row style={{ alignItems:"center", flexDirection:"column", }}>
                                 <View style={{width:"92%", marginBottom:10, flexDirection:"row",}}>
                                     <Text style={{fontSize:16, fontWeight:"bold",}}>{this.state.companyPriceData.coname}</Text>
-
-                                    <CardItem footer style={{justifyContent:"space-between", marginTop:-10, 
-                                    // backgroundColor:'none',
-                                    }}>
-                                        <Badge style={ this.state.companyPriceData.transable[6] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text>일</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[0] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text>월</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[1] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text>화</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[2] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text>수</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[3] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text>목</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[4] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text>금</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[5] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text>토</Text></Badge>
+                                    <CardItem footer style={{justifyContent:"space-between", marginTop:-10}}>
+                                        <Badge style={ this.state.companyPriceData.transable[6] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>일</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[0] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>월</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[1] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>화</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[2] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>수</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[3] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>목</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[4] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>금</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[5] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>토</Text></Badge>
                                     </CardItem>
 
                                 </View>
@@ -104,7 +109,7 @@ export default class CompanyList_pay extends React.Component {
                                 </View>
                                 <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
                                     <Text>비주류금액(박스)</Text>
-                                    <Text>{ this.state.createFinalPriceData.case }원</Text>
+                                    <Text>{ this.state.createFinalPriceData.box }원</Text>
                                 </View>
                                 <View style={{
                                     width:"92%", 
@@ -118,7 +123,7 @@ export default class CompanyList_pay extends React.Component {
                                     <Text style={{marginTop:10, color:"#0099ff", fontWeight:"bold"}}>{ this.state.createFinalPriceData.finalTotalPrice }원</Text>
                                 </View>
                             </Row>
-                        </Col>
+                        </View>
                     </Row>
                 </Grid> 
         );
@@ -138,15 +143,17 @@ const styles = StyleSheet.create({
         fontSize:10,
     },dayBadgeOn:{
         backgroundColor:"#0099ff",
-        height:25,
-        width:25,
-        paddingLeft:3,
+        height:20,
+        width:20,
+        paddingLeft: Platform.OS == "ios" ? 1 : 2 ,
+        paddingTop: Platform.OS == "ios" ? 1 : 0,
         marginLeft:2,
     },dayBadgeOff:{
         backgroundColor:"#ddd",
-        height:25,
-        width:25,
-        paddingLeft:3,
+        height:20,
+        width:20,
+        paddingLeft:Platform.OS == "ios" ? 1 : 2,
+        paddingTop: Platform.OS == "ios" ? 1 : 0,
         marginLeft:2,
     }
 })

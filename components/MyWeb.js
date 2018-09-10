@@ -45,7 +45,6 @@ export default class MyWeb extends Component {
                                     mobile : responseData.data.mobileno
                                 })
                             }
-                            console.log('responseData',responseData)
                         })
                         .catch((error) => {
                             alert('실명인증실패');
@@ -56,13 +55,10 @@ export default class MyWeb extends Component {
             if (webviewState.title === 'Finish') {
                 Actions.Main();
             }
-
         }
-        console.log(webviewState)
     };
 
     render() {
-        console.log(this.props.bcCard)
         return (
             <View style={{ flex: 1, backgroundColor: "#0099ff", }}>
                 <BackGroundImage />

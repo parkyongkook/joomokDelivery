@@ -354,7 +354,7 @@ class PaymentList extends Component {
           <ScrollView style={{ flex: 7 }}>
             <Text 
               style={styles.totalInfoTxt}>
-              {` 총 주문건수 : ${this.state.totalOrder} | 총 매입금액 : ${this.state.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원`}
+              {` 총 주문건수 : ${this.state.totalOrder} | 총 매입금액 : ${this.state.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").split(".")[0]}원`}
             </Text>
             {this.state.listCategory === "drink" ? drinkResearchComponent: companyResearchComponent}
           </ScrollView>

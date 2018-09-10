@@ -117,8 +117,6 @@ class Payment extends Component {
                 // formdata.append('allat_biz_no', '3084000454') // 사업자번호
                 // formdata.append('allat_sell_mm', '02') // 00,0,01,1 : 일시불 (할부 사용시 2개월 이상으로 설정 )
 
-                console.log('최종결제 폼데이터 ', formdata)
-
                 fetch('http://pay.joomok.net/paygate/required',{
                     method: 'post',
                     headers: {
@@ -132,7 +130,6 @@ class Payment extends Component {
                     return response.text() 
 
                 }).then((text)=>{ 
-                    console.log("사이트 주소 받아오기!!",text)
                     JSON.stringify(text)
                     let url = JSON.parse(text)
 
@@ -149,7 +146,6 @@ class Payment extends Component {
                 return alert('결제실패 잠시 후 다시 시도해 주십시오.')
             })
             .done(()=>{
-                    console.log('done!!!!')
                     this.setState({ paymentButtonBlock : false })
                 }
             );
@@ -176,11 +172,8 @@ class Payment extends Component {
     }
 
     render() {
-
-        console.log(width)
-
+        
         let that = this;
-
         return (
           <Container style={{backgroundColor:"#0099ff",}}>
             <BackGroundImage/>
@@ -317,7 +310,7 @@ class Payment extends Component {
                         <Text style={{fontSize:14, color:"#999", textAlign:'center',}}> {`신용카드(일반)  : 삼성,신한,현대,롯데,하나(외환),NH`}</Text>
                         <Text style={{fontSize:14, color:"#999",  textAlign:'center',}}> {`ISP결제: BC, 국민`}</Text>
                     </View>
-박용국
+
                     <View style={{  flexDirection:"row", justifyContent:"space-around",}}>
                     <Button
                         onPress={

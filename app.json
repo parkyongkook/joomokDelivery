@@ -25,7 +25,7 @@
       "bundleIdentifier": "co.pyk.joomok"
     },
     "android" :{
-      "versionCode": 3,
+      "versionCode": 4,
       "package" : "co.pyk.joomok"
     },
     "androidStatusBar": {

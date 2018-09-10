@@ -41,6 +41,11 @@ export default class SignUp_Information extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            companySerial : {
+                serial1: null,
+                serial2: null,
+                serial3: null,
+            },
             photos: [],
             localNum: {
                 localNumArr: [
@@ -95,8 +100,8 @@ export default class SignUp_Information extends Component {
                 com_addr1: null,
                 com_zipcode: null,
                 com_phone: "null",
-                com_serial: "6072700661",
-                com_certify: "123112340",
+                com_serial: null,
+                com_certify: null,
                 com_category: null,
                 isagree_rule: 0,
                 isagree_info: 0
@@ -114,6 +119,7 @@ export default class SignUp_Information extends Component {
         this.phonNumberChanger = this.phonNumberChanger.bind(this);
         this.onSelectCameraroll = this.onSelectCameraroll.bind(this);
         this.fileUpload = this.fileUpload.bind(this);
+        this.companyValidation = this.companyValidation.bind(this);
     }
 
     componentWillMount() {
@@ -550,9 +556,33 @@ export default class SignUp_Information extends Component {
 
     }
 
+    companyValidation(){
+        console.log('buttonClick')
+        fetch('https://api.joomok.net/members/serials?com_serial='+this.state.necessaryUserData.com_serial, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log(responseData)
+                alert('정상적인 사업자 입니다.')
+            })
+            .catch((error) => {
+                alert('유효하지 않은 사업자 번호입니다.')
+                console.log('error', error);
+            })
+        .done();
+    }
+
     render() {
-        console.log('userdata', this.props.userName, this.props.userBirth)
+
+        let serialState = this.state.companySerial;
+        let mergeSerial = serialState.serial1+serialState.serial2+serialState.serial3
         let { image } = this.state;
+
+        console.log(mergeSerial)
         return (
             <Container style={{
                 backgroundColor: "#0099ff",
@@ -903,21 +933,68 @@ export default class SignUp_Information extends Component {
                         <View style={styles.SignUpTitle}>< Text style={styles.loginSubText} >사업자번호</Text></View>
                         <View style={{ flex: 5, height: 25, marginRight: 15, flexDirection: "row", }}>
                             <Item Regular style={{ flex: 3, height: 25, backgroundColor: "#eee", borderRadius: 5, }}>
-                                <Input />
+                                <TextInput
+                                    underlineColorAndroid='transparent'
+                                    selectionColor={"#555"}
+                                    onChangeText={
+                                        (text) =>
+                                            this.setState({
+                                                companySerial: update(this.state.companySerial, {
+                                                    serial1: { $set: text }
+                                                }),
+                                                necessaryUserData : update(this.state.necessaryUserData, {
+                                                    com_serial: { $set: mergeSerial }
+                                                }),
+                                            })
+                                    }
+                                    style={styles.textInput}
+                                />
                             </Item>
                             <Item Regular style={{ flex: 3, height: 25, backgroundColor: "#eee", borderRadius: 5, }}>
-                                <Input />
+                                <TextInput
+                                    underlineColorAndroid='transparent'
+                                    selectionColor={"#555"}
+                                    onChangeText={
+                                        (text) =>
+                                            this.setState({
+                                                companySerial: update(this.state.companySerial, {
+                                                    serial2: { $set: text }
+                                                }),
+                                                necessaryUserData : update(this.state.necessaryUserData, {
+                                                    com_serial: { $set: mergeSerial }
+                                                }),
+                                            })
+                                    }
+                                    style={styles.textInput}
+                                />
                             </Item>
                             <Item Regular style={{ flex: 3, height: 25, marginRight: 5, backgroundColor: "#eee", borderRadius: 5, }}>
-                                <Input />
+                                <TextInput
+                                    underlineColorAndroid='transparent'
+                                    selectionColor={"#555"}
+                                    onChangeText={
+                                        (text) =>
+                                            this.setState({
+                                                companySerial: update(this.state.companySerial, {
+                                                    serial3: { $set: text }
+                                                }),
+                                                necessaryUserData : update(this.state.necessaryUserData, {
+                                                    com_serial: { $set: mergeSerial }
+                                                }),
+                                            })
+                                    }
+                                    style={styles.textInput}
+                                />
                             </Item>
                             <Button style={[styles.inputButton, {
-                                flex: 4.6,
-                                backgroundColor: "rgba(0,0,0,0)",
-                                borderRadius: 5,
-                                borderWidth: 1,
-                                borderColor: "#777",
-                            }]}>
+                                                flex: 4.6,
+                                                backgroundColor: "rgba(0,0,0,0)",
+                                                borderRadius: 5,
+                                                borderWidth: 1,
+                                                borderColor: "#777",
+                                            }]}
+                                    onPress={ this.companyValidation }        
+                            >
                                 <Text style={{ fontSize: 12, color: '#777', }}>유효성검사</Text>
                             </Button>
                         </View>
@@ -935,15 +1012,6 @@ export default class SignUp_Information extends Component {
                             <Item Regular style={{ flex: 3, height: 25, marginRight: 5, backgroundColor: "#eee", borderRadius: 5, }}>
                                 <Input />
                             </Item>
-                            <Button style={[styles.inputButton, {
-                                flex: 4.6,
-                                backgroundColor: "rgba(0,0,0,0)",
-                                borderRadius: 5,
-                                borderWidth: 1,
-                                borderColor: "#777",
-                            }]}>
-                                <Text style={{ fontSize: 12, color: '#777', }}>유효성검사</Text>
-                            </Button>
                         </View>
                     </View>
 
@@ -1189,6 +1257,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         marginLeft: 15,
         justifyContent: "center"
+        
     }, ItemText: {
         flex: 5,
         height: 25,

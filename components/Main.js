@@ -132,7 +132,9 @@ class Main extends React.Component {
     }
 
     reOrderProduct(data, title) {
-
+        this.setState({
+            isLoading : true
+        })
         let cartArr = { 
             carts :[],
             usridx :this.props.usridx 
@@ -175,7 +177,11 @@ class Main extends React.Component {
             .catch((error) => {
                 alert('problem while adding data');
             })
-            .done();
+            .done(()=>
+                this.setState({
+                    isLoading : false
+                })
+            );
     }
 
     mapToCartList = (data, bool) => {

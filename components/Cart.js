@@ -58,7 +58,6 @@ class Cart extends Component {
         })
         .then((response) => response.json())
         .then((responseData) => {
-            console.log(responseData)
             Actions.BuyProduct({
                 cartListData : responseData.data,
                 mapToCartList : that.mapToCartList,
@@ -109,8 +108,10 @@ class Cart extends Component {
 
     allCheckedHandler(onlyFalse){
 
-        if( onlyFalse==='disable' ){
+        console.log('1단계')
 
+        if( onlyFalse === 'disable' ){
+            console.log('2단계')
             this.setState({
                 idSaveChecked : false,
                 allChecked : false,
@@ -190,7 +191,9 @@ class Cart extends Component {
     }
 
     render() {
-        console.log('reOrderCartListData',this.state.cartData)
+        console.log('올체크 핸들러',this.state.allChecked)
+        console.log('카트리스트 데이터',this.props.cartListData)
+        console.log('현재의 카트데이터',this.state.cartData)
         return (
           <Container style={{backgroundColor:"#0099ff",}}>
             <BackGroundImage/>
@@ -217,7 +220,9 @@ class Cart extends Component {
                         />
                         <Text style={{marginLeft:15, marginTop:8, color:"#555"}}>전체선택 총</Text>
                         <Text style={{marginLeft:15, marginTop:8, color:"red",}}>{this.state.cartCheckCount}</Text>
-                        <Text style={{marginLeft:15, marginTop:8, color:"#555"}}>/ {this.props.reOrderCartListData ? this.props.reOrderCartListData.length : this.props.cartListData.length}개</Text>
+                        <Text style={{marginLeft:15, marginTop:8, color:"#555"}}>/ 
+                            {this.props.reOrderCartListData ? this.props.reOrderCartListData.length : this.props.cartListData.length}개
+                        </Text>
                     </TouchableOpacity>
                     
                     <View style={{

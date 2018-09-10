@@ -80,7 +80,7 @@ class SearchList extends React.Component {
             .then((response) => response.json())
             .then((responseData) => {
                 alert("메시지를 보냈습니다.")
-                console.log(responseData)
+
             })
             .catch((error) => {
                 alert('problem while adding data');
@@ -96,7 +96,7 @@ class SearchList extends React.Component {
     }
 
     render() {
-        console.log(this.props.imgUrl)
+        console.log(`http://joomok.net/default/M0x00x${this.props.drinkType}00000000x.jpg`)
         return (
             this.props.title === "제품이 없습니다." ?
                 <View style={{flex:1, marginLeft:20, marginRight:20}}>

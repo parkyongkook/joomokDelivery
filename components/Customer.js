@@ -48,7 +48,6 @@ export default class Customer extends Component {
         .then((response) => response.json())
         .then((responseData) => {
             alert("메시지를 보냈습니다.")
-            console.log(responseData)
         })
         .catch((error) => {
             alert('problem while adding data');

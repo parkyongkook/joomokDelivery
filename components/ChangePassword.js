@@ -68,8 +68,6 @@ class ChangePassword extends Component {
         })
         .then((response) => response.json())
         .then((responseData) => {
-            console.log("this.state.cartData",this.state.cartData)
-            console.log("responseData",responseData)
             if( responseData.code === 401 ){
                 alert("현재비밀번호 또는 새비밀번호가 일치하지 않습니다.")
             }

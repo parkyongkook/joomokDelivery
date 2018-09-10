@@ -30,7 +30,7 @@ export default class OrderList_company extends React.Component {
                 </View>
                 <View style={styles.noticeFormShare}>
                     <Text style={styles.detailText}>
-                        { this.props.price ? this.props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : null }
+                        { this.props.price ? this.props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").split(".")[0] : null }
                     </Text>
                 </View>
             </View>

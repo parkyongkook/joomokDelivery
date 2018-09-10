@@ -21,7 +21,6 @@ componentWillMount(){
     return fetch('https://api.joomok.net/boards/notice?usridx='+this.props.usridx+'&key=title&word=두몫&istart=0&ilimit=10')
     .then((response) => response.json())
     .then((noticeBoardData) => {
-        console.log("noticeBoardDatanoticeBoardData",noticeBoardData)
         this.setState({
             noticeBoardData: 
             noticeBoardData.data.map((noticeData, i) => {

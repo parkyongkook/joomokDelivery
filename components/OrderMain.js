@@ -20,7 +20,7 @@ class OrderMain extends Component {
             searchListData: this.props.searchList,
             mapComponents: null,
             cartList: [],
-            stateOfComponent: false,
+            stateOfComponent: this.props.stateOfComponent,
         }
         this.SearchListActivator = this.SearchListActivator.bind(this);
         this.viewSeachList = this.viewSeachList.bind(this);
@@ -36,6 +36,7 @@ class OrderMain extends Component {
         this.props.cartListData ? 
         this.setState({ cartList: this.props.cartListData }) : 
         this.setState({ cartList: [] });
+        this.state.stateOfComponent ? this.props.changeStateOfcomponent : null
     }
 
     returnToDrinkCategory( categoryType, imgUrl, title ){
@@ -95,6 +96,7 @@ class OrderMain extends Component {
             mapComponents: this.mapToSearchList(coll, drinkType),
             stateOfComponent: true
         })
+        this.props.stateOfComponent
     }
 
     mapToSearchList(data , drinkType) {
@@ -102,8 +104,6 @@ class OrderMain extends Component {
             return <SearchList 
                 title = {"제품이 없습니다."}
                 usridx = {this.props.usridx}
-                key = {i}
-                index = {i}
             />
         }else{
             return data.map((mergeDayData, i) => {
@@ -163,8 +163,6 @@ class OrderMain extends Component {
     }
 
     render() {
-
-        console.log('회원자격', this.props.userData.product_type)
         const category = (
             <View>
                 <View style={{ flex: 1, flexDirection: "row", }}>

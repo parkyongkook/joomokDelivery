@@ -114,7 +114,6 @@ class Login extends Component {
     }
 
     loginActivate(user) {
-
         var currentUser
         var that = this
         
@@ -184,7 +183,6 @@ class Login extends Component {
                 }
             })
             .catch((error) => {
-                console.log(error)
                 alert(error);
             })
             .done();
@@ -282,7 +280,7 @@ class Login extends Component {
                 />
 
 
-                <View style={{ flex: 1, justifyContent: "center",  }}>
+                <View style={{ flex: 4, justifyContent: "center",  }}>
 
                     <View style={{ 
                         flex: 3, 
@@ -425,7 +423,7 @@ class Login extends Component {
                                         marginTop: 10,
                                         marginLeft: 15,
                                         color: "#fff",
-                                    }}>자동로그인</Text>
+                                    }}>자동 로그인</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -433,7 +431,7 @@ class Login extends Component {
 
                 </View>
 
-                <View style={{ bottom: 100, alignItems: "center", display: this.state.inputMargin ?  Platform.OS === "ios" ? 'flex' : 'none' : null , }}>
+                <View style={{ flex: 2, alignItems: "center", }}>
                     <Button block style={{ marginLeft: 20, marginRight: 20, backgroundColor: "#fff", }}
                         onPress={this.loginActivate}>
                         <Text style={{ color: "#0099ff" }}>로그인</Text>

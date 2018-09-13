@@ -46,6 +46,11 @@ export default class SignUp_Information extends Component {
                 serial2: null,
                 serial3: null,
             },
+            drinkSerial:{
+                serial1: null,
+                serial2: null,
+                serial3: null,
+            },
             photos: [],
             localNum: {
                 localNumArr: [
@@ -80,6 +85,7 @@ export default class SignUp_Information extends Component {
             selected1: null,
             Checked1: false,
             Checked2: false,
+            comSerialVal : false,
             image: null,
             imageText: "no image",
             selected2: undefined,
@@ -88,18 +94,21 @@ export default class SignUp_Information extends Component {
             adressDataList: false,
             necessaryUserData: {
                 username: this.props.userName,
+                // username: '박용국',
                 userid: null,
                 mobile: this.props.mobile,
+                // mobile: '01089528963',
                 birth: this.props.userBirth,
+                // birth: '19820523',
                 password: null,
                 passConfirm: null,
-                email: "없음",
-                recommander: "없음",
+                email: null,
+                recommander: null,
                 com_name: null,
                 com_addr: null,
                 com_addr1: null,
                 com_zipcode: null,
-                com_phone: "null",
+                com_phone: null ,
                 com_serial: null,
                 com_certify: null,
                 com_category: null,
@@ -357,6 +366,7 @@ export default class SignUp_Information extends Component {
     confirmSignup(data) {
 
         var coll = [];
+        let formState = this.state.necessaryUserData
 
         for (const v in data) {
             coll.push(data[v])
@@ -366,97 +376,111 @@ export default class SignUp_Information extends Component {
         const isVal = coll.every(inspect)
 
         //필수항목체크
-        if (isVal) {
+        // if (isVal) {
 
-            //이메일검증
-            if (!this.isValEmail(this.state.necessaryUserData.email)) {
-                return alert("이메일주소가 올바르지 않습니다.")
+            //아이디 항목검사
+            if( formState.userid === null || formState.userid === '' ){
+                return alert('아이디 항목이 비어있습니다.')
             }
 
             //아이디 중복확인
             if (!this.state.idOverwrapInspect) {
                 return alert("아이디 중복확인은 필수입니다.")
             }
-            //생년월일 검증
-            if (!this.isValidDate(this.state.necessaryUserData.birth)) {
-                return
-            }
-            if (isNaN(this.state.necessaryUserData.birth) || this.state.necessaryUserData.birth.length !== 8) {
-                return alert("생년월인은 8자리로 숫자만 입력 가능합니다")
-            }
+
             //비밀번호 검증
-            if (this.state.necessaryUserData.password.length < 8 || this.state.necessaryUserData.password.length > 20) {
+            if( formState.password === null || formState.password === '' || formState.passConfirm === null || formState.passConfirm === '' ){
+                return alert('비밀번호 항목이 비어있습니다.')
+            }
+
+            if (formState.password.length < 8 || formState.password.length > 20) {
                 return alert("비밀번호는 8자 이상 20자 이하의 특수문자, 영문만 가능합니다.")
             }
-            if (this.checkStrType(this.state.necessaryUserData.password, "비밀번호")) {
-                return this.checkStrType(this.state.necessaryUserData.password, "비밀번호")
+            if ( this.checkStrType(formState.password, "비밀번호")) {
+                return this.checkStrType( formState.password, "비밀번호")
             }
-            if (this.state.necessaryUserData.password.length < 8 || this.state.necessaryUserData.password.length > 20) {
+            if ( formState.password.length < 8 || formState.password.length > 20) {
                 return alert("비밀번호는 8자 이상 20자 이하의 특수문자, 영문만 가능합니다.")
             }
-            if (this.state.necessaryUserData.password !== this.state.necessaryUserData.passConfirm) {
+            if ( formState.password !== formState.passConfirm) {
                 return alert("비밀번호가 일치하지 않습니다.")
             }
 
-            //이메일 검증
-            if (!this.isValEmail(this.state.necessaryUserData.email)) {
+            //이메일검증
+            if (!this.isValEmail( formState.email)) {
+                return alert("이메일항목이 비어있거나 올바르지 않습니다.")
+            }
+
+            if (!this.isValEmail( formState.email)) {
                 return alert("잘못된 형식의 이메일 입니다.")
             }
 
-            //이용약관 검증
-            if (!this.state.necessaryUserData.isagree_info || !this.state.necessaryUserData.isagree_rule) {
-                return alert("이용약관및 개인정보 수집에 동의해주세요")
+            if( formState.com_addr === null || formState.com_addr === '' ){
+                return alert('사업장주소를 입력해 주세요')
             }
 
-            if (!this.state.image == null) {
+            if( formState.com_addr1 === null || formState.com_addr1 === ''  ){
+                return alert('상세주소를 입력해 주세요')
+            }
+
+            //사업장명 검증
+            if( formState.com_name === null || formState.com_name === '' ){
+                return alert('사업장명은 필수항목 입니다.')
+            }
+
+            //사업장 전화번호
+            if( formState.com_phone === null || formState.com_phone === ''  ){
+                return alert('사업장 전화번호는 필수항목 입니다.')
+            }
+
+            //사업장 전화번호
+            if( formState.com_phone.length < 9 ){
+                return alert('올바른 사업장 전화번호를 적어주세요')
+            }
+
+            //사업자 번호
+            if( formState.com_serial === null || formState.com_serial === '' ){
+                return alert('사업자 번호는 필수 항목입니다.')
+            }
+
+            if( this.state.comSerialVal === false ){
+                return alert('사업자의 유효성 검사를 해주세요')
+            }
+
+            //주류판매 번호
+            if( formState.com_certify === null || formState.com_certify === ''  ){
+                return alert('주류판매 번호는 필수 항목입니다.')
+            }
+
+            this.setState({
+                necessaryUserData: update(this.state.necessaryUserData, {
+                    com_certify: { $set: this.state.drinkSerial.serial1+this.state.drinkSerial.serial2+this.state.drinkSerial.serial3 }
+                })
+            })
+
+            //사업자 등록증 첨부 확인
+            if (this.state.image == null) {
                 return alert("사업자등록증 첨부는 필수 입니다.")
             }
 
+            if (this.state.imageText ==  "no image") {
+                return alert("사업자등록증 첨부는 필수 입니다.")
+            }
 
-            console.log('여기까진')
+            if ( formState.com_category == null ) {
+                return alert("사업장 분류는 필수항목입니다.")
+            }
 
-            fetch('https://api.joomok.net/members', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(this.state.necessaryUserData)
-            })
-                .then((response) => response.json())
-                .then((responseData) => {
+            //이용약관 검증
+            if (!formState.isagree_info || !formState.isagree_rule) {
+                return alert("이용약관및 개인정보 수집에 동의해주세요")
+            }
 
-                    if (responseData.code === 500) {
-                        return alert('시스템등록 실패 관리자에게 문의하세요', responseData.message)
-                    }
+            this.fileUpload()
 
-                    if (responseData.code === 412) {
-                        return alert(responseData.message)
-                    }
-
-                    //파이어베이스 회원가입 시작.
-                    firebase.auth().createUserWithEmailAndPassword(this.state.necessaryUserData.userid + "@joomok.com", this.state.necessaryUserData.userid)
-                        .then(() => {
-                            alert("회원가입이 성공하였습니다.");
-                            this.fileUpload()
-                            Actions.login();
-                        })
-                        .catch(() => {
-                            alert("회원가입이 실패하였습니다.");
-                        })
-
-                })
-                .catch((error) => {
-                    if (error) {
-
-                    }
-                    alert(error);
-                })
-                .done();
-
-        } else {
-            alert("필수항목이 비어있습니다.")
-        }
+        // } else {
+        //     alert("필수항목이 비어있습니다.")
+        // }
     }
 
     adressSearch(address) {
@@ -491,7 +515,6 @@ export default class SignUp_Information extends Component {
 
     //이미지 업로드 함수 
     _pickImage = async () => {
-        console.log('pickimage')
         const { status } = await Permissions.getAsync(Permissions.CAMERA_ROLL);
         if (status !== 'granted') {
             console.log('granted')
@@ -513,9 +536,6 @@ export default class SignUp_Information extends Component {
         }
     };
 
-
-
-
     fileUpload() {
 
         let localUri = this.state.image;
@@ -533,6 +553,7 @@ export default class SignUp_Information extends Component {
             type: type,
             name: filename,
         })
+
         data.append('usridx', 9)
         data.append('userid', 'joomok')
 
@@ -543,22 +564,62 @@ export default class SignUp_Information extends Component {
                 'Content-Type': 'multipart/form-data',
             },
         })
+        .then((response) => response.json())
+        .then((responseData) => {
+            
+            fetch('https://api.joomok.net/members', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(this.state.necessaryUserData)
+            })
             .then((response) => response.json())
             .then((responseData) => {
-                console.log('responseData', responseData)
-                alert('업로드가 완료되었습니다')
+
+                if (responseData.code === 500) {
+                    return alert('시스템등록 실패 관리자에게 문의하세요', responseData.message)
+                }
+
+                if (responseData.code === 412) {
+                    return alert(responseData.message)
+                }
+
+                Actions.Login();
+
+                alert("회원가입이 성공하였습니다.");
+                return 
+
+                // //파이어베이스 회원가입 시작.
+                // firebase.auth().createUserWithEmailAndPassword(formState.userid + "@joomok.com", formState.userid)
+                //     .then(() => {
+                //         alert("회원가입이 성공하였습니다.");
+                //         this.fileUpload()
+                //         Actions.login();
+                //         return 
+                //     })
+                //     .catch(() => {
+                //         alert("회원가입이 실패하였습니다.");
+                //     })
+
             })
             .catch((error) => {
-                alert('업로드에 실패 하였습니다.')
-                console.log('error', error);
+                alert(error);
             })
             .done();
+        })
+        .catch((error) => {
+            alert('파일 업로드 문제로 회원가입에 실패 하였습니다.')
+            console.log('error', error);
+        })
+        .done();
 
     }
 
     companyValidation(){
-        console.log('buttonClick')
-        fetch('https://api.joomok.net/members/serials?com_serial='+this.state.necessaryUserData.com_serial, {
+        let companySerial = this.state.companySerial.serial1+this.state.companySerial.serial2+this.state.companySerial.serial3
+        fetch('https://api.joomok.net/members/serials?com_serial='+companySerial, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -566,23 +627,42 @@ export default class SignUp_Information extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData)
-                alert('정상적인 사업자 입니다.')
+
+                if( responseData.code === 412 ){
+                    return alert('유효하지 않은 사업자 번호입니다.')
+                }
+
+                if(responseData.code === 409){
+                    return alert('이미지 등록된 사업자 번호입니다.')
+                }
+
+                return alert('정상적인 사업자 입니다.')
             })
             .catch((error) => {
-                alert('유효하지 않은 사업자 번호입니다.')
+                return alert('유효하지 않은 사업자 번호입니다.')
                 console.log('error', error);
             })
-        .done();
+        .done(()=>
+            this.setState({ 
+                comSerialVal : true, 
+                necessaryUserData: update(this.state.necessaryUserData, {
+                    com_serial: { $set: companySerial }
+                })
+            })
+        );
     }
 
     render() {
 
         let serialState = this.state.companySerial;
         let mergeSerial = serialState.serial1+serialState.serial2+serialState.serial3
+
+        let serialDrinkState = this.state.drinkSerial;
+        let mergeDrinkSerial = serialDrinkState.serial1+serialDrinkState.serial2+serialDrinkState.serial3
         let { image } = this.state;
 
-        console.log(mergeSerial)
+        console.log(this.state.necessaryUserData)
+
         return (
             <Container style={{
                 backgroundColor: "#0099ff",
@@ -666,7 +746,7 @@ export default class SignUp_Information extends Component {
                         <View style={styles.SignUpTitle}>
                             <Text style={styles.loginSubText}>생년월일</Text>
                         </View>
-                        <View style={styles.SignUpSubText}><Text style={styles.loginSubText}>{this.props.userBirth}</Text></View>
+                        <View style={styles.SignUpSubText}><Text style={styles.loginSubText}>{this.state.necessaryUserData.birth}</Text></View>
                     </View>
 
                     <View style={styles.SignUpFormParent}>
@@ -945,6 +1025,7 @@ export default class SignUp_Information extends Component {
                                                 necessaryUserData : update(this.state.necessaryUserData, {
                                                     com_serial: { $set: mergeSerial }
                                                 }),
+                                                comSerialVal: false,
                                             })
                                     }
                                     style={styles.textInput}
@@ -1004,13 +1085,58 @@ export default class SignUp_Information extends Component {
                         <View style={styles.SignUpTitle}><Text style={styles.loginSubText} >주류판매번호</Text></View>
                         <View style={{ flex: 5, height: 25, marginRight: 15, flexDirection: "row", }}>
                             <Item Regular style={{ flex: 3, height: 25, backgroundColor: "#eee", borderRadius: 5, }}>
-                                <Input />
+                                <TextInput
+                                    underlineColorAndroid='transparent'
+                                    selectionColor={"#555"}
+                                    onChangeText={
+                                        (text) =>
+                                            this.setState({
+                                                drinkSerial: update(this.state.drinkSerial, {
+                                                    serial1: { $set: text }
+                                                }),
+                                                necessaryUserData : update(this.state.necessaryUserData, {
+                                                    com_certify: { $set: this.state.drinkSerial.serial1+this.state.drinkSerial.serial2+this.state.drinkSerial.serial3 }
+                                                }),
+                                            })
+                                    }
+                                    style={styles.textInput}
+                                />
                             </Item>
                             <Item Regular style={{ flex: 3, height: 25, backgroundColor: "#eee", borderRadius: 5, }}>
-                                <Input />
+                                <TextInput
+                                    underlineColorAndroid='transparent'
+                                    selectionColor={"#555"}
+                                    onChangeText={
+                                        (text) =>
+                                            this.setState({
+                                                drinkSerial: update(this.state.drinkSerial, {
+                                                    serial2: { $set: text }
+                                                }),
+                                                necessaryUserData : update(this.state.necessaryUserData, {
+                                                    com_certify: { $set: this.state.drinkSerial.serial1+this.state.drinkSerial.serial2+this.state.drinkSerial.serial3 }
+                                                }),
+                                            })
+                                    }
+                                    style={styles.textInput}
+                                />
                             </Item>
                             <Item Regular style={{ flex: 3, height: 25, marginRight: 5, backgroundColor: "#eee", borderRadius: 5, }}>
-                                <Input />
+                                <TextInput
+                                    underlineColorAndroid='transparent'
+                                    selectionColor={"#555"}
+                                    onChangeText={
+                                        (text) =>
+                                            this.setState({
+                                                drinkSerial: update(this.state.drinkSerial, {
+                                                    serial3: { $set: text }
+                                                }),
+                                                necessaryUserData : update(this.state.necessaryUserData, {
+                                                    com_certify: { $set: this.state.drinkSerial.serial1+this.state.drinkSerial.serial2+this.state.drinkSerial.serial3 }
+                                                }),
+                                            })
+                                    }
+                                    style={styles.textInput}
+                                />
                             </Item>
                         </View>
                     </View>
@@ -1023,37 +1149,6 @@ export default class SignUp_Information extends Component {
                             <Item Regular style={{ flex: 4, height: 25, marginRight: 5, backgroundColor: "#eee", borderRadius: 5, }}>
                                 <Text style={{ marginLeft: 10, fontSize: 14, color: "#bbb", }}>{this.state.imageText}</Text>
                             </Item>
-
-
-                            {/* <View style={styles.birthDropBox}>
-                            <Text style={{ fontSize: 14, flex: 3, textAlign: "center", color: "#70aed5", }}>{"사진첨부"}</Text>
-                            <ModalDropdown
-                                onSelect={
-                                    (idx,val) => {
-                                        console.log(val)
-                                        val === "파일첨부" ? this._pickImage() : console.log(val)
-                                    }
-                                }
-                                dropdownStyle={{ width: 85, height: 200, marginLeft: -64, }}
-                                options={["파일첨부","직접촬영"]}
-                                style={{
-                                    height: 20, marginRight: 5, flex: 1,
-                                    justifyContent: "center", alignItems: "center",
-                                    flexDirection: "row",
-                                }}
-                            >
-                                <Icon type="FontAwesome" name="caret-down"
-                                    style={{
-                                        fontSize: 18,
-                                        color: "#0099ff"
-                                    }}
-                                />
-                                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} >
-                                    {image && <Image source={{ url: image }} style={{ height: 100 }} />}
-                                </View>
-                            </ModalDropdown>
-                        </View> */}
-
                             <Button style={[styles.inputButton, {
                                 flex: 2,
                                 backgroundColor: "rgba(0,0,0,0)",
@@ -1257,7 +1352,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         marginLeft: 15,
         justifyContent: "center"
-        
+
     }, ItemText: {
         flex: 5,
         height: 25,

@@ -11,12 +11,14 @@ import BackGroundImage from './util/backGroundImage';
 import CartList from './listComponent/CartList'; 
 import Head from './Head';
 
+let onClickDeleteButton = false;
 class Cart extends Component {
     constructor(props) {
         super(props);
         this.state = {  
-          idSaveChecked: false,
-          allChecked: false,
+          deleteProduct : false,
+          idSaveChecked : false,
+          allChecked : false,
           cartCheckCount : 0,
           cartData : {
             usridx: this.props.usridx,
@@ -108,19 +110,15 @@ class Cart extends Component {
 
     allCheckedHandler(onlyFalse){
 
-        console.log('1단계')
-
         if( onlyFalse === 'disable' ){
-            console.log('2단계')
             this.setState({
                 idSaveChecked : false,
-                allChecked : false,
+                allChecked : false ,
                 cartData : {
                     usridx: this.props.usridx,
                     carts :[]
                 }
             }) 
-
             return
         }
 
@@ -130,6 +128,7 @@ class Cart extends Component {
             })
             onlyFalse = null;
         }else{
+
             //현재 체크값이 트루라면 조건 1.
             this.state.idSaveChecked ?  
                 //이곳에서 버튼을 눌렀다면 조건 1-1.
@@ -148,6 +147,7 @@ class Cart extends Component {
                 this.setState({
                     idSaveChecked : false,
                 })
+
             //현재 체크값이 펄스라면 조건 2.    
             : onlyFalse === "empty" ? 
             this.setState({
@@ -161,13 +161,24 @@ class Cart extends Component {
         }
     }
 
-    disableChecked(){
+    disableChecked(action){
+
+        if( action == 'onClickDeleteButton'){
+            onClickDeleteButton = true
+        }
+
+        if( action == 'reCorver' ){
+            onClickDeleteButton = false
+        }
+
         this.setState({
             cartCheckCount : 0
         })
+
     }
 
     mapToCartList = (data, bool) => {
+
         return data.map((cartListData, i) => {
             return (
                 <CartList 
@@ -184,6 +195,7 @@ class Cart extends Component {
                     allCheckedHandler = { this.allCheckedHandler } 
                     cartListIdsave = { this.cartListIdsave }
                     isVisibleItem = {bool}
+                    deleteProduct = { onClickDeleteButton }
                     index = {i} 
                     key={i}
                 />);
@@ -191,9 +203,7 @@ class Cart extends Component {
     }
 
     render() {
-        console.log('올체크 핸들러',this.state.allChecked)
-        console.log('카트리스트 데이터',this.props.cartListData)
-        console.log('현재의 카트데이터',this.state.cartData)
+        deleteProduct = false;
         return (
           <Container style={{backgroundColor:"#0099ff",}}>
             <BackGroundImage/>

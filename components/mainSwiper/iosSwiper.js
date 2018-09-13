@@ -139,7 +139,7 @@ class iosSwiper extends Component {
 
         })
         .catch((error) => {
-            alert('결제데이터 받아오기 실패');
+            console.log(error)
         })
 
     }

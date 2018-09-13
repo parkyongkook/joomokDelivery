@@ -113,6 +113,7 @@ export default class App extends React.Component {
         if (!this.state.isReady) {
             return <AppLoading />;
         }
+        
 
         return (
             <Provider store={createStore(reducers, {})}>
@@ -178,7 +179,6 @@ export default class App extends React.Component {
                                 hideNavBar={true}
                                 openDrawer={this.openDrawer}
                                 closeDrawerHome={this.closeDrawer}
-
                             />
                             <Scene key='OrderSelect'
                                 component={OrderSelect}

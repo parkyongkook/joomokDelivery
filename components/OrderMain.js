@@ -18,7 +18,6 @@ class OrderMain extends Component {
             SearchList: false,
             SeachKeywords: "",
             searchListData: this.props.searchList,
-            mapComponents: null,
             cartList: [],
             stateOfComponent: this.props.stateOfComponent,
         }
@@ -150,14 +149,17 @@ class OrderMain extends Component {
         };
 
         const coll = this.state.cartList.filter(newCartList);
-        this.setState({cartList : coll})
+        this.setState({
+            cartList : coll,
+        })
+
     }
 
     clickToCartButton(){
         //카트리스트에 담긴 상품이 0이 아니라면 (0보다 많으면) 카트로 넘어감.
         if ( this.state.cartList.length !== 0 ) {
             Actions.Cart({
-                deleteCartData : this.deleteCartData
+                deleteCartData : this.deleteCartData,
             });
         }
     }

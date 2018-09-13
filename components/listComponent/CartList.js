@@ -48,10 +48,22 @@ class CartList extends React.Component {
             })   
         }
        isModify = false;
-    }   
 
-    componentWillReceiveProps(){
+    }  
+    
+    componentWillReceiveProps(nextProps){
         // 리스트 컴포넌트 맵핑시 true false값을 판단하여 수량과, 다음 구매로 넘길 id로 구성된 array를 만듦 
+
+        //현재의 프롭값과 수정된 프랍값이 다른경우 실행
+        if( this.props.deleteProduct !== nextProps.deleteProduct ){
+            if( nextProps.deleteProduct === true ){
+                this.props.disableChecked('reCorver')
+                return 
+            }
+            return
+        }
+
+
         if( this.props.allChecked ){
             this.setState({ idSaveChecked : false });
             if(this.state.idSaveChecked){
@@ -63,8 +75,10 @@ class CartList extends React.Component {
                 this.setState({ idSaveChecked : true });
                 this.props.cartCounter(+1);
                 this.props.cartListIdsave(this.state.cartData, "push") 
-            }
+            } 
         }
+
+
     }
 
     counter(action){
@@ -77,11 +91,12 @@ class CartList extends React.Component {
     }
 
     clickToDeleteButton( id ){
-        this.props.disableChecked()
+        this.props.disableChecked('onClickDeleteButton')
         this.props.allCheckedHandler('disable') 
         this.props.deleteCartData(id)
         this.props.cartListDelete(id)
     }
+
     clickToCheckBox(){
         if(this.state.idSaveChecked){
             this.setState({idSaveChecked: false })
@@ -96,7 +111,6 @@ class CartList extends React.Component {
     }
     
     render() {
-        console.log('카트리스트의 수량',this.props.qty)
         return (
             <Row style={{ 
                     width: this.props.isVisibleItem ? null : '90%',

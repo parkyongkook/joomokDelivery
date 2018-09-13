@@ -65,7 +65,10 @@ class Payment extends Component {
 
         let formdata = new FormData();
         //체크박스 확인
-        if( this.state.deliveryCheckd === null ){        
+        if( this.state.deliveryCheckd === null ){   
+            this.setState({
+                paymentButtonBlock : false
+            })
             return alert("배송일을 선택해주세요")
         }
 
@@ -81,6 +84,7 @@ class Payment extends Component {
             })
             .then((response) => response.json())
             .then((responseData) => {
+                
                 var filnalPrice = this.props.FinalPriceData.finalTotalPrice.replace(/\,/g,'');
                 var filnalVat = this.props.FinalPriceData.vat.replace(/\,/g,'');
 
@@ -305,14 +309,8 @@ class Payment extends Component {
                     </View>
                 </Content>
                 <View style={{ width: Platform.ios? "94%" : '98%', marginLeft: Platform.ios? "3%" : '1%', marginTop:10, marginBottom:20, justifyContent:'center', }}>
-
-                    <View style={{marginBottom:20,}}>
-                        <Text style={{fontSize:14, color:"#999", textAlign:'center',}}> {`신용카드(일반)  : 삼성,신한,현대,롯데,하나(외환),NH`}</Text>
-                        <Text style={{fontSize:14, color:"#999",  textAlign:'center',}}> {`ISP결제: BC, 국민`}</Text>
-                    </View>
-
                     <View style={{  flexDirection:"row", justifyContent:"space-around",}}>
-                    <Button
+                    {/* <Button
                         onPress={
                             ()=> {
                                 this.setState({
@@ -330,33 +328,40 @@ class Payment extends Component {
                         }}
                     >
                         <Text style={{color:'#fff', fontSize:16, fontWeight:'bold',}}>주류 직불카드</Text>
-                    </Button>
-                    <Button
-                        onPress={
-                            ()=> {
-                                this.setState({
-                                    paymentButtonBlock : true
-                                })
-                                that.startPayment("card", null)
+                    </Button> */}
+     
+                        <Button
+                            onPress={
+                                ()=> {
+                                    this.setState({
+                                        paymentButtonBlock : true
+                                    })
+                                    that.startPayment("card", null)
+                                }
                             }
-                        }
-                        style={styles.paymentButton}
-                    >
-                        <Text style={{color:'#0099ff', fontSize:16,}}>신용카드(일반)</Text>
-                    </Button>
-                    <Button
-                        onPress={
-                            ()=> {
-                                this.setState({
-                                    paymentButtonBlock : true
-                                })
-                                that.startPayment("card", "bcCard")
-                            }
-                        }
-                        style={styles.paymentButton}
-                    >
-                        <Text style={{color:'#0099ff', fontSize:16,}}>ISP결제</Text>
-                    </Button>
+                            style={styles.paymentButton}
+                        >
+                            <Text style={{color:'#0099ff', fontSize:16,}}>신용카드(일반)</Text>
+                            <Text style={{color:'#0099ff', fontSize:10,}}>삼성,신한,현대,롯데,하나(외환),NH</Text>
+                        </Button>
+            
+                    
+        
+                        <Button
+                                onPress={
+                                    ()=> {
+                                        this.setState({
+                                            paymentButtonBlock : true
+                                        })
+                                        that.startPayment("card", "bcCard")
+                                    }
+                                }
+                                style={styles.paymentButton}
+                            >
+                            <Text style={{color:'#0099ff', fontSize:16,}}>ISP결제</Text>
+                            <Text style={{color:'#0099ff', fontSize:10,}}>BC, 국민</Text>
+                        </Button>
+      
                     </View>
                 </View>
             </View>
@@ -413,9 +418,11 @@ const styles = StyleSheet.create({
     },
     paymentButton:{
         flex:1, 
-        height:45,
-        marginLeft:5 , 
+        height:80,
+        marginLeft:5,
+        marginRight:5,
         justifyContent:'center', 
+        flexDirection:'column',
         backgroundColor:"rgba(0,0,0,0)",
         borderRadius: 4,
         borderWidth: 2,

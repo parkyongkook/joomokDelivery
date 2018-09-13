@@ -96,7 +96,6 @@ class SearchList extends React.Component {
     }
 
     render() {
-        console.log(`http://joomok.net/default/M0x00x${this.props.drinkType}00000000x.jpg`)
         return (
             this.props.title === "제품이 없습니다." ?
                 <View style={{flex:1, marginLeft:20, marginRight:20}}>

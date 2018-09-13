@@ -64,6 +64,7 @@ class Login extends Component {
             })
 
             storage.load({
+
                 key: 'userInfo',
                 autoSync: true,
                 syncParams: {
@@ -71,7 +72,9 @@ class Login extends Component {
                     },
                     someFlag: true,
                 },
+
             }).then(ret => {
+
                 this.setState({
                     idSaveChecked: ret.idSaveChecked,
                     userData: update(this.state.userData, {
@@ -80,8 +83,9 @@ class Login extends Component {
                         fb_uid: { $set: ret.fb_uid }
                     })
                 })
+
             }).then(() => {
-                this.firebaseLogin()
+                this.loginActivate()
             })
                 .catch(err => {
                     this.setState({
@@ -124,7 +128,7 @@ class Login extends Component {
                     idSaveChecked: this.state.idSaveChecked,
                     userid: this.state.userData.userid,
                     password: this.state.userData.password,
-                    fb_uid: user.uid
+                    // fb_uid: user.uid
                 },
                 expires: null
             });
@@ -135,7 +139,7 @@ class Login extends Component {
                     idSaveChecked: false,
                     userid: null,
                     password: this.state.userData.password,
-                    fb_uid: user.uid
+                    // fb_uid: user.uid
                 },
                 expires: null
             });
@@ -234,9 +238,9 @@ class Login extends Component {
 
         let that = this;
         let lowCaseStr = this.state.userData.userid
+        
         //세션 유지, 푸쉬 기능을 위한 파이어베이스 로그인 시작.
         firebase.auth().signInWithEmailAndPassword(this.state.userData.userid + "@joomok.com", lowCaseStr)
-
             .then((err) => {
                 firebase.auth().onAuthStateChanged(function (user) {
                     if (user) {
@@ -253,6 +257,7 @@ class Login extends Component {
     }
 
     render() {
+        console.log('로그인데이터',this.state.userData)
         return (
             <View style={{flex:1, backgroundColor: "#0099ff",  }}>
                 <Image

@@ -29,11 +29,12 @@ export function updateTocartListData( idx, qty ){
 	}
 }
 
-export function loginSucess(userData , usridx){
+export function loginSucess(userData , usridx, displayInfo){
 	return {
 		type : AppType.LOGIN_SUCESS,
 		userData : userData,
 		usridx : usridx,
+		displayInfo : displayInfo
 	}
 }
 

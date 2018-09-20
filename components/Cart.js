@@ -217,7 +217,6 @@ class Cart extends Component {
             <View style={{ flex:1, backgroundColor:'#ddd', }}>
 
                 <View style={{ flex:1, marginTop:10, marginBottom:10,}}>
-
                     <TouchableOpacity 
                         style={{ flexDirection:"row", alignItems:"center", height:40, marginLeft:12, marginBottom:10,}}
                         onPress={()=> this.allCheckedHandler("empty") } 
@@ -237,8 +236,8 @@ class Cart extends Component {
                     
                     <View style={{
                         flex:1,
-                        width:"94%",
-                        marginLeft:"3%",
+                        width:"96%",
+                        marginLeft:"2%",
                         backgroundColor:"#fff",
                         borderRadius:10,
                         marginBottom:30,
@@ -248,13 +247,11 @@ class Cart extends Component {
                                 { this.mapToCartList( this.props.reOrderCartListData ? this.props.reOrderCartListData : this.props.cartListData, false) }
                             </ScrollView>
                         </View>
+
                     </View>
                 </View>
 
-                
-
                 <View style={{height:70, bottom:30, marginTop:10, justifyContent:"space-around", flexDirection:"row",} }>
-
                     <Button 
                         style={{
                             width:"45%", 
@@ -275,7 +272,6 @@ class Cart extends Component {
                         }>
                         <Text style={{color:'#0099ff',}}>최저가 구매하기</Text>
                     </Button>
-
                 </View>
             </View>
 

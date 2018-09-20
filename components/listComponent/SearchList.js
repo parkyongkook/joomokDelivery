@@ -10,11 +10,7 @@ class SearchList extends React.Component {
         super(props);
         this.state = {
             imgUrl: this.props.imgUrl,
-            drinkData: {
-                code: this.props.uniqId,
-                title: this.props.title,
-                qty: 0,
-            },
+            qty: 0,
             memoData : {
                 usridx: this.props.usridx,
                 title: "title",
@@ -32,9 +28,9 @@ class SearchList extends React.Component {
     counter(action) {
         return () => {
             if (action === "plus") {
-                this.state.drinkData.qty = this.state.drinkData.qty + 1
+                this.state.qty = this.state.qty + 1
             } else {
-                this.state.drinkData.qty = this.state.drinkData.qty < 1 ? 0 : this.state.drinkData.qty = this.state.drinkData.qty - 1
+                this.state.qty = this.state.qty < 1 ? 0 : this.state.qty = this.state.qty - 1
             }
             this.setState({
                 stateRefresh: true
@@ -43,12 +39,19 @@ class SearchList extends React.Component {
     }
 
     clickCartButton() {
+
+        let drinkData = {
+            code: this.props.uniqId,
+            title: this.props.title,
+            qty: this.state.qty,
+        }
+
         return () => {
             //갯수가 1개 이하일때 경고메시지 띄우기
-            if (this.state.drinkData.qty < 1) {
+            if (this.state.qty < 1) {
                 return alert("1개이상 담을 수 있습니다.")
             }
-            if (this.props.increamentCartCount(this.state.drinkData)) {
+            if (this.props.increamentCartCount( drinkData )) {
                 return this.props.toast.show('장바구니에 추가되었습니다.')
             }
 
@@ -98,8 +101,7 @@ class SearchList extends React.Component {
     render() {
         return (
             this.props.title === "제품이 없습니다." ?
-                <View style={{flex:1, marginLeft:20, marginRight:20}}>
-                
+                <View style={{flex:1, marginLeft: 20, marginRight: 20,  }}>
                     <View style={{flex:2, }}>
                         <Text style={{color:'#fff',}}>
                            { `해당제품이 없습니다. 
@@ -144,14 +146,23 @@ class SearchList extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </View>
+
                 :
 
-                <View style={styles.wrapTosearchList}>
+                <View style={{
+                    marginTop: 10,
+                    marginLeft:  this.props.width < 321 ? 0 : 20  ,
+                    marginRight:  this.props.width < 321 ? 0 : 20 ,
+                    borderTopWidth: 1,
+                    borderTopColor: "#ddd",
+                    paddingBottom: 10,
+                    backgroundColor: 'rgba(255,255,255,1)'
+                }}>
 
                     <Row style={{ marginTop: 10, height: 80, }}>
                         <Col style={{ flex: 3 }}>
                             <Image
-                                source={{uri: this.state.imgUrl }}
+                                source={{uri: this.props.imgUrl }}
                                 onError={this._onError}
                                 style={{ 
                                     height: 80, marginLeft: 20, resizeMode: "contain",
@@ -167,15 +178,21 @@ class SearchList extends React.Component {
                                 <Text style={{fontSize:14,}}>수량</Text>
                                 <View style={{ flexDirection: "row", marginLeft: 10, }}>
 
-                                    <TouchableOpacity onPress={this.counter("minus")}>
+                                    <TouchableOpacity 
+                                        style={{width:40, height:30, justifyContent:'center', alignItems:'center', }}
+                                        onPress={this.counter("minus")}
+                                    >
                                         <Icon type="Entypo" name='minus' style={styles.iconStyle} />
                                     </TouchableOpacity>
 
-                                    <View style={{ width: 40, height: 20, marginLeft: 5, marginRight: 5, alignItems: 'center', borderColor: '#999', }}>
-                                        <Text style={{ marginLeft: 3, marginRight: 3, color: '#777', fontSize: 14, marginTop: 1, }}>{this.state.drinkData.qty}</Text>
+                                    <View style={{ height: 20, marginLeft: 5, marginRight: 5, alignItems: 'center', borderColor: '#999', }}>
+                                        <Text style={{ marginLeft: 3, marginRight: 3, color: '#777', fontSize: 14, marginTop: 1, }}>{this.state.qty}</Text>
                                     </View>
 
-                                    <TouchableOpacity onPress={this.counter("plus")}>
+                                    <TouchableOpacity 
+                                        style={{width:40, height:30, justifyContent:'center', alignItems:'center', }} 
+                                        onPress={this.counter("plus")}
+                                    >
                                         <Icon type="Entypo" name='plus' style={styles.iconStyle} />
                                     </TouchableOpacity>
                                 </View>
@@ -222,15 +239,6 @@ class SearchList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    wrapTosearchList: {
-        marginTop: 10,
-        marginLeft: 20,
-        marginRight: 20,
-        borderTopWidth: 1,
-        borderTopColor: "#ddd",
-        paddingBottom: 10,
-        backgroundColor: 'rgba(255,255,255,1)'
-    },
     iconStyle: {
         width: 26,
         height: 26,
@@ -243,7 +251,6 @@ const styles = StyleSheet.create({
         height: 80,
         marginTop: 10,
         marginLeft: "2%",
-        //backgroundColor: "none",
         borderRadius: 4,
         borderWidth: 3,
         borderColor: "#fff",

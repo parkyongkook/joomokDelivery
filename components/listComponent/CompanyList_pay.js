@@ -47,27 +47,25 @@ export default class CompanyList_pay extends React.Component {
         return (
                 <Grid>
                     <Row style={{ height:230, borderTopWidth:1, borderTopColor:"#bbb" }}>
-
-                        <TouchableOpacity 
-                            style={{
-                                width:30,
-                                 height:30, 
-                                 marginTop:10, 
-                                 justifyContent:"center",
-                            }}
-                            onPress={ ()=> this.clickToCheckBox() } 
-                        > 
-                            <CheckBox
-                                checked={this.state.idSaveChecked} 
-                                //체크박스 옵션
-                                onPress={ ()=> this.clickToCheckBox() } 
-                            />
-                        </TouchableOpacity>
-
                         <View style={{flex:1, marginTop:10,}}> 
-                            <Row style={{ alignItems:"center", flexDirection:"column", }}>
-                                <View style={{width:"92%", marginBottom:10, flexDirection:"row",}}>
-                                    <Text style={{fontSize:16, fontWeight:"bold",}}>{this.state.companyPriceData.coname}</Text>
+
+                            <Row style={{ flexDirection:"column", }}>
+
+                                <View style={{marginBottom:10, flexDirection:"row", }}>
+
+                                    <TouchableOpacity  
+                                        onPress={ ()=> this.clickToCheckBox() }
+                                        style={{flexDirection:"row", }}
+                                    > 
+                                        <CheckBox
+                                            checked={this.state.idSaveChecked} 
+                                            style={{marginRight:20, marginTop:1,}}
+                                            //체크박스 옵션
+                                            onPress={ ()=> this.clickToCheckBox() } 
+                                        />
+                                        <Text style={{fontSize:16, fontWeight:"bold",}}>{this.state.companyPriceData.coname}</Text>
+                                    </TouchableOpacity>  
+
                                     <CardItem footer style={{justifyContent:"space-between", marginTop:-10}}>
                                         <Badge style={ this.state.companyPriceData.transable[6] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>일</Text></Badge>
                                         <Badge style={ this.state.companyPriceData.transable[0] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>월</Text></Badge>
@@ -79,52 +77,64 @@ export default class CompanyList_pay extends React.Component {
                                     </CardItem>
 
                                 </View>
-                                <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
-                                    <Text>공급가액</Text>
-                                    <Text>{ this.state.createFinalPriceData.sales }원</Text>
-                                </View>
-                                <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
-                                    <Text>부가세액</Text>
-                                    <Text>{ this.state.createFinalPriceData.vat }원</Text>
-                                </View>
-                                <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
-                                    <Text>소계</Text>
-                                    <Text>{ this.state.createFinalPriceData.total }원</Text>
-                                </View>
-                                <View
-                                    style={{
-                                        marginTop:5,
-                                        marginBottom:5,
-                                        width:"92%",
-                                        borderWidth: 1,
-                                        borderRadius: 8,
-                                        borderStyle: 'dashed',
-                                        borderColor: '#D1D2DE',
-                                        backgroundColor: '#FFFFFF',
-                                    }}
-                                />
-                                <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
-                                    <Text>비주류금액(공병)</Text>
-                                    <Text>{ this.state.createFinalPriceData.bottle }원</Text>
-                                </View>
-                                <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
-                                    <Text>비주류금액(박스)</Text>
-                                    <Text>{ this.state.createFinalPriceData.box }원</Text>
-                                </View>
-                                <View style={{
-                                    width:"92%", 
-                                    flexDirection:"row", 
-                                    justifyContent:"space-between", 
-                                    marginTop:10,
-                                    height:30,
-                                    borderTopWidth:1,
-                                }}>
-                                    <Text style={{marginTop:10, color:"#0099ff", fontWeight:"bold",}}>최종결제금액</Text>
-                                    <Text style={{marginTop:10, color:"#0099ff", fontWeight:"bold"}}>{ this.state.createFinalPriceData.finalTotalPrice }원</Text>
-                                </View>
+
+                                <View style={{ justifyContent:'center', alignItems:'center',}}>
+
+                                    <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
+                                        <Text>공급가액</Text>
+                                        <Text>{ this.state.createFinalPriceData.sales }원</Text>
+                                    </View>
+                                    <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
+                                        <Text>부가세액</Text>
+                                        <Text>{ this.state.createFinalPriceData.vat }원</Text>
+                                    </View>
+                                    <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
+                                        <Text>소계</Text>
+                                        <Text>{ this.state.createFinalPriceData.total }원</Text>
+                                    </View>
+
+                                    <View
+                                        style={{
+                                            marginTop:5,
+                                            marginBottom:5,
+                                            width:"92%",
+                                            borderWidth: 1,
+                                            borderRadius: 8,
+                                            borderStyle: 'dashed',
+                                            borderColor: '#D1D2DE',
+                                            backgroundColor: '#FFFFFF',
+                                        }}
+                                    />
+                                    <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
+                                        <Text>비주류금액(공병)</Text>
+                                        <Text>{ this.state.createFinalPriceData.bottle }원</Text>
+                                    </View>
+                                    <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
+                                        <Text>비주류금액(박스)</Text>
+                                        <Text>{ this.state.createFinalPriceData.box }원</Text>
+                                    </View>
+
+                                    <View style={{
+                                        width:"92%", 
+                                        flexDirection:"row", 
+                                        justifyContent:"space-between", 
+                                        marginTop:10,
+                                        height:30,
+                                        borderTopWidth:1,
+                                    }}>
+                                        <Text style={{marginTop:10, color:"#0099ff", fontWeight:"bold",}}>최종결제금액</Text>
+                                        <Text style={{marginTop:10, color:"#0099ff", fontWeight:"bold"}}>{ this.state.createFinalPriceData.finalTotalPrice }원</Text>
+                                    </View>
+                                </View>    
                             </Row>
+
                         </View>
+
+
                     </Row>
+
+
+
                 </Grid> 
         );
     }
@@ -143,17 +153,25 @@ const styles = StyleSheet.create({
         fontSize:10,
     },dayBadgeOn:{
         backgroundColor:"#0099ff",
-        height:20,
-        width:20,
-        paddingLeft: Platform.OS == "ios" ? 1 : 2 ,
-        paddingTop: Platform.OS == "ios" ? 1 : 0,
-        marginLeft:2,
+        height:22,
+        width:22,
+        // paddingLeft: Platform.OS == "ios" ? 2 : 3 ,
+        // paddingTop: Platform.OS == "ios" ? 2 : 0,
+        paddingLeft: 0,
+        paddingTop: 0,
+        paddingRight: 0 ,
+        paddingBottom: 0,
+        marginLeft:3,
     },dayBadgeOff:{
         backgroundColor:"#ddd",
-        height:20,
-        width:20,
-        paddingLeft:Platform.OS == "ios" ? 1 : 2,
-        paddingTop: Platform.OS == "ios" ? 1 : 0,
-        marginLeft:2,
+        height:22,
+        width:22,
+        paddingLeft: 0,
+        paddingTop: 0,
+        paddingRight: 0 ,
+        paddingBottom: 0,
+        // paddingLeft:Platform.OS == "ios" ? 2 : 3,
+        // paddingTop: Platform.OS == "ios" ? 2 : 0,
+        marginLeft:3,
     }
 })

@@ -37,6 +37,7 @@ class androidSwiper extends Component {
     }
     
     componentWillMount(){
+
         let propValue = this.props.chartData.Price
         let arr = [];
         let newResearchDate;
@@ -62,7 +63,6 @@ class androidSwiper extends Component {
         fetchTodata('https://api.joomok.net/statistics/orders')
         .then((responseData) => {
             newResearchDate = responseData.data[0].reg_date
-
             //상품별 주문통계 받아오기
             fetch('https://api.joomok.net/statistics/products', {
                 method: 'POST',
@@ -82,7 +82,6 @@ class androidSwiper extends Component {
             })
             .then((response) => response.json())
             .then((responseData) => {
-
                 for( const i in responseData.data ){
                     if( responseData.data[i].ordkey === responseData.data[0].ordkey ){
                         newOrderListData.push(responseData.data[i])
@@ -144,7 +143,7 @@ class androidSwiper extends Component {
 
         return(
             <View style={styles.container}>
-
+            
                 <SwiperFlatList
                     index={0}
                     showPagination
@@ -152,18 +151,19 @@ class androidSwiper extends Component {
                     paginationActiveColor={"#0099ff"}
                 >
                     <View style={[styles.child,{flex:1,}]}>
+
                         <View style={{flex:1, width:"94%", marginLeft:"3%",  backgroundColor:'#fff',}}>
 
-                            <View style={{marginTop:10, }}>
+                            <View style={{ flex:1,  marginTop:10, }}>
 
-                                <View style={{ flexDirection:"row",}}>
+                                <View style={{ flex:7, flexDirection:"row",}}>
 
-                                    <View style={{ width:"50%"}}>
+                                    <View style={{ flex:1, width:"40%" }}>
                                         <BarChart chartData={this.props.chartData}/>
                                     </View>
                                     
-                                    <View style={{justifyContent:"center", alignItems:"center",}}>
-                
+                                    <View style={{  flex:1, justifyContent:"center", alignItems:"center",}}>
+
                                         <View style={{marginTop:20,}}>
                                             <Text style={{fontSize:22, color:"#007eff", fontWeight:"400", textAlign:"right"}}> 이달의결제내역</Text>
                                             <Text style={{fontSize:26, color:"#000", marginTop:7, textAlign:"right"}}>{`${price[2]}원`}</Text>
@@ -177,12 +177,11 @@ class androidSwiper extends Component {
                                             <Text style={{fontSize:22, color:"#007eff", fontWeight:"400", textAlign:"right"}}> 최근결제내역</Text>
                                             <Text style={{fontSize:20, color:"#000", marginTop:7, textAlign:"right"}}>{price[2]}</Text>
                                         </View> 
-            
                                     </View>
 
                                 </View>
 
-                                <View style={{ flexDirection:"row", marginTop:10, marginBottom:15, overflow:"hidden",}}>
+                                <View style={{ flex:2,flexDirection:"row", marginTop:10, marginBottom:15, overflow:"hidden",}}>
                                     <Button 
                                         style={{
                                             flex:1, 
@@ -196,7 +195,7 @@ class androidSwiper extends Component {
                                             title : '최근구매내역'
                                         })}
                                     >
-                                    <Text style={{fontSize:14, color:"yellow",}}>최근구매내역</Text>
+                                        <Text style={{fontSize:14, color:"yellow",}}>최근구매내역</Text>
                                     </Button>
                                     {/* <Button style={{
                                         flex:1, 
@@ -235,6 +234,7 @@ class androidSwiper extends Component {
                             </View>
                             
                         </View>
+
                     </View>
 
                     <View style={[styles.child, { flex:1,}]}>
@@ -321,7 +321,6 @@ class androidSwiper extends Component {
                     <View style={[styles.child, { flex:1,}]}>
 
                         <View style={{flex:1, width:"96%", marginLeft:'2%',  backgroundColor: '#fff',}}>
-
                             <View style={{ flex:1 }}>
                                 <Text style={{fontSize:18, marginTop:10, marginBottom:5, marginLeft:30, color:'#0099ff',}}>구매내역</Text>
                             </View>

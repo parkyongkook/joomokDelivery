@@ -121,6 +121,7 @@ class ChangePassword extends Component {
                     <View style={styles.SignUpSubText}>
                         <View Regular style={{flex:1, height:30, backgroundColor:"#ddd",}}>
                             <TextInput
+                                underlineColorAndroid='transparent'
                                 selectionColor={"#fff"}
                                 placeholder={"비밀번호 10자이상"}
                                 placeholderTextColor={'#555'}
@@ -155,6 +156,7 @@ class ChangePassword extends Component {
 
                         <View Regular style={{flex:1, height:30, backgroundColor:"#ddd",}}>
                             <TextInput
+                                underlineColorAndroid='transparent'
                                 selectionColor={"#fff"}
                                 placeholder={"새 비밀번호 입력"}
                                 placeholderTextColor={'#555'}
@@ -178,6 +180,7 @@ class ChangePassword extends Component {
 
                         <View Regular style={{flex:1, height:30, backgroundColor:"#ddd", marginTop:10,}}>
                             <TextInput
+                                underlineColorAndroid='transparent'
                                 selectionColor={"#fff"}
                                 placeholder={"새 비밀번호 확인"}
                                 placeholderTextColor={'#555'}

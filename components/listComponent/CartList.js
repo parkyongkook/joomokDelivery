@@ -111,10 +111,11 @@ class CartList extends React.Component {
     }
     
     render() {
+        console.log(this.state.cartCount)
         return (
             <Row style={{ 
-                    width: this.props.isVisibleItem ? null : '90%',
-                    marginLeft: this.props.isVisibleItem ? null : '5%',
+                    width: this.props.isVisibleItem ? null : '98%',
+                    marginLeft: this.props.isVisibleItem ? null : '1%',
                     marginTop:0, 
                     paddingBottom: this.props.isVisibleItem ? null : 10, 
                     borderBottomWidth: this.props.isVisibleItem ? null : 1  , 
@@ -125,7 +126,7 @@ class CartList extends React.Component {
                 {
                     this.props.isVisibleItem ? null :  
                     <TouchableOpacity 
-                        style={{flex:1.3, backgroundColor:'#fff', height:35, marginLeft:5, marginRight:10,}}
+                        style={{flex:1, backgroundColor:'#fff', height:35, marginLeft:5, marginRight:10,}}
                         onPress={()=>this.clickToCheckBox()} 
                     > 
                         <CheckBox 
@@ -148,8 +149,8 @@ class CartList extends React.Component {
                         <Text>{this.state.cartData.title}</Text>
                         {
                         this.props.isVisibleItem ? 
-                        <Text style={{marginRight:20,}}>
-                            {`수량 : ${this.state.cartCount}ea`}
+                        <Text>
+                            {`수량 :${this.state.cartCount}ea`}
                         </Text>
                         : null
                         }
@@ -166,19 +167,21 @@ class CartList extends React.Component {
 
                                 <Text style={{marginRight:10,}}>수량</Text>
 
-                                <TouchableOpacity onPress={
-                                    ()=> this.counter("minus")
-                                }>
+                                <TouchableOpacity 
+                                    onPress={()=> this.counter("minus")}
+                                    style={{width:40, height:30, justifyContent:'center', alignItems:'center', }}
+                                >
                                     <Icon type="Entypo" name='minus' style={styles.iconStyle} />
                                 </TouchableOpacity>
 
-                                <View style={{width:20, height:20, marginLeft:5, marginRight:5, alignItems:'center', borderColor:'#999',}}>
+                                <View style={{width:35, height:20, alignItems:'center', borderColor:'#999',}}>
                                     <Text style={{ marginLeft:3, marginRight:3, color:'#777', fontSize:18, marginTop:1, }}>{this.state.cartCount}</Text>
                                 </View>
                                     
-                                <TouchableOpacity onPress={
-                                    ()=>  this.counter("plus")
-                                }>
+                                <TouchableOpacity 
+                                    onPress={()=>  this.counter("plus")}
+                                    style={{width:40, height:30, justifyContent:'center', alignItems:'center', }}
+                                >
                                     <Icon type="Entypo" name='plus' style={styles.iconStyle} />
                                 </TouchableOpacity>
 
@@ -189,7 +192,8 @@ class CartList extends React.Component {
                 {
                     this.props.isVisibleItem ? null :  
 
-                    <View style={{flex:4, flexDirection:'row', marginTop:8,}}>
+                    <View style={{ flex:3, flexDirection:'row', marginTop:8,}}>
+
                         <TouchableOpacity style={[
                             styles.cartModifyButton, { 
                             //넘겨받은 수량과 현재의 카운트 수량이 달라야만 수정 버튼을 활성화

@@ -1,32 +1,24 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Platform, Dimensions, AsyncStorage, TextInput } from 'react-native';
-import { Container, CheckBox, Content, Card, Item, Button, Text, Row, Col } from 'native-base';
+import { StyleSheet, View, TouchableOpacity, Platform, Dimensions } from 'react-native';
+import { Container, CheckBox, Content, Card, Item, Input, Button, Icon, Text, Row, Col } from 'native-base';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
 import PaymentModal from './PaymentModal';
+import CompanyList_pay from './listComponent/CompanyList_pay'; 
 import BackGroundImage from './util/backGroundImage';
 import Head from './Head';
-export const { width } = Dimensions.get('window');
-import { WebBrowser } from 'expo';
-import Storage from 'react-native-storage';
 
-var storage = new Storage({
-    size: 1000,
-    storageBackend: AsyncStorage,
-    defaultExpires: null,
-    enableCache: true,
-})
+export const { width } = Dimensions.get('window');
+ 
 
 let htmlRender;
 
 class Payment extends Component {
+
     constructor(props) {
         super(props);
         this.state = { 
-          focusMemoInput : false,
-          result: null,
-          onChangeMemo : null,
           modalVisible: false, 
           deliveryCheckd: null,
           saveDeliveryInfo : false,
@@ -38,32 +30,6 @@ class Payment extends Component {
         this.setModalVisible = this.setModalVisible.bind(this);
         this.onChangeMemo = this.onChangeMemo.bind(this);
         this.joinTopushData = this.joinTopushData.bind(this);
-    }
-
-    componentWillMount(){
-        storage.load({
-            key: 'delevery',
-            autoSync: true,
-            syncParams: {
-                extraFetchOptions: {
-                },
-                someFlag: true,
-            },
-        }).then(ret => {
-            this.setState({
-                onChangeMemo : ret.memo,
-                deliveryCheckd : ret.delay,
-                saveDeliveryInfo : ret.saveDeliveryInfo
-            }) 
-        }).catch(err => {
-            switch (err.name) {
-                case 'NotFoundError':
-                    break;
-                case 'ExpiredError':
-                    break;
-            }
-        })
-    
     }
 
     joinTopushData(type){  
@@ -95,41 +61,16 @@ class Payment extends Component {
         }
     }
     
-    startPayment(paymentType){
+    startPayment(paymentType , bcCard){
 
         let formdata = new FormData();
         //체크박스 확인
-
         if( this.state.deliveryCheckd === null ){   
             this.setState({
                 paymentButtonBlock : false
             })
             return alert("배송일을 선택해주세요")
         }
-
-        //배송정보 저장
-        if( this.state.saveDeliveryInfo){   
-            storage.save({
-                key: 'delevery',
-                data: {
-                    saveDeliveryInfo: this.state.saveDeliveryInfo,
-                    delay: this.state.deliveryCheckd,
-                    memo: this.state.onChangeMemo,
-                },
-                expires: null
-            });
-        }else{
-            storage.remove({
-                key: 'delevery',
-                data: {
-                    saveDeliveryInfo: null,
-                    delay: null,
-                    memo: null,
-                },
-                expires: null
-            });
-        }
-
 
         if(paymentType){
             
@@ -192,11 +133,14 @@ class Payment extends Component {
                     }
                     return response.text() 
 
-                }).then( async (text)=>{ 
+                }).then((text)=>{ 
                     JSON.stringify(text)
                     let url = JSON.parse(text)
-                    let result = await WebBrowser.openBrowserAsync(url.data.url);
-                    this.setState({ result });
+
+                    Actions.MyWeb({
+                        url : url.data.url,
+                        bcCard : bcCard
+                    })
 
                 }).catch(err => {
                     return alert('결제실패 잠시 후 다시 시도해 주십시오.')
@@ -232,6 +176,7 @@ class Payment extends Component {
     }
 
     render() {
+        
         let that = this;
         return (
           <Container style={{backgroundColor:"#0099ff",}}>
@@ -290,108 +235,134 @@ class Payment extends Component {
                             </Row>
                         </Col> 
                     </Card>
-
                     <View style={{ 
-                        height:30, marginTop:10, backgroundColor:'#eee', 
+                        width:'90%', height:30, marginTop:10, backgroundColor:'#eee', 
                         flexDirection:"row", justifyContent:"space-between", 
                     }}>
-
                         <View style={{flexDirection:"row",}}>
-                            <TouchableOpacity
-                               onPress={ ()=>{this.setState({deliveryCheckd: "0"})}}
-                               style={{ flexDirection:'row', }}
-                            >
-                                <CheckBox 
-                                    checked={ this.state.deliveryCheckd === "0" } 
-                                    onPress={ ()=>{this.setState({deliveryCheckd: "0"})}}
-                                    //체크박스 옵션
-                                />
-                                <Text style={{marginLeft:15, fontSize:14,}}>긴급배송(당일/익일)</Text>
-                            </TouchableOpacity>    
+                            <CheckBox 
+                                checked={ this.state.deliveryCheckd === "0" } 
+                                //체크박스 옵션
+                                onPress={ ()=>{
+                                            this.setState({
+                                                deliveryCheckd: "0"
+                                        })
+                                    }
+                                }
+                            />
+                            <Text style={{marginLeft:15, fontSize:14,}}>긴급배송(당일 or 익일)</Text>
                         </View>
-
                         <View  style={{flexDirection:"row",}}>
-                            <TouchableOpacity
-                               onPress={ ()=>{this.setState({deliveryCheckd: "3"})}}
-                               style={{ flexDirection:'row', }}
-                            >
-                                <CheckBox 
-                                    checked={ this.state.deliveryCheckd === "3" } 
-                                    onPress={ ()=>{this.setState({deliveryCheckd: "3"})}}
-                                    //체크박스 옵션
-                                />
-                                <Text style={{ marginLeft:15, fontSize:14,}}>3일이내</Text>
-                            </TouchableOpacity>    
+                            <CheckBox 
+                                checked={ this.state.deliveryCheckd === "3" } 
+                                //체크박스 옵션
+                                onPress={ ()=>{
+                                            this.setState({
+                                                deliveryCheckd: "3"
+                                        })
+                                    }
+                                }
+                            />
+                            <Text style={{marginLeft:15,fontSize:14,}}>3일이내</Text>
                         </View>
-
-                        <View  style={{flexDirection:"row", marginRight:5,}}>
-                            <TouchableOpacity
-                               onPress={ ()=>{this.setState({deliveryCheckd: "5"})}}
-                               style={{ flexDirection:'row', }}
-                            >
-                                <CheckBox 
-                                    checked={ this.state.deliveryCheckd === "5" } 
-                                    onPress={ ()=>{this.setState({deliveryCheckd: "5"})}}
-                                    //체크박스 옵션
-                                />
-                                <Text style={{marginLeft:15,fontSize:14,}}>5일이내</Text>
-                            </TouchableOpacity>    
+                        <View  style={{flexDirection:"row",}}>
+                            <CheckBox 
+                                checked={ this.state.deliveryCheckd === "5" } 
+                                //체크박스 옵션
+                                onPress={ ()=>{
+                                            this.setState({
+                                                deliveryCheckd: "5"
+                                        })
+                                    }
+                                }
+                            />
+                            <Text style={{marginLeft:15,fontSize:14,}}>5일이내</Text>
                         </View>
-
                     </View>
                     <Item regular style={{marginTop:10, height:120, backgroundColor:'#fff',}}>
-                        <TextInput 
-                            underlineColorAndroid={"#fff"}
+                        <Input 
                             placeholder='메모를 작성해 주세요'
                             multiline={true} 
-                            style={{height:120, width:'100%',}} 
+                            style={{height:120 ,}} 
                             onChangeText={ this.onChangeMemo } 
-                            value={this.state.onChangeMemo}
-                            onBlur={()=> this.setState({focusMemoInput : false})}
-                            onFocus={()=> this.setState({focusMemoInput : true})}
-                            returnKeyType ={'done'}
                         />
                     </Item>
-
-                    <View  style={{ flexDirection:"row", height:50, marginTop:10,  }}>
-                        <TouchableOpacity
-                             onPress={ ()=>{ this.setState({saveDeliveryInfo: !this.state.saveDeliveryInfo}) }
+                    <View  style={{flexDirection:"row", marginTop:10,}}>
+                        <CheckBox 
+                            checked={this.state.saveDeliveryInfo} 
+                            //체크박스 옵션
+                            onPress={ ()=>{ 
+                                    this.state.saveDeliveryInfo ?
+                                    this.setState({
+                                        saveDeliveryInfo: false
+                                    }) : 
+                                    this.setState({
+                                        saveDeliveryInfo: true
+                                    })
+                                }
                             } 
-                            style={{ flexDirection:'row', }}
-                        >
-                            <CheckBox 
-                                checked={this.state.saveDeliveryInfo} 
-                                onPress={ ()=>{ this.setState({saveDeliveryInfo: !this.state.saveDeliveryInfo}) }}
-                                //체크박스 옵션
-                            />
-                            <Text style={{ 
-                                marginLeft:15,
-                                fontSize:14,
-                            }}>
-                                배송정보저장
-                            </Text>
-                        </TouchableOpacity>
+                        />
+                        <Text style={{ 
+                            marginLeft:15,
+                            fontSize:14,
+                        }}>배송정보저장</Text>
                     </View>
                 </Content>
-
-                <View style={{ 
-                    width: Platform.ios? "94%" : '98%', 
-                    marginLeft: Platform.ios? "3%" : '1%', 
-                    marginTop:10, marginBottom:20, 
-                    justifyContent:'center', 
-                    display:this.state.focusMemoInput ? 'none' : null, 
-                }}>
-
+                <View style={{ width: Platform.ios? "94%" : '98%', marginLeft: Platform.ios? "3%" : '1%', marginTop:10, marginBottom:20, justifyContent:'center', }}>
                     <View style={{  flexDirection:"row", justifyContent:"space-around",}}>
+                    {/* <Button
+                        onPress={
+                            ()=> {
+                                this.setState({
+                                    paymentButtonBlock : true
+                                })
+                                that.startPayment("card")
+                            }
+                        }
+                        style={{ 
+                            flex:1, 
+                            height:45,
+                            marginLeft:10,
+                            justifyContent:'center', 
+                            backgroundColor:"#0099ff",
+                        }}
+                    >
+                        <Text style={{color:'#fff', fontSize:16, fontWeight:'bold',}}>주류 직불카드</Text>
+                    </Button> */}
+     
                         <Button
-                            onPress={()=> {this.setState({paymentButtonBlock : true})
-                                          that.startPayment("card")}}
+                            onPress={
+                                ()=> {
+                                    this.setState({
+                                        paymentButtonBlock : true
+                                    })
+                                    that.startPayment("card", null)
+                                }
+                            }
                             style={styles.paymentButton}
                         >
-                            <Text style={{color:'#0099ff', fontSize:16,}}>신용카드결제</Text>
+                            <Text style={{color:'#0099ff', fontSize:16,}}>신용카드(일반)</Text>
+                            <Text style={{color:'#0099ff', fontSize:10,}}>삼성,신한,현대,롯데,하나(외환),NH</Text>
                         </Button>
+            
+                    
+        
+                        <Button
+                                onPress={
+                                    ()=> {
+                                        this.setState({
+                                            paymentButtonBlock : true
+                                        })
+                                        that.startPayment("card", "bcCard")
+                                    }
+                                }
+                                style={styles.paymentButton}
+                            >
+                            <Text style={{color:'#0099ff', fontSize:16,}}>ISP결제</Text>
+                            <Text style={{color:'#0099ff', fontSize:10,}}>BC, 국민</Text>
+                        </Button>
+      
                     </View>
-
                 </View>
             </View>
             {

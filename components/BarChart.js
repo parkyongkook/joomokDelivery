@@ -11,7 +11,8 @@ export default class BarChart extends Component {
         return (
 
             <View style={{flex:1, justifyContent:"flex-end", alignItems:"center", }}>
-                <View style={{ flexDirection:"row", justifyContent:"center", alignItems:"flex-end", marginBottom:10, }}>
+
+                <View style={{ flexDirection:"row", justifyContent:"center", alignItems:"flex-end", marginTop:10, }}>
 
                     <View>
                         <View>
@@ -66,6 +67,7 @@ export default class BarChart extends Component {
                     </View>
 
                     <View style={{ marginLeft:20,}}>
+
                         <View>
                             <View>
                                 {              
@@ -81,16 +83,18 @@ export default class BarChart extends Component {
                                     :   null
                                 }
                             </View>
+                            
                             <View style={{flexDirection:"row",}}>
                                 <View style={{ width :12 , height: this.props.chartData.Price[2] * maxPriceValue , backgroundColor:"#006699", }}/>  
                                 <View style={{ width :12 , height: this.props.chartData.Price[2] * maxPriceValue , backgroundColor:"#003366", }}/>    
                             </View>
+
                         </View>
 
                         <View><Text style={{fontSize:14, fontWeight:"100", color:"#555", marginTop:5,}}>{this.props.chartData.term[2]}월</Text></View>
                     </View>
-
                 </View>
+
             </View>
             
         );

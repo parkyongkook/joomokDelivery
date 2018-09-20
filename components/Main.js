@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, StatusBar, ScrollView, ActivityIndicator, Image, TouchableOpacity, Platform, BackHandler } from 'react-native';
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Drawer, Card, CardItem,} from 'native-base';
+import { StyleSheet, View, ActivityIndicator, Image, TouchableOpacity, Platform, Dimensions } from 'react-native';
+import {Text} from 'native-base';
 
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -20,8 +20,11 @@ let iosSlider;
 let andSlider;
 let newOrderListData = [];
 
+let width = Dimensions.get('window').width;
+let height = Dimensions.get('window').height;
+
 const args = {
-    number: '01089528963',
+    number: '02-3280-9492',
     prompt: false
 }
 
@@ -76,21 +79,25 @@ class Main extends React.Component {
                             },
                             body: JSON.stringify({
                                 usridx: this.props.usridx,
-                                status: 0,
+                                status: 90,
                                 limit: 3,
                             })
                         })
                             .then((response) => response.json())
                             .then((responseData) => {
+
+                                console.log('최근결데이터',responseData.data)
                                 let arr = {
                                     Price: [],
                                     term: []
                                 };
-                                for (const i in responseData.data) {
-                                    arr.Price.push(responseData.data[i].ord_sum)
-                                    arr.term.push(responseData.data[i].mm)
+                                if( responseData.data ){
+                                    for (const i in responseData.data) {
+                                        arr.Price.push(responseData.data[i].ord_sum)
+                                        arr.term.push(responseData.data[i].mm)
+                                    }
                                 }
-
+                               
                                 iosSlider = <IosSwiper
                                     chartData={arr}
                                     cartListData={this.props.cartListData}
@@ -124,7 +131,6 @@ class Main extends React.Component {
         }
     }
 
-    //재주문 임시코드관련 메소드 시작 (실제데이터가 박히면 지우고 다시 진행)
     componentDidMount() {
         if (this.props.loginMessage === "loginSucess") {
             this.props.loginMessage !== null && this.props.loginMessage !== "" ? this.refs.toast.show('로그인 되었습니다') : null
@@ -132,12 +138,14 @@ class Main extends React.Component {
     }
 
     reOrderProduct(data, title) {
+
         this.setState({
             isLoading : true
         })
+
         let cartArr = { 
             carts :[],
-            usridx :this.props.usridx 
+            usridx : this.props.usridx 
         };
 
         for( const idx in data){
@@ -227,30 +235,26 @@ class Main extends React.Component {
             <View style={{ flex: 1, backgroundColor: "#0099ff", }}>
 
                 <BackGroundImage />
-
-                <View style={{ 
-                    height: Platform.OS === "ios" ? 80 : 90, 
-                }}>
-
+                <View style={{flex:1}}>
                     <Head
                         openDrawer={this.props.openDrawer}
                         closeDrawerHome={this.props.closeDrawer}
                     />
-
                 </View>
 
-                <View style={{ flex: 4, }}>
-                    {
-                        Platform.OS === "ios" ? iosSlider : andSlider
-                    }
+                <View style={{ flex: height < 590 ? 3.5 : 4, }}>
+                    {Platform.OS === "ios" ? iosSlider : andSlider}
                 </View>
 
                 <TouchableOpacity
-                    style={{ flex: 1, justifyContent: 'center', marginBottom: 15, }}
+                    style={{ flex: height < 590 ? 0.7 :  1, justifyContent: 'center', marginBottom: 15, }}
                     onPress={
 
                         () => {
-                            Actions.OrderMain()
+                            Actions.OrderMain({
+                                reOrderProduct : this.reOrderProduct,
+                                newOrderListData : newOrderListData
+                            })
                         }
                     }
                 >
@@ -277,13 +281,13 @@ class Main extends React.Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.customerButtom}
-                        onPress={() => this.reOrderProduct( newOrderListData, '바로구매')}
+                        onPress={() => this.reOrderProduct( newOrderListData, '수정구매')}
                     >
                         <Image
                             style={styles.imageStyle}
                             source={require('../assets/img/2.png')}
                         />
-                        <Text style={styles.buttonTxt}>재주문</Text>
+                        <Text style={styles.buttonTxt}>수정구매</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -303,7 +307,7 @@ class Main extends React.Component {
                 </View>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', }}>
-                    <Text style={{ width: '90%', marginBottom: 10, color: '#555', textAlign: 'center', fontSize: 10, backgroundColor: '#fff', }}>
+                    <Text style={{ width: '90%', marginBottom: 10, color: '#555', textAlign: 'center', fontSize: 8, backgroundColor: '#fff', }}>
                         {`주)두몫은 통신판매중개자로서 거래당사자가 아니며 입점 판매자가 등록한 상품,
 거래정보 및 거래에 대하여 (주)두몫은 일체의 책임을 지지 않습니다`}
                     </Text>
@@ -355,7 +359,7 @@ const styles = StyleSheet.create({
     },
     orderButton: {
         width: "96%",
-        height: Platform.OS === 'ios' ?  80 : 60,
+        height: Platform.OS === 'ios' ? height < 600 ? 50 :  80 : 60,
         marginTop: 10,
         marginLeft: "2%",
         backgroundColor: "rgba(0,0,0,0)",
@@ -387,7 +391,9 @@ const mapStateToProps = (state) => {
         state: state,
         cartListData: state.reducers.cartList,
         usridx: state.reducers.usridx,
-        drinkJsonData: state.reducers.drinkJsonData
+        drinkJsonData: state.reducers.drinkJsonData,
+        width : state.reducers.displayInfo.width,
+        height : state.reducers.displayInfo.height,
     };
 };
 

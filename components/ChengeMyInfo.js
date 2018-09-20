@@ -40,10 +40,10 @@ class ChengeMyInfo extends Component {
   constructor(props) {
     super(props);
     this.state = { 
+        focusInput : false,
         isChangeToPhoneNum : false,
         isChangeToEmail : false,
         isChangeToComPhone : false,   
-
         mobile : Base64.atob(this.props.userData.mobile_enc),
         email : this.props.userData.email,
         com_phone : this.props.userData.phone,
@@ -147,8 +147,9 @@ class ChengeMyInfo extends Component {
 
                     <View style={styles.viewStyle}>
                         <TextInput 
-                            caretHidden={!this.state.isChangeToPhoneNum}
-                            autoFocus={!this.state.isChangeToPhoneNum}
+                            keyboardType={'numeric'}
+                            editable={this.state.isChangeToPhoneNum}
+                            underlineColorAndroid='transparent'
                             placeholder="휴대폰번호" 
                             onChangeText={ 
                                 (text)=>{
@@ -159,14 +160,17 @@ class ChengeMyInfo extends Component {
                                     })
                                 }
                             } 
-                            
-                            style={[styles.textInput,
-                                    {                                
-                                        backgroundColor : 
-                                        this.state.isChangeToPhoneNum ? 
-                                        'rgba(255, 255, 255, 0.2)': null,
-                                    }]
-                            }
+                            onBlur={()=> this.setState({focusInput : false})}
+                            onFocus={()=> this.setState({focusInput : true})}
+                            style={{                                
+                                    flex:1, 
+                                    height:50,
+                                    marginLeft:10,
+                                    backgroundColor : this.state.isChangeToPhoneNum ? 'rgba(255, 255, 255, 0.2)': null,
+                                    color:"#fff",
+                                    borderLeftWidth: 0.3,
+                                    borderLeftColor: "#0099ff",
+                                }}
                             value={this.state.userData.mobile}
                         />
                     </View>
@@ -189,35 +193,38 @@ class ChengeMyInfo extends Component {
                     </View>
 
                     <View style={styles.viewStyle}>
-                        <Item Regular style={{flex:3.2, height:30, marginRight:10, borderBottomWidth:0,}}>
-                            <TextInput 
-                                caretHidden={!this.state.isChangeToEmail}
-                                autoFocus={!this.state.isChangeToEmail}
-                                onChangeText={ 
-                                    (text)=>{
-                                        this.setState({
-                                            userData : update(this.state.userData, { 
-                                                email : {$set:text}
-                                            })
+                        <TextInput 
+                            editable={this.state.isChangeToEmail}
+                            underlineColorAndroid='transparent'
+                            caretHidden={!this.state.isChangeToEmail}
+                            onChangeText={ 
+                                (text)=>{
+                                    this.setState({
+                                        userData : update(this.state.userData, { 
+                                            email : {$set:text}
                                         })
-                                    }
-                                } 
-                                style={
-                                    [ styles.textInput,
-                                        {backgroundColor : this.state.isChangeToEmail ? 
-                                        'rgba(255, 255, 255, 0.2)': null,}
-                                    ]
+                                    })
                                 }
-                                value={this.state.userData.email}
-                            />
-                        </Item>
+                            } 
+                            onBlur={()=> this.setState({focusInput : false})}
+                            onFocus={()=> this.setState({focusInput : true})}
+                            style={{
+                                    flex:1, 
+                                    height:50,
+                                    marginLeft:10,
+                                    backgroundColor : this.state.isChangeToEmail ? 'rgba(255, 255, 255, 0.2)': null,
+                                    color:"#fff",
+                                    borderLeftWidth: 0.3,
+                                    borderLeftColor: "#0099ff",
+                                }}
+                            value={this.state.userData.email}
+                        />
                     </View>
 
                     <Button
                         style={[styles.changeButton,{flex:1.5,}]}
-                        onPress={()=> this.ChangeToinfo("email")
-}
-            >
+                        onPress={()=> this.ChangeToinfo("email")}
+                    >
                         {!this.state.isChangeToEmail ? 
                         <Text style={styles.changeButtonText}>변경</Text> : 
                         <Text style={styles.changeButtonText}>수정</Text>}
@@ -271,9 +278,11 @@ class ChengeMyInfo extends Component {
                     </View>
                     <View style={styles.viewStyle}>
                         <TextInput 
+                            keyboardType={'numeric'}
+                            underlineColorAndroid='transparent'
                             caretHidden={!this.state.isChangeToComPhone}
-                            autoFocus={!this.state.isChangeToComPhone}
                             placeholder="사업장 전화번호" 
+                            editable={this.state.isChangeToComPhone}
                             onChangeText={ 
                                 (text)=>{
                                     this.setState({
@@ -283,6 +292,8 @@ class ChengeMyInfo extends Component {
                                     })
                                 }
                             } 
+                            onBlur={()=> this.setState({focusInput : false})}
+                            onFocus={()=> this.setState({focusInput : true})}
                             style={{
                                 flex:1, 
                                 height:50,
@@ -330,8 +341,12 @@ class ChengeMyInfo extends Component {
 
             </Content>
 
-            <View style={{flexDirection:"row", marginBottom:50, justifyContent:"space-around",}}>
-
+            <View style={{ 
+                            flexDirection:"row", 
+                            marginBottom:50, 
+                            justifyContent:"space-around", 
+                            display: this.state.focusInput ? 'none' : null
+                        }}>
                 <Button 
                     style={{ 
                         width:"45%", 
@@ -422,9 +437,11 @@ class ChengeMyInfo extends Component {
     },
     textInput:{
         flex:1, 
-        height:30,
+        height:50,
         marginLeft:10,
-        color:"#eee",
+        color:"#fff",
+        borderLeftWidth: 0.3,
+        borderLeftColor: "#0099ff",
     },
     viewStyle:{
         flex:3.2, 

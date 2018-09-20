@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, StatusBar, ActivityIndicator, BackHandler, Alert } from 'react-native';
+import { BackHandler } from 'react-native';
 import { Drawer} from 'native-base';
 import { Font, AppLoading } from "expo";
 
 import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
-import { Scene, Actions, Router, statusBarStyle, ActionConst } from 'react-native-router-flux';
+import { Scene, Actions, Router, ActionConst } from 'react-native-router-flux';
 
 import Main from './components/Main';
 import Login from './components/Login';
@@ -15,7 +15,6 @@ import BuyProduct from './components/BuyProduct';
 import Payment from './components/Payment';
 import SignUp_Authentication from './components/SignUp_Authentication';
 import SignUp_Information from './components/SignUp_Information';
-import * as firebase from 'firebase';
 
 import SendPushNotification from './components/SendPushNotification';
 import MenuSlider from './components/MenuSlider';
@@ -28,7 +27,6 @@ import PaymentList from './components/PaymentList';
 import MyWeb from './components/MyWeb';
 import ChengeMyInfo from './components/ChengeMyInfo';
 import ChangePassword from './components/ChangePassword';
-
 
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
@@ -48,7 +46,8 @@ console.warn = message => {
 const ReduxRouter = connect((state) => ({ state: state.route }))(Router);
 const reducers = require('./reducers').default;
 
-let drawerState = false
+let drawerState = false;
+let backButton = false;
 
 
 export default class App extends React.Component {
@@ -56,8 +55,9 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isReady: false,
-          };
+            backButton : false,
+            isReady: false
+        };
     }
     
     async componentWillMount() {
@@ -65,7 +65,7 @@ export default class App extends React.Component {
           'Roboto_medium': require('./assets/fonts/Roboto_medium.ttf'),
         });
         this.setState({ isReady: true });
-      }
+    }
 
     closeDrawer = () => {
         this.drawer._root.close();
@@ -87,13 +87,19 @@ export default class App extends React.Component {
     }
     
     handleAndroidBack = () =>{
-
+       
         if( drawerState === true ){
             this.closeDrawer()
             return true
         }
 
-        if(Actions.currentScene === 'SIgnUp_Policy'){
+        if( Actions.currentScene === 'OrderMain' && backButton === true ){
+            Actions.OrderMain({ goOrdermain: true })
+            backButton = false
+            return true
+        }
+
+        if( Actions.currentScene === 'SIgnUp_Policy' ){
             Actions.pop()
             return true
         }
@@ -107,6 +113,13 @@ export default class App extends React.Component {
     }
     //안드로이드 하드웨어 백버튼 앱종료 방지 끝
 
+    backButtonHandller(){
+       backButton = true
+    }
+
+    resetOrderMainProps(){
+        Actions.OrderMain({ goOrdermain: false })
+    }
 
     render() {
 
@@ -114,7 +127,6 @@ export default class App extends React.Component {
             return <AppLoading />;
         }
         
-
         return (
             <Provider store={createStore(reducers, {})}>
                 <Drawer
@@ -124,7 +136,7 @@ export default class App extends React.Component {
                     />}
                     onClose={() => this.closeDrawer()}
                     panHandlers={null}
-                    openDrawerOffset={0.2}
+                    openDrawerOffset={0.3}
                     side={"right"}
                 >
                     <ReduxRouter
@@ -148,13 +160,16 @@ export default class App extends React.Component {
                                 closeDrawerHome={this.closeDrawer}
                                 component={Login}
                                 hideNavBar={true}
-                                initial={true} 
+                        
                             />
                             <Scene key='OrderMain'
                                 component={OrderMain}
                                 hideNavBar={true}
                                 openDrawer={this.openDrawer}
                                 closeDrawerHome={this.closeDrawer} 
+                                backButtonHandller ={this.backButtonHandller}
+                                backButton = { this.handleAndroidBack }
+                                resetOrderMainProps = {this.resetOrderMainProps} 
                             />
                             <Scene key='Cart'
                                 component={Cart}
@@ -179,6 +194,7 @@ export default class App extends React.Component {
                                 hideNavBar={true}
                                 openDrawer={this.openDrawer}
                                 closeDrawerHome={this.closeDrawer}
+                                initial={true} 
                             />
                             <Scene key='OrderSelect'
                                 component={OrderSelect}
@@ -230,13 +246,15 @@ export default class App extends React.Component {
                                 hideNavBar={true}
                                 openDrawer={this.openDrawer} 
                             />
-                            <Scene key='SendPushNotification'
+
+
+                            {/* <Scene key='SendPushNotification'
                                 component={SendPushNotification}
                                 hideNavBar={true}
                                 openDrawer={this.openDrawer} 
                                 closeDrawerHome={this.closeDrawer}
                             />
-                        {/* 
+
                             <Scene key='MapLocation' 
                                 component={MapLocation}
                                 hideNavBar={true}

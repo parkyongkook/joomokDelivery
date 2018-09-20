@@ -90,9 +90,7 @@ export default class SignUp_Policy extends Component {
 
                 <View  style={{flex:4, marginTop:20, marginBottom:20,}}>
 
-                    <View style={{flex:1, width:"84%", marginLeft:"8%", 
-                    // backgroundColor:"none",
-                }}>
+                    <View style={{flex:1, width:"84%", marginLeft:"8%",}}>
 
                         <View  style={{flex:1, marginLeft:-10, flexDirection:"row", }}>
                             <CheckBox

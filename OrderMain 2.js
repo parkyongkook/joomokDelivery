@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Image,TextInput, ScrollView } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, TextInput, Image } from 'react-native';
 import { Container , Header, Content, Input, Button, Icon, Text, Grid, Col, Row, Badge} from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import Toast from 'react-native-easy-toast'
+import Toast, { DURATION } from 'react-native-easy-toast'
 
 import * as actions from '../actions';
 import SearchList from './listComponent/SearchList';
@@ -38,36 +38,18 @@ class OrderMain extends Component {
         this.state.stateOfComponent ? this.props.changeStateOfcomponent : null
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.goOrdermain){
-            this.setState({ stateOfComponent : false })
-            this.props.resetOrderMainProps()
-        }
-
-    }
-
     returnToDrinkCategory( categoryType, imgUrl, title ){
-
-        return <TouchableOpacity 
-                    onPress={() => this.viewSeachList(this.state.userType, categoryType)}
-                    style={{ flex:1, backgroundColor:'#fff', marginRight:7, }}
-                >
-                    <View style={{ overflow:'hidden',}}>
-                        <Image
-                            source={imgUrl}
-                            resizeMode='cover'
-                            style={{ 
-                                marginTop:10,
-                                marginBottom:5,
-                                width: 90,
-                                height: 90,
-                                alignSelf: 'center',
-                            }}
-                        />
-                    </View>
-
-                    <View style={styles.drinkListText}>
-                        <Text style={{color:'#fff', fontWeight:'800', fontSize:14,}}>{title}</Text>
+        return <TouchableOpacity onPress={() => this.viewSeachList(this.state.userType, categoryType)}>
+                    <View style={{ height: 140, marginRight:7, backgroundColor:'#fff', }}>
+                        <View style={{height:110,}}>
+                            <Image
+                                source={imgUrl}
+                                style={{ width: 90, height: 90, marginTop:10, marginLeft:15,}}
+                            />
+                        </View>
+                        <View style={styles.drinkListText}>
+                            <Text style={{color:'#fff', fontWeight:'800', fontSize:14,}}>{title}</Text>
+                        </View>
                     </View>
                 </TouchableOpacity>
     }
@@ -79,9 +61,6 @@ class OrderMain extends Component {
     }
 
     SearchListActivator(text) {
-        this.setState({
-            SeachKeywords:text
-        })
         // 검색창에 입력한 tet값을 viewSeachList 함수에 인자로 전달하며 조건에 맞는 값을 filter로 뽑아 맵핑함.
         if (text.length >= 1) {
             this.viewSeachList( this.props.userData.product_type , text, 1)
@@ -93,8 +72,6 @@ class OrderMain extends Component {
     }
 
     viewSeachList( userType, drinkType, isSearch) {
-
-        this.props.backButtonHandller()
 
         function drinkListFilterFunc(obj) {
             if (isSearch && drinkType !== undefined) {
@@ -118,13 +95,10 @@ class OrderMain extends Component {
             mapComponents: this.mapToSearchList(coll, drinkType),
             stateOfComponent: true
         })
-
         this.props.stateOfComponent
-
-
     }
 
-    mapToSearchList( data , drinkType ) {
+    mapToSearchList(data , drinkType) {
         if( data.length === 0 ){
             return <SearchList 
                 title = {"제품이 없습니다."}
@@ -134,7 +108,7 @@ class OrderMain extends Component {
             return data.map((mergeDayData, i) => {
                 return (<SearchList
                     drinkType ={drinkType}
-                    imgUrl = { mergeDayData.pd_file }
+                    imgUrl = {mergeDayData.pd_file}
                     usridx = {this.props.usridx}
                     title = {mergeDayData.pd_str}
                     unit = {mergeDayData.pd_qty}
@@ -143,8 +117,6 @@ class OrderMain extends Component {
                     initioalCounter = {0}
                     uniqId = {mergeDayData.idx}
                     key = {i}
-                    width={this.props.width}
-                    height={this.props.height}
                 />);
             })
         }
@@ -193,31 +165,54 @@ class OrderMain extends Component {
     }
 
     render() {
-
         const category = (
+            <View>
+                <View style={{ flex: 1, flexDirection: "row", }}>
+                </View>
+                <View style={{ marginTop: 10, width:'94%', marginLeft:"3%", paddingTop:5, paddingBottom:20, borderRadius:10, }}>
+                    <Grid>
+                        <Row>
+                            <Col>
+                                {this.returnToDrinkCategory( "00002", require('../assets/img/soju.png'), '소주' )}
+                            </Col>
+                            <Col>
+                                {this.returnToDrinkCategory( "00001", require('../assets/img/brew.png'), '맥주' )}
+                            </Col>
+                            <Col>
+                                {this.returnToDrinkCategory( "00003", require('../assets/img/intBrew.png'), '수입맥주' )}
+                            </Col>
+                        </Row>
 
-            <View style={{ flex:1, width:'94%', marginLeft:"3%", marginTop:10, borderRadius:10,}}>
-                  <View style={{ flex:1 }}>
-                    <View style={{ flex:1 , flexDirection:'row',}}> 
-                        {this.returnToDrinkCategory( "00002", require('../assets/img/soju.png'), '소주' )}
-                        {this.returnToDrinkCategory( "00001", require('../assets/img/brew.png'), '맥주' )}
-                        {this.returnToDrinkCategory( "00003", require('../assets/img/intBrew.png'), '수입맥주' )}
-                    </View>
-                    <View style={{ flex:1 , flexDirection:'row',marginTop: 20, }}>
-                        {this.returnToDrinkCategory( "00004", require('../assets/img/natBeer.png'), '생맥주' )}
-                        {this.returnToDrinkCategory( "00005", require('../assets/img/whisky.png'), '양주' )}
-                        {this.returnToDrinkCategory( "00006", require('../assets/img/wine.png'), '와인' )}
-                    </View>
-                    <View style={{ flex:1 ,flexDirection:'row',marginTop: 20, }}>
-                        {this.returnToDrinkCategory( "00007", require('../assets/img/mak.png'), '전통주' )}
-                        {this.returnToDrinkCategory( "00008", require('../assets/img/sake.png'), '사케' )}
-                        {this.returnToDrinkCategory( "00009", require('../assets/img/etc.png'), '기타' )}
-                    </View>
+                        <Row style={{ marginTop: 20, }}>
+                            <Col>
+                                {this.returnToDrinkCategory( "00004", require('../assets/img/natBeer.png'), '생맥주' )}
+                            </Col>
+                            <Col>
+                                {this.returnToDrinkCategory( "00005", require('../assets/img/whisky.png'), '양주' )}
+                            </Col>
+                            <Col>
+                                {this.returnToDrinkCategory( "00006", require('../assets/img/wine.png'), '와인' )}
+                            </Col>
+                        </Row>
+
+                        <Row style={{ marginTop: 20, }}>
+                            <Col>
+                                {this.returnToDrinkCategory( "00007", require('../assets/img/mak.png'), '전통주' )}
+                            </Col>
+                            <Col>
+                                {this.returnToDrinkCategory( "00008", require('../assets/img/sake.png'), '사케' )}
+                            </Col>
+                            <Col>
+                                {this.returnToDrinkCategory( "00009", require('../assets/img/etc.png'), '기타' )}
+                            </Col>
+                        </Row>
+
+                    </Grid>
                 </View>
             </View>
         )
         return (
-            <View style={{flex:1, backgroundColor: "#0099ff", }}>
+            <Container style={{ backgroundColor: "#0099ff", }}>
             
                 <BackGroundImage/>
 
@@ -239,9 +234,8 @@ class OrderMain extends Component {
                     height: 100, paddingTop: 0, }} 
                 >
 
-                    <View style={[styles.orderButton,{ height:40,}]}>
-                        <TextInput
-                            underlineColorAndroid='transparent'
+                    <View style={[styles.orderButton,{flex:0, height:40,}]}>
+                        <Input
                             placeholder="검색하기"
                             placeholderTextColor='#fff'
                             onChangeText={this.SearchListActivator}
@@ -263,14 +257,11 @@ class OrderMain extends Component {
                                 right:50,
                             }}
                         />
-
                     </View> 
                     
                     <View style={{ flexDirection: "row", marginTop: 10, }}>
 
-                        <Button style={styles.orderButton} 
-                            onPress={ ()=> this.props.reOrderProduct(this.props.newOrderListData, '바로구매') }
-                        >
+                        <Button style={styles.orderButton}>
                             <Text style={{ fontSize: 14, }}>최근내역재주문</Text>
                         </Button>
 
@@ -284,18 +275,16 @@ class OrderMain extends Component {
 
                 </Header>
 
-                <View  style={{flex:1}} >
-                    <ScrollView style={{flex:1,}}>
-                        {
-                        this.state.stateOfComponent ?
-                        this.state.mapComponents
-                        : category
-                        }
-                    </ScrollView>
-                </View>    
-                        
+                <Content>
+                    {
+                    this.state.stateOfComponent ?
+                    this.state.mapComponents
+                    : category
+                    }
+                </Content>
+                
                 <Toast ref="toast" />
-            </View>
+            </Container>
         );
     }
 }
@@ -310,7 +299,6 @@ const styles = StyleSheet.create({
         height:25,
         marginLeft:5,
         marginRight:5,
-        marginBottom:5,
         justifyContent: "center",
         alignItems:'center',
         backgroundColor:"#03ccad",
@@ -351,11 +339,9 @@ const mapStateToProps = (state) => {
         userData : state.reducers.userData ,
         drinkData: state.reducers.drinkJsonData.data,
         usridx: state.reducers.usridx,
-        cartListData: state.reducers.cartList,
-        width : state.reducers.displayInfo.width,
-        height : state.reducers.displayInfo.height,
+        cartListData: state.reducers.cartList
     }; 
-};
+  };
 
 const mapDispatchToProps = (dispatch) =>{
     return{

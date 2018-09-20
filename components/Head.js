@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, StatusBar, Text, Image, Platform } from 'react-native';
-import { Drawer, Title, Header, Button, Left, Right, Body, Icon } from 'native-base';
-import { connect } from 'react-redux';
+import { Header, Button, Left, Right, Body, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
 export default class Head extends React.Component {
@@ -19,6 +18,7 @@ export default class Head extends React.Component {
 
     render() {
         const beforePage = (
+
             <Button transparent 
                 onPress={() => {
                     if( this.props.stateOfComponent === true ){
@@ -36,7 +36,7 @@ export default class Head extends React.Component {
 
         return (
             <Header noShadow style={{
-                height: Platform.OS === "ios" ? 80 : 90,
+                height: Platform.OS === "ios" ? 80 : 70,
                 backgroundColor: this.props.backgroundColor ? "#0099ff" : "rgba(0,0,0,0)",
             }}>
                 <StatusBar
@@ -45,20 +45,17 @@ export default class Head extends React.Component {
                 />
 
                 <Left style={{ flex: 2, 
-                    marginTop: Platform.OS === 'ios' ? 10 : 30, 
+                    marginTop: Platform.OS === 'ios' ? 10 : 0, 
                     }}>
                     {this.props.beforePage ? beforePage : null}
                 </Left>
 
                 <Body style={{ flex: 5, flexDirection: "row", justifyContent: "center", }}>
-                    <View style={{ 
-                                    flex: 3, justifyContent: 'center', flexDirection: "row", 
-                                    alignItems: "center", position: "relative", 
-                                }}>
+                    <View style={{ flex: 3, justifyContent: 'center', flexDirection: "row", alignItems: "center", position: "relative", }}>
                         {
                             this.props.title ?
                                 <Text style={{ fontSize: 26, color: "#fff",
-                                 marginTop: Platform.OS === 'ios' ? 10 : 30, 
+                                    marginTop: Platform.OS === 'ios' ? 10 : 0, 
                                 }}>
                                     {this.props.title}
                                 </Text>
@@ -68,8 +65,6 @@ export default class Head extends React.Component {
                                         flex: 1,
                                         resizeMode: "contain",
                                         justifyContent: 'flex-start',
-                                        width: '100%',
-                                        marginTop: Platform.OS === "ios" ? 0 : 25,
                                     }}
                                     source={require('../assets/img/logo.png')}
                                 />
@@ -78,14 +73,15 @@ export default class Head extends React.Component {
                 </Body>
 
                 <Right style={{ flex: 2, 
-                     marginTop: Platform.OS === "ios" ? 0 : 30, 
+                     marginTop: Platform.OS === "ios" ? 0 : 0, 
                     }}>
                     {this.props.hideMenu ? null :
                         <TouchableOpacity
                             style={{
-                                width: 20,
+                                width: 50,
                                 height: 30,
                                 marginTop: 15,
+                                alignItems:'center',
                             }}
                             onPress={this.props.openDrawer}
                         >

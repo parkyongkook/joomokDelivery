@@ -78,7 +78,7 @@ class MenuSlider extends Component {
 
     render() {
         return (
-            <Container>
+            <View style={{flex:1, backgroundColor: "#fff", }}>
                 <Header style={{ backgroundColor: "#0099ff", }}>
                     <View style={{
                         flex: 1,
@@ -87,8 +87,8 @@ class MenuSlider extends Component {
                         alignItems: "center",
                         position: "relative",
                     }}>
-                        <TouchableOpacity
-                            style={{ position: "absolute", left: 0, top: 0 }}
+                        <TouchableHighlight
+                            style={{ position: "absolute", left: 0, top: 10 }}
                             onPress={() => {
                                 this.props.closeDrawer()
                             }}
@@ -99,7 +99,7 @@ class MenuSlider extends Component {
                                     color: "#fff",
                                 }}
                             />
-                        </TouchableOpacity>
+                        </TouchableHighlight>
                         <Image
                             style={{
                                 width: 180,
@@ -112,186 +112,172 @@ class MenuSlider extends Component {
                     </View>
                 </Header>
 
-                <Content style={{ backgroundColor: '#fff' }}>
+                <View style={{ flex:1, backgroundColor:'#fff' }}>
 
-                    <Grid style={{ marginLeft: 40, }}>
+                    <View style={{ flex:4.5}}>
 
-                        <Row>
+                        <View style={{ marginTop: 20, marginBottom: 20, marginLeft:30, }}>
+                            <Text style={{ fontSize: 26, }}>
+                                {this.props.userData !== null ? this.props.userData.store : null}
+                            </Text>
+                            <Text style={{ fontSize: 18, fontWeight: "100", color: "#333", marginTop: 10, }}>
+                                {this.props.userData !== null ? this.props.userData.name : null} 업주님 환영합니다.
+                            </Text>
+                        </View>
 
-                            <List style={{ flex: 1 }}>
+                        <ListItem style={styles.listItemHeader}>
+                            <Image
+                                style={styles.iconImage}
+                                source={require('../assets/img/slideMenu_1.jpg')}
+                            />
+                            <Text style={styles.slideTitleText}>마이페이지</Text>
+                        </ListItem>
 
-                                <View style={{ marginTop: 20, marginBottom: 20, }}>
-                                    <Text style={{ fontSize: 26, }}>
-                                        {this.props.userData !== null ? this.props.userData.store : null}
-                                    </Text>
-                                    <Text style={{ fontSize: 18, fontWeight: "100", color: "#333", marginTop: 10, }}>
-                                        {this.props.userData !== null ? this.props.userData.name : null} 업주님 환영합니다.
-                                    </Text>
-                                </View>
-
-                                <ListItem itemHeader first style={styles.listItemHeader}>
-
-                                    <Image
-                                        style={styles.iconImage}
-                                        source={require('../assets/img/slideMenu_1.jpg')}
-                                    />
-
-                                    <Text style={styles.slideTitleText}>마이페이지</Text>
-                                </ListItem>
-
-
-                                <ListItem style={styles.listItem}>
-                                    <TouchableOpacity
-
-                                        onPress={
-                                            () => {
-                                                Actions.ChengeMyInfo();
-                                                this.props.closeDrawer();
-                                            }
-                                        }
-
-                                    >
-                                        <Text style={styles.slideText}>내정보 변경</Text>
-                                    </TouchableOpacity>
-                                </ListItem>
-
-                                <ListItem style={styles.listItem}>
-                                    <TouchableOpacity
-                                        onPress={
-                                            () => {
-                                                Actions.ChangePassword();
-                                                this.props.closeDrawer();
-                                            }
-                                        }
-                                    >
-                                        <Text style={styles.slideText}>비밀번호 변경</Text>
-                                    </TouchableOpacity>
-                                </ListItem>
-
-                                <ListItem style={styles.listItem}>
-                                    <TouchableOpacity onPress={() => {
-                                        Actions.PaymentList()
-                                        this.props.closeDrawer()
-                                    }}>
-                                        <Text style={styles.slideText}>주문목록</Text>
-                                    </TouchableOpacity>
-                                </ListItem>
-
-                                {/*<ListItem last style={styles.listItem}>
-                                    <TouchableOpacity onPress={() => {
-                                        Actions.OrderSelect()
-                                        this.props.closeDrawer()
-                                    }}>
-                                        <Text style={styles.slideText}>결제목록</Text>
-                                    </TouchableOpacity>
-
-                                </ListItem>*/}
-
-                                <ListItem last style={styles.listItem}>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            this.logOut()
-                                        }}>
-                                        <Text style={styles.slideText}>로그아웃</Text>
-                                    </TouchableOpacity>
-                                </ListItem>
+                        <TouchableHighlight
+                            onPress={() => {
+                                Actions.ChengeMyInfo();
+                                this.props.closeDrawer();
+                            }}
+                            underlayColor ={'#eee'}
+                        >
+                            <View style={styles.listItem}>
                                 
-                            </List>
+                                    <Text style={styles.slideText}>내정보 변경</Text>
+                                
+                            </View>
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                            onPress={
+                                () => {
+                                    Actions.ChangePassword();
+                                    this.props.closeDrawer();
+                                }
+                            }
+                            underlayColor ={'#eee'}    
+                        >
+                            <View style={styles.listItem}>
 
-                        </Row>
+                                <Text style={styles.slideText}>비밀번호 변경</Text>
+                                
+                            </View>
+                        </TouchableHighlight>
+                        <TouchableHighlight 
+                            onPress={() => {
+                                    Actions.PaymentList()
+                                    this.props.closeDrawer()
+                            }}
+                            underlayColor ={'#eee'}    
+                        >
+                            <View style={styles.listItem}>
+                                
+                                    <Text style={styles.slideText}>주문목록</Text>
+                                
+                            </View>
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                            onPress={() => {this.logOut()}}
+                            underlayColor ={'#eee'} 
+                        >
+                            <View style={styles.listItem}>
+                
+                                    <Text style={styles.slideText}>로그아웃</Text>
+                            
+                            </View>
+                        </TouchableHighlight>
+                            
+                    </View>
 
-                        <Row>
+                    <View style={{ flex:1.5, backgroundColor:'#fff' }}>
+                        <View style={{ flex: 1 }}>
+                            <ListItem style={styles.listItemHeader}>
+                                <Image
+                                    style={styles.iconImage}
+                                    source={require('../assets/img/slideMenu_2.jpg')}
+                                />
+                                <Text style={styles.slideTitleText}>앱설정</Text>
+                            </ListItem>
+                            <TouchableHighlight
+                                onPress={() => {
+                                    this.setModalVisible(true);
+                                }}
+                                underlayColor ={'#eee'} 
+                            >
+                                <View style={styles.listItem}>
+                                    <Text style={styles.slideText}>알람설정</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
 
-                            <List style={{ flex: 1 }}>
-                                <ListItem itemHeader first style={styles.listItemHeader}>
-                                    <Image
-                                        style={styles.iconImage}
-                                        source={require('../assets/img/slideMenu_2.jpg')}
-                                    />
-                                    <Text style={styles.slideTitleText}>앱설정</Text>
-                                </ListItem>
-
-                                <ListItem style={styles.listItem}>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            this.setModalVisible(true);
-                                        }}>
-                                        <Text style={styles.slideText}>알람설정</Text>
-                                    </TouchableOpacity>
-                                </ListItem>
-                            </List>
-                        </Row>
-
-                        <Row>
-                            <List style={{ flex: 1 }}>
-                                <ListItem itemHeader first style={styles.listItemHeader}>
-                                    <Image
-                                        style={styles.iconImage}
-                                        source={require('../assets/img/slideMenu_2.jpg')}
-                                    />
-                                    <Text style={styles.slideTitleText}>고객센터</Text>
-                                </ListItem>
-                                <ListItem style={styles.listItem}>
-                                    <TouchableOpacity onPress={() => {
-                                        Actions.Notice({
-                                            usridx: this.props.userData.usridx
-                                        });
-                                        this.props.closeDrawer();
-                                    }
-                                    }>
-                                        <Text style={styles.slideText}>공지사항</Text>
-                                    </TouchableOpacity>
-                                </ListItem>
-                                <ListItem style={styles.listItem}>
-                                    <TouchableOpacity onPress={() => {
-                                        Actions.Faq({
-                                            usridx: this.props.userData.usridx
-                                        })
-                                        this.props.closeDrawer()
-                                    }}>
-                                        <Text style={styles.slideText}>FAQ</Text>
-                                    </TouchableOpacity>
-                                </ListItem>
-                                <ListItem last style={styles.listItem}>
-                                    <TouchableOpacity onPress={() => {
-                                        Actions.Customer({
-                                            usridx: this.props.userData.usridx
-                                        })
-                                        this.props.closeDrawer()
-                                    }
-                                    }>
-                                        <Text style={styles.slideText}>고객센터</Text>
-                                    </TouchableOpacity>
-                                </ListItem>
-                            </List>
-                        </Row>
-
-                    </Grid>
-
-                </Content>
+                    <View style={{ flex:3, backgroundColor:'#fff' }}>
+                        <View style={{ flex: 1 }}>
+                            <ListItem style={styles.listItemHeader}>
+                                <Image
+                                    style={styles.iconImage}
+                                    source={require('../assets/img/slideMenu_2.jpg')}
+                                />
+                                <Text style={styles.slideTitleText}>고객센터</Text>
+                            </ListItem>
+                            <TouchableHighlight onPress={() => {
+                                    Actions.Notice({usridx: this.props.userData.usridx})
+                                    this.props.closeDrawer()
+                                    }}
+                                    underlayColor ={'#eee'} 
+                                >
+                                <View style={styles.listItem}>
+                                    <Text style={styles.slideText}>공지사항</Text>
+                                </View>
+                            </TouchableHighlight>
+                            <TouchableHighlight onPress={() => {
+                                    Actions.Faq({usridx: this.props.userData.usridx})
+                                    this.props.closeDrawer()}}
+                                    underlayColor ={'#eee'} 
+                                >
+                                <View style={styles.listItem}>
+                                    <Text style={styles.slideText}>FAQ</Text>
+                                </View>
+                            </TouchableHighlight>
+                            <TouchableHighlight onPress={() => {
+                                    Actions.Customer({usridx: this.props.userData.usridx})
+                                    this.props.closeDrawer()}}
+                                    underlayColor ={'#eee'} 
+                                >
+                                <View last style={styles.listItem}>
+                                    <Text style={styles.slideText}>고객센터</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+                </View>
 
                 <AlramModal
                     modalVisible={this.state.modalVisible}
                     setModalVisible={this.setModalVisible}
                 />
-            </Container>
+
+
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    
     listItemHeader: {
-        marginTop: -10,
-        height: 50,
+        height: Platform.OS === 'android' ? 15 : 45,
         borderTopWidth: 0,
         borderBottomWidth: 0,
         justifyContent: "flex-start",
-        paddingTop: Platform.OS === "ios" ? 20 : 30,
+        marginTop: Platform.OS === "ios" ? 0 : 13,
     },
+
     listItem: {
+        height:30,
+        marginLeft:20,
+        justifyContent:'center',
         borderTopWidth: 0,
         borderBottomWidth: 0,
-        marginTop: Platform.OS === "ios" ? -10 : -20,
+        // marginTop: Platform.OS === "ios" ? -10 : -20,
     },
     slideTitleText: {
         fontSize: 18,

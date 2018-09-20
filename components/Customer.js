@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity,Image,TextInput } from 'react-native';
-import { Container, Content, Form, Item,Button,Icon,Text,Picker } from 'native-base';
+import { StyleSheet, View, TextInput } from 'react-native';
+import { Container, Content, Form,Button,Icon,Text,Picker } from 'native-base';
   
 import {Actions} from 'react-native-router-flux';
-import Accordion from '@ercpereda/react-native-accordion';
 import update from 'immutability-helper'; // 2.6.5
 
 import BackGroundImage from './util/backGroundImage';

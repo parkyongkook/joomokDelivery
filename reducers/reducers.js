@@ -4,7 +4,8 @@ const initialState = {
 	drinkJsonData : null ,
 	cartList : [],
 	userData : null,
-	usridx : null
+	usridx : null,
+	displayInfo : null
 }
 
 const drinkListUpdate = (state, drinkListData) => {
@@ -59,11 +60,12 @@ const updateTocartListData = ( state, idx, qty) => {
 	};
 }
 
-const loginSucess = ( state, userData , usridx) => {
+const loginSucess = ( state, userData , usridx, displayInfo) => {
 	return {
 		...state,
 		userData : userData,
-		usridx : usridx
+		usridx : usridx,
+		displayInfo : displayInfo
 	};
 }
 
@@ -80,7 +82,7 @@ export default function reducer(state = initialState , action ){
 		case AppType.CART_LIST_QTY_UPDATE:
 			return updateTocartListData(state, action.idx, action.qty)	
 		case AppType.LOGIN_SUCESS:
-			return loginSucess(state, action.userData, action.usridx)	
+			return loginSucess(state, action.userData, action.usridx, action.displayInfo)	
 		default :	
 			return state;	
   }

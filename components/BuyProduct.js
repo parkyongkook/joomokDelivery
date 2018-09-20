@@ -81,11 +81,13 @@ class BuyProduct extends Component {
                     }
                 />
                 <Content style={{ flex: 1, backgroundColor: "#eee", }}>
+
                     <View style={{ flex: 6, width: "94%", marginTop: 20, marginLeft: "3%", backgroundColor: "#fff", borderRadius: 10 }}>
-                        <View>
-                            <Text style={{ fontSize: 18, marginLeft: 20, marginTop: 15, marginBottom: 8, color: "#0099ff", }}>
+
+                        <View style={{ marginLeft:20, marginRight:20 }} >
+                            <Text style={{  marginLeft:20,  fontSize: 18, marginTop: 15, marginBottom: 8, color: "#0099ff", }}>
                                 상품목록
-                        </Text>
+                            </Text>
                             {
                                 this.props.mapToCartList(
                                     this.props.cartProductData,
@@ -94,8 +96,11 @@ class BuyProduct extends Component {
                             }
                         </View>
                         {this.mapToBuyproduct(this.props.cartListData)}
+
                     </View>
+
                 </Content>
+
                 <View style={{ height: 120, backgroundColor: "#eee", justifyContent: 'center', }}>
                     <Button style={{ height: 50, width: "94%", marginLeft: "3%", justifyContent: "center", backgroundColor: '#0099ff', }}
                         onPress={() => { this.clickToConfirm() }}>

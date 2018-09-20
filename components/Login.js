@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
-import { 
-    Platform, StyleSheet, View, TouchableOpacity, AsyncStorage, TextInput, 
-    ActivityIndicator, ImageBackground, Image, resizeMode, StatusBar, KeyboardAvoidingView ,ScrollView
-} from 'react-native';
-import {
-    Container, CheckBox, Header, Content, Form,
-    Item, Input, Label, Left, Button, Icon, Text, Body, Title, Right
-} from 'native-base';
+import {Dimensions, Platform, StyleSheet, View, TouchableOpacity, AsyncStorage, TextInput, ActivityIndicator, Image, StatusBar,} from 'react-native';
+import {CheckBox,Form,Item, Button, Icon, Text,} from 'native-base';
 
 import { Actions } from 'react-native-router-flux';
 import * as firebase from 'firebase';
-import { database } from '../firebase/Config';
 import update from 'immutability-helper'; // 2.6.5
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import Head from './Head';
 import Storage from 'react-native-storage';
 import { Permissions, Notifications } from 'expo';
+
+let width = Dimensions.get('window').width;
+let height = Dimensions.get('window').height;
 
 var storage = new Storage({
     size: 1000,
@@ -37,7 +32,9 @@ class Login extends Component {
             userData: {
                 userid: null,
                 password: null,
-                fb_uid: null
+                fb_uid: null,
+                width: null,
+                height: null,
             }
         }
         this.onChangeInput_Id = this.onChangeInput_Id.bind(this);
@@ -47,7 +44,8 @@ class Login extends Component {
     }
 
     componentWillMount() {
-        if (this.props.isLogout === "true") {
+
+        if ( this.props.isLogout === "true" ) {
             storage.remove({
                 key: "userInfo",
                 data: {
@@ -59,12 +57,12 @@ class Login extends Component {
                 expires: null
             })
         } else {
+
             this.setState({
                 isLoading: true
             })
 
             storage.load({
-
                 key: 'userInfo',
                 autoSync: true,
                 syncParams: {
@@ -72,7 +70,6 @@ class Login extends Component {
                     },
                     someFlag: true,
                 },
-
             }).then(ret => {
 
                 this.setState({
@@ -80,24 +77,26 @@ class Login extends Component {
                     userData: update(this.state.userData, {
                         userid: { $set: ret.userid },
                         password: { $set: ret.password },
-                        fb_uid: { $set: ret.fb_uid }
+                        fb_uid: { $set: ret.fb_uid },
+                        width: { $set: width },
+                        height: { $set: height },
                     })
                 })
 
             }).then(() => {
-                this.loginActivate()
+                this.loginActivate( null, true )
             })
-                .catch(err => {
-                    this.setState({
-                        isLoading: false
-                    })
-                    switch (err.name) {
-                        case 'NotFoundError':
-                            break;
-                        case 'ExpiredError':
-                            break;
-                    }
+            .catch(err => {
+                this.setState({
+                    isLoading: false
                 })
+                switch (err.name) {
+                    case 'NotFoundError':
+                        break;
+                    case 'ExpiredError':
+                        break;
+                }
+            })
         }
     }
     
@@ -117,9 +116,32 @@ class Login extends Component {
         })
     }
 
-    loginActivate(user) {
+    loginActivate( user , autoLogin) {
+
         var currentUser
         var that = this
+
+        if( this.state.userData.userid === null || this.state.userData.userid === '' ){
+            this.setState({
+                isLoading: false
+            })
+
+            if(autoLogin){
+                return
+            }
+            return alert('아이디 항목이 비어있습니다.')
+        }
+
+
+        if( this.state.userData.password === null || this.state.userData.password === '' ){
+            this.setState({
+                isLoading: false
+            })
+            if(autoLogin){
+                return
+            }
+            return alert('비밀번호 항목이 비어있습니다.')
+        }
         
         if (this.state.idSaveChecked) {
             storage.save({
@@ -138,8 +160,7 @@ class Login extends Component {
                 data: {
                     idSaveChecked: false,
                     userid: null,
-                    password: this.state.userData.password,
-                    // fb_uid: user.uid
+                    password: null
                 },
                 expires: null
             });
@@ -156,40 +177,48 @@ class Login extends Component {
             .then((response) => response.json())
             .then((responseData) => {
                 //에러검증
+
+                if ( responseData.code !== 200 ) {
+                    return alert(responseData.message)
+                }
+                if( responseData.code === 404) {
+                    return alert(responseData.code)
+                }
+
+                if (responseData.code === 401) {
+                    return alert("앱 실행중 오류가 발생 했습니다 관리자에게 문의하세요")
+                }
+
                 if( responseData.data.result < 0 ){
                     this.setState({
                         isLoading: false
                     })
-                    if (responseData.code === 404) {
-                        return alert("아이디 또는 비밀번호가 맞지 않습니다.")
-                        return
-                    } else if (responseData.code === 401) {
-                        return alert("앱 실행중 오류가 발생 했습니다 관리자에게 문의하세요")
-                        return
-                    }
                     return alert('로그인에 실패 하였습니다 아이디 비밀번호를 다시 확인해 주세요')
                     return
                 }else{
 
                     //파이어베이스에 로그인 되어있고 컴포넌트에 접속이 되어있으면 푸쉬 토큰 등록 함수 시작
-                    listener = firebase.auth().onAuthStateChanged(function (user) {
-                        if (user != null) {
-                            currentUser = user
-                            that.registerForPushNotificationsAsync(currentUser)
-                        }
-                        listener();
-                    });
+                    // listener = firebase.auth().onAuthStateChanged(function (user) {
+                    //     if (user != null) {
+                    //         currentUser = user
+                    //         that.registerForPushNotificationsAsync(currentUser)
+                    //     }
+                    //     listener();
+                    // });
 
-                    this.props.loginSucess(responseData.data, responseData.data.usridx)
+                    this.props.loginSucess(responseData.data, responseData.data.usridx, this.state.userData)
                     Actions.Main({
                         loginMessage: "loginSucess"
                     })
                 }
             })
             .catch((error) => {
-                alert(error);
+                console.log(error)
             })
-            .done();
+            .done(()=> 
+            this.setState({
+                isLoading: false
+            }));
     }
 
 
@@ -249,7 +278,9 @@ class Login extends Component {
                 });
             })
             .catch((err) => {
-                alert("로그인에 실패하였습니다 아이디 또는 비밀번호를 확인해 주세요")
+                console.log(err)
+                alert(err)
+                // alert("로그인에 실패하였습니다 아이디 또는 비밀번호를 확인해 주세요")
                 this.setState({
                     isLoading: false
                 })
@@ -257,7 +288,7 @@ class Login extends Component {
     }
 
     render() {
-        console.log('로그인데이터',this.state.userData)
+
         return (
             <View style={{flex:1, backgroundColor: "#0099ff",  }}>
                 <Image
@@ -284,8 +315,7 @@ class Login extends Component {
                     source={require('../assets/img/backPatternTop.jpg')}
                 />
 
-
-                <View style={{ flex: 4, justifyContent: "center",  }}>
+                <View style={{ flex: 4, justifyContent: "center", marginTop: this.state.inputMargin ? Platform.OS === "android" ? -60 : null : null   }}>
 
                     <View style={{ 
                         flex: 3, 
@@ -315,8 +345,8 @@ class Login extends Component {
                                     placeholderTextColor="#fff"
                                     onChangeText={this.onChangeInput_Id}
                                     underlineColorAndroid={"#fff"}
-                                    onBlur={()=> this.setState({inputMargin : false})}
-                                    onFocus={()=> this.setState({inputMargin : true})}
+                                    onBlur={()=> this.setState({ inputMargin : false })}
+                                    onFocus={()=> this.setState({ inputMargin : true })}
                                     style={{
                                         flex: 1,
                                         height: 50,
@@ -436,7 +466,7 @@ class Login extends Component {
 
                 </View>
 
-                <View style={{ flex: 2, alignItems: "center", }}>
+                <View style={{ flex: 2, alignItems: "center",  }}>
                     <Button block style={{ marginLeft: 20, marginRight: 20, backgroundColor: "#fff", }}
                         onPress={this.loginActivate}>
                         <Text style={{ color: "#0099ff" }}>로그인</Text>
@@ -454,8 +484,6 @@ class Login extends Component {
                         <Text>무료 회원가입</Text>
                     </Button>
                 </View>     
-
-                
                 {
                     this.state.isLoading ?
                         <ActivityIndicator
@@ -486,7 +514,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loginSucess: (userData, usridx) => dispatch(actions.loginSucess(userData, usridx))
+        loginSucess: (userData, usridx, displayInfo) => dispatch(actions.loginSucess(userData, usridx, displayInfo))
     };
 };
 

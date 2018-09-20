@@ -1,9 +1,55 @@
+
+// import React, { Component } from 'react';
+// import { WebView, View, Linking, StyleSheet } from 'react-native';
+
+// import Head from './Head';
+// import BackGroundImage from './util/backGroundImage';
+// import { Actions } from 'react-native-router-flux';
+// import { Constants, WebBrowser } from 'expo';
+
+// let result;
+
+// export default class MyWeb extends Component {
+//   state = {
+//     result: null,
+//   };
+
+//   render() {
+
+//     return (        
+//         <View style={{ flex: 1, backgroundColor: "#0099ff", }}>
+//             <BackGroundImage />
+//             <Head
+//                 openDrawer={this.props.openDrawer}
+//                 closeDrawerHome={this.props.closeDrawer}
+//                 beforePage={() => Actions.OrderMain()}
+//             />
+//             <WebView
+//                 javaScriptEnabled={true}
+//                 domStorageEnabled={true}
+//                 key={this.state.key}
+//                 source={{ uri: this.props.url }}
+//                 onNavigationStateChange={this.setWebViewUrlChanged}
+//             />
+//         </View>
+//     );
+//   }
+
+//   _handlePressButtonAsync = async () => {
+//     let result = await WebBrowser.openBrowserAsync('https://expo.io');
+//     this.setState({ result });
+//   };
+
+// }
+
+
 import React, { Component } from 'react';
-import { WebView, View, Linking, StyleSheet, Button } from 'react-native';
+import { WebView, View, Linking, StyleSheet } from 'react-native';
 
 import Head from './Head';
 import BackGroundImage from './util/backGroundImage';
 import { Actions } from 'react-native-router-flux';
+
 
 export default class MyWeb extends Component {
 
@@ -13,7 +59,7 @@ export default class MyWeb extends Component {
     };
 
     componentWillMount() {
-        this.props.bcCard === "bcCard" ? Linking.openURL(this.props.url) : null
+        this.props.card === "card" ? Linking.openURL(this.props.url) : null
     }
 
     resetWebViewToInitialUrl = () => {
@@ -47,7 +93,8 @@ export default class MyWeb extends Component {
                             }
                         })
                         .catch((error) => {
-                            alert('실명인증실패');
+                            Actions.SIgnUp_Policy();
+                            return alert('실명인증실패');
                         })
                 .done();
             }
@@ -79,16 +126,3 @@ export default class MyWeb extends Component {
     }
 }
 
-
-const styles = StyleSheet.create({
-
-    MainContainer: {
-
-        flex: 1,
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-
-    }
-
-});

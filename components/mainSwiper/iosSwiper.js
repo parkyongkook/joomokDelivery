@@ -60,11 +60,10 @@ class iosSwiper extends Component {
         //건별 주문통계 받아오기
         fetchTodata('https://api.joomok.net/statistics/orders')
         .then((responseData) => {
-            // let totPrice = 0
-            // for(const i in responseData.data){
-            //     totPrice += responseData.data[i].pay_price
-            // }
-            newResearchDate = responseData.data[0].reg_date
+
+            if( responseData.data.length > 0 ){
+                newResearchDate = responseData.data[0].reg_date
+            }
 
             //상품별 주문통계 받아오기
             fetch('https://api.joomok.net/statistics/products', {
@@ -76,7 +75,7 @@ class iosSwiper extends Component {
                 body: JSON.stringify(
                     {
                         usridx : this.props.usridx ,
-                        status : 0,
+                        status : 90,
                         ilimit : 100 , 
                         sdate : newResearchDate,
                         edate : newResearchDate,
@@ -154,15 +153,16 @@ class iosSwiper extends Component {
                 nextButton={<View style={[styles.prevNextButton,{right : -60}]}/>}
                 prevButton={<View style={[styles.prevNextButton,{left : -60}]}/> }
             >
-                <View style={{height:300, width:"100%" }}>
-                    <View style={{ height:340, width:"96%", backgroundColor: 'white', marginLeft:"2%", overflow:"hidden",}}>
+                <View style={{ flex:1, }}>
+                    <View style={{ flex:1, width:"96%", backgroundColor: 'white', marginLeft:"2%", overflow:"hidden",}}>
+
+                        <View style={{flex:7, flexDirection:"row", marginTop:30, width:'86%', marginLeft:'4%', }}>
                         
-                        <View style={{flexDirection:"row", marginTop:30, }}>
                             <View style={{ width:"50%"}}>
                                 <BarChart chartData={this.props.chartData}/>
                             </View>
                             
-                            <View style={{justifyContent:"center", alignItems:"center", marginRight:10,}}>
+                            <View style={{justifyContent:"center", alignItems:"center",}}>
 
                                 <View style={{ marginTop:30 }}>
                                     <Text style={styles.priceList}> 이달의결제내역</Text>
@@ -179,9 +179,11 @@ class iosSwiper extends Component {
                                 </View> 
 
                             </View>
+
                         </View>
 
-                        <View style={{ flex:2, flexDirection:"row", marginTop:15, marginBottom:15, overflow:"hidden",}}>
+                        <View style={{ flex:1.2, flexDirection:"row", marginTop:15,  overflow:"hidden",}}>
+
                             <Button 
                                 style={[styles.sliderButton,{backgroundColor:'#0099ff',}]}
                                 onPress={()=>Actions.PaymentList({
@@ -190,13 +192,7 @@ class iosSwiper extends Component {
                                 >
                                 <Text style={{fontSize:14, color:"yellow",}}>최근구매내역</Text>
                             </Button>
-                            <Button style={styles.sliderButton}
-                                onPress={()=>Actions.OrderSelect({
-                                    title : '구매내역'
-                                })}
-                                >
-                                <Text style={{fontSize:14, color:"#fff",}}>구매내역</Text>
-                            </Button>
+
                             <Button 
                                 style={[styles.sliderButton,{marginRight:5,}]}
                                 onPress={
@@ -207,7 +203,9 @@ class iosSwiper extends Component {
                             >
                                 <Text style={{fontSize:14, color:"#fff",}}>장바구니</Text>
                             </Button>
+
                         </View>
+
                     </View>
                 </View>
 

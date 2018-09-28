@@ -36,6 +36,9 @@ class iosSwiper extends Component {
     }
 
     componentWillMount(){
+
+        console.log('최근결재내역',this.props.chartData.Price)
+
         let propValue = this.props.chartData.Price
         let arr = [];
         let newResearchDate;
@@ -90,6 +93,8 @@ class iosSwiper extends Component {
                         newOrderListData.push(responseData.data[i])
                     }
                 }
+
+                console.log('뉴오더리스트데이터',newOrderListData)
 
                 this.props.marinReorderDataUpdate(newOrderListData);
 

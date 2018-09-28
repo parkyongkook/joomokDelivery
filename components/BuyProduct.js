@@ -65,6 +65,7 @@ class BuyProduct extends Component {
     }
 
     render() {
+        console.log('this.props.cartListData',this.props.cartListData)
         return (
             <Container style={{ backgroundColor: "#0099ff", }}>
                 <BackGroundImage />

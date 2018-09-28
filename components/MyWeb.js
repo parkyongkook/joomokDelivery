@@ -49,17 +49,24 @@ import { WebView, View, Linking, StyleSheet } from 'react-native';
 import Head from './Head';
 import BackGroundImage from './util/backGroundImage';
 import { Actions } from 'react-native-router-flux';
-
+import { WebBrowser } from 'expo';
 
 export default class MyWeb extends Component {
 
     state = {
+        result: null,
         key: 1,
         isWebViewUrlChanged: false
     };
 
-    componentWillMount() {
-        this.props.card === "card" ? Linking.openURL(this.props.url) : null
+    async componentWillMount() {
+        if(this.props.card === "card" || this.props.version){
+            let result = await WebBrowser.openBrowserAsync(url.data.url);
+            this.setState({ result }); 
+        } 
+        // ? Linking.openURL(this.props.url) : null
+
+
     }
 
     resetWebViewToInitialUrl = () => {

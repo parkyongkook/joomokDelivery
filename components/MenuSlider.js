@@ -134,6 +134,17 @@ class MenuSlider extends Component {
                         </ListItem>
 
                         <TouchableHighlight
+                            onPress={() => {this.logOut()}}
+                            underlayColor ={'#eee'} 
+                        >
+                            <View style={styles.listItem}>
+                
+                                    <Text style={styles.slideText}>로그아웃</Text>
+                            
+                            </View>
+                        </TouchableHighlight>
+
+                        <TouchableHighlight
                             onPress={() => {
                                 Actions.ChengeMyInfo();
                                 this.props.closeDrawer();
@@ -174,17 +185,6 @@ class MenuSlider extends Component {
                                 
                             </View>
                         </TouchableHighlight>
-                        <TouchableHighlight
-                            onPress={() => {this.logOut()}}
-                            underlayColor ={'#eee'} 
-                        >
-                            <View style={styles.listItem}>
-                
-                                    <Text style={styles.slideText}>로그아웃</Text>
-                            
-                            </View>
-                        </TouchableHighlight>
-                            
                     </View>
 
                     <View style={{ flex:1.5, backgroundColor:'#fff' }}>
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     },
 
     listItem: {
-        height:30,
+        height:27,
         marginLeft:20,
         justifyContent:'center',
         borderTopWidth: 0,

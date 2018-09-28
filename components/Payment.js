@@ -146,7 +146,7 @@ class Payment extends Component {
                 
                 var filnalPrice = this.props.FinalPriceData.finalTotalPrice.replace(/\,/g,'');
                 var filnalVat = this.props.FinalPriceData.vat.replace(/\,/g,'');
-
+                console.log('최종결제금액 확인',filnalPrice)
                 /*  기본필수정보 */
                 formdata.append('allat_shop_id', 'doomok0130') //상점 아이디
                 formdata.append('allat_amt', filnalPrice) //총 결제금액
@@ -306,7 +306,7 @@ class Payment extends Component {
                                     onPress={ ()=>{this.setState({deliveryCheckd: "0"})}}
                                     //체크박스 옵션
                                 />
-                                <Text style={{marginLeft:15, fontSize:14,}}>긴급배송(당일/익일)</Text>
+                                <Text style={{marginLeft:15, fontSize:14,}}>긴급(당일/익일)</Text>
                             </TouchableOpacity>    
                         </View>
 

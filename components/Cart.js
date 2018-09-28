@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, ScrollView, Image } from 'react-native';
-import { Container, CheckBox, Header, Content, Form, 
-  Item, Input, Label,Left,Button,Icon,Text,Body,Title,Right,Row,Col } from 'native-base';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
+import { Container, CheckBox, Button,Text} from 'native-base';
 import update from 'immutability-helper'; // 2.6.5
 
 import {connect} from 'react-redux';
@@ -67,7 +66,7 @@ class Cart extends Component {
             })  
         })
         .catch((error) => {
-            alert('problem while adding data');
+            alert('서버접속실패 관리자에게 문의하세요')
         })
         .done();
 
@@ -111,6 +110,7 @@ class Cart extends Component {
     allCheckedHandler(onlyFalse){
 
         if( onlyFalse === 'disable' ){
+            console.log('제대로 들어오는가~~~~')
             this.setState({
                 idSaveChecked : false,
                 allChecked : false ,
@@ -177,11 +177,11 @@ class Cart extends Component {
 
     }
 
-    mapToCartList = (data, bool) => {
-
+    mapToCartList = (data , bool) => {
         return data.map((cartListData, i) => {
             return (
                 <CartList 
+                    type={this.props.title}
                     updateTocartListData={this.props.updateTocartListData}
                     disableChecked={this.disableChecked}
                     modifyCartData={this.modifyCartData}  
@@ -218,7 +218,7 @@ class Cart extends Component {
 
                 <View style={{ flex:1, marginTop:10, marginBottom:10,}}>
                     <TouchableOpacity 
-                        style={{ flexDirection:"row", alignItems:"center", height:40, marginLeft:12, marginBottom:10,}}
+                        style={{ flexDirection:"row", alignItems:"center", height:40, marginLeft:5, marginBottom:10,}}
                         onPress={()=> this.allCheckedHandler("empty") } 
                     >
                         <CheckBox 
@@ -230,7 +230,7 @@ class Cart extends Component {
                         <Text style={{marginLeft:15, marginTop:8, color:"#555"}}>전체선택 총</Text>
                         <Text style={{marginLeft:15, marginTop:8, color:"red",}}>{this.state.cartCheckCount}</Text>
                         <Text style={{marginLeft:15, marginTop:8, color:"#555"}}>/ 
-                            {this.props.reOrderCartListData ? this.props.reOrderCartListData.length : this.props.cartListData.length}개
+                            {this.props.reorderListData ? this.props.reorderListData.length : this.props.cartListData.length}개
                         </Text>
                     </TouchableOpacity>
                     
@@ -244,10 +244,9 @@ class Cart extends Component {
                     }}>
                         <View style={{flex:1,marginTop:10,}}>
                             <ScrollView>
-                                { this.mapToCartList( this.props.reOrderCartListData ? this.props.reOrderCartListData : this.props.cartListData, false) }
+                                { this.mapToCartList(  this.props.title == '수정구매' ? this.props.reorderListData : this.props.cartListData, false ) }
                             </ScrollView>
                         </View>
-
                     </View>
                 </View>
 
@@ -296,13 +295,14 @@ const mapStateToProps = (state) => {
     return {
         searchList: state, 
         cartListData : state.reducers.cartList,
+        reorderListData : state.reducers.reorderList,
         usridx: state.reducers.usridx,
     }; 
   };
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-        updateTocartListData : ( idx, qty ) => {dispatch( actions.updateTocartListData( idx, qty )) },
+        updateTocartListData : ( idx, qty, cartType ) => {dispatch( actions.updateTocartListData( idx, qty, cartType )) },
         cartListDelete : (id) => dispatch( actions.cartListDelete(id) )
     };
 };

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, Image, Text, ScrollView, Dimensions, Platform } from 'react-native';
+import {StyleSheet, View, Text, ScrollView, Dimensions, } from 'react-native';
 import {Button} from 'native-base';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import {Actions} from 'react-native-router-flux';
@@ -62,7 +62,9 @@ class androidSwiper extends Component {
         //건별 주문통계 받아오기
         fetchTodata('https://api.joomok.net/statistics/orders')
         .then((responseData) => {
+
             newResearchDate = responseData.data[0].reg_date
+
             //상품별 주문통계 받아오기
             fetch('https://api.joomok.net/statistics/products', {
                 method: 'POST',

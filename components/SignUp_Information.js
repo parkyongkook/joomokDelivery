@@ -13,9 +13,6 @@ import update from 'immutability-helper'; // 2.6.5
 import { ImagePicker, Permissions } from 'expo';
 import PolicyModal from './PolicyModal';
 
-let yearArr = [];
-let dayArr = [];
-
 let serial1;
 let serial2;
 let serial3;
@@ -56,6 +53,7 @@ export default class SignUp_Information extends Component {
                     "062",
                     "063",
                     "064",
+                    "070",
                 ],
                 localNumIndex: 0,
                 phone_a: null,
@@ -105,30 +103,16 @@ export default class SignUp_Information extends Component {
                 isagree_info: 0
             }
         };
-        // this.isNumber = this.isNumber.bind(this);
-        // this.isValidDate = this.isValidDate.bind(this);
         this.confirmSignup = this.confirmSignup.bind(this);
         this.checkStrType = this.checkStrType.bind(this);
         this.adressSearch = this.adressSearch.bind(this);
         this.selectAdress = this.selectAdress.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.isValEmail = this.isValEmail.bind(this);
-        // this.onSelectBirth = this.onSelectBirth.bind(this);
         this.phonNumberChanger = this.phonNumberChanger.bind(this);
         this.fileUpload = this.fileUpload.bind(this);
         this.companyValidation = this.companyValidation.bind(this);
         this.policyCheckBox = this.policyCheckBox.bind(this);
-    }
-
-    componentWillMount() {
-
-        var today = new Date(); // 날자 변수 선언
-        var yearNow = today.getFullYear();
-        var adultYear = yearNow - 20;
-
-        for (const i = adultYear; i > 1900; i--) {
-            yearArr.push(i)
-        }
     }
 
     phonNumberChanger(type, text) {
@@ -158,112 +142,6 @@ export default class SignUp_Information extends Component {
             })
         }
     }
-
-    // onSelectBirth(type, i, v) {
-    //     const dayChecker = (day) => {
-    //         for (const j = 1; j < day; j++) {
-    //             if (j < 10) {
-    //                 var k = "0" + j
-    //                 dayArr.push(k)
-    //             } else {
-    //                 dayArr.push(j)
-    //             }
-    //         }
-    //     }
-
-    //     const isMonthChcker = v === "04" || v === "06" || v === "09" || v === "11"
-
-    //     if (type === "year") {
-    //         this.setState({
-    //             birthTab: update(this.state.birthTab, {
-    //                 year: { $set: v },
-    //             })
-    //         })
-    //     }
-
-    //     if (type === "month") {
-
-    //         if (this.state.birthTab.year === "출생년도") {
-    //             alert("출생년도를 선택해 주세요")
-    //             this.setState({
-    //                 birthTab: update(this.state.birthTab, {
-    //                     month: { $set: "월" },
-    //                 })
-    //             })
-    //             return
-    //         }
-
-    //         dayArr = [];
-    //         this.setState({
-    //             birthTab: update(this.state.birthTab, {
-    //                 month: { $set: v },
-    //                 day: { $set: "일" }
-    //             })
-    //         })
-    //         if (isMonthChcker) {
-    //             dayChecker("31")
-    //         } else if (v !== "02") {
-    //             dayChecker("32")
-    //         } else {
-    //             dayChecker("30")
-    //         }
-    //     }
-
-    //     if (type === "day") {
-
-    //         if (this.state.birthTab.month === "월") {
-    //             return
-    //         }
-
-    //         this.setState({
-    //             birthTab: update(this.state.birthTab, {
-    //                 day: { $set: v },
-    //             }),
-    //             necessaryUserData: update(this.state.necessaryUserData, {
-    //                 birth: { $set: this.state.birthTab.year + this.state.birthTab.month + v }
-    //             })
-
-    //         })
-    //     }
-
-    // }
-
-
-    //생년월일 유효성 체크
-    // isValidDate(dateStr) {
-    //     var year = Number(dateStr.substr(0, 4));
-    //     var month = Number(dateStr.substr(4, 2));
-    //     var day = Number(dateStr.substr(6, 2));
-
-    //     var today = new Date(); // 날자 변수 선언
-    //     var yearNow = today.getFullYear();
-    //     var adultYear = yearNow - 20;
-
-    //     if (year < 1900 || year > adultYear) {
-    //         alert("년도를 확인하세요. " + adultYear + "년생 이전 출생자만 등록 가능합니다.");
-    //         return false;
-    //     }
-    //     if (month < 1 || month > 12) {
-    //         alert("생일은 1월부터 12월까지 입력 가능합니다.");
-    //         return false;
-    //     }
-    //     if (day < 1 || day > 31) {
-    //         alert("생일은 1일부터 31일까지 입력가능합니다.");
-    //         return false;
-    //     }
-    //     if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 31) {
-    //         alert(month + "월은 31일이 존재하지 않습니다.");
-    //         return false;
-    //     }
-    //     if (month == 2) {
-    //         var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-    //         if (day > 29 || (day == 29 && !isleap)) {
-    //             alert(year + "년 2월은  " + day + "일이 없습니다.");
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
 
     isValEmail(email) {
         regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
@@ -324,24 +202,7 @@ export default class SignUp_Information extends Component {
         }
     }
 
-    // isNumber(s) {
-    //     s += ''; // 문자열로 변환
-    //     s = s.replace(/^\s*|\s*$/g, ''); // 좌우 공백 제거
-    //     if (s == '' || isNaN(s)) return false;
-    //     return true;
-    // }
-
-    confirmSignup(data) {
-
-        var coll = [];
-        let formState = this.state.necessaryUserData
-
-        for (const v in data) {
-            coll.push(data[v])
-        }
-
-        const inspect = (element, index, array) => element !== null && element !== "" ? true : false
-        const isVal = coll.every(inspect)
+    confirmSignup(formState) {
 
         //아이디 항목검사
         if( formState.userid === null || formState.userid === '' ){
@@ -649,6 +510,7 @@ export default class SignUp_Information extends Component {
         })
 
         let companySerial = this.state.companySerial.serial1+this.state.companySerial.serial2+this.state.companySerial.serial3
+
         fetch('https://api.joomok.net/members/serials?com_serial='+companySerial, {
             headers: {
                 'Accept': 'application/json',
@@ -1261,10 +1123,10 @@ export default class SignUp_Information extends Component {
                                         onValueChange={this.onValueChange.bind(this)}
                                     >
                                         <Picker.Item label="업종을 선택해주세요" value="0" />
-                                        <Picker.Item label="소매(일반음식점)" value="10" />
-                                        <Picker.Item label="소매(주점)" value="20" />
-                                        <Picker.Item label="소매(유흥)" value="30" />
-                                        <Picker.Item label="일반(마트,편의점)" value="40" />
+                                        <Picker.Item label="소매(일반음식점)" value="20" />
+                                        <Picker.Item label="소매(주점)" value="30" />
+                                        <Picker.Item label="소매(유흥)" value="40" />
+                                        <Picker.Item label="일반(마트,편의점)" value="10" />
 
                                     </Picker>
                             </Item>
@@ -1469,7 +1331,6 @@ const styles = StyleSheet.create({
         paddingLeft: 10,    
         backgroundColor: '#eee',
         borderBottomWidth: 0,
-
     },
     inputButton: {
         flex: 10,

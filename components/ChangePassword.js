@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
-import { Container , Header,Item, Content, Button, Text, } from 'native-base';
+import { Container , Content, Button, Text, } from 'native-base';
 
-import * as actions from '../actions';
 import update from 'immutability-helper'; // 2.6.5
-import * as firebase from 'firebase';
 
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import { database } from '../firebase/Config';
 
 
 import BackGroundImage from './util/backGroundImage';

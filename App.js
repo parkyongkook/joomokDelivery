@@ -160,7 +160,7 @@ export default class App extends React.Component {
                                 closeDrawerHome={this.closeDrawer}
                                 component={Login}
                                 hideNavBar={true}
-                        
+                                initial={true} 
                             />
                             <Scene key='OrderMain'
                                 component={OrderMain}
@@ -194,7 +194,7 @@ export default class App extends React.Component {
                                 hideNavBar={true}
                                 openDrawer={this.openDrawer}
                                 closeDrawerHome={this.closeDrawer}
-                                initial={true} 
+                               
                             />
                             <Scene key='OrderSelect'
                                 component={OrderSelect}

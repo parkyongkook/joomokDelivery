@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Storage from 'react-native-storage';
 import { Permissions, Notifications } from 'expo';
+import Toast, { DURATION } from 'react-native-easy-toast'
 
 let width = Dimensions.get('window').width;
 let height = Dimensions.get('window').height;
@@ -25,6 +26,8 @@ class Login extends Component {
         super(props);
         
         this.state = {
+            isIdFocus: false,
+            isPassFocus: false,
             loading: true,
             fontLoaded : false,
             isLoading: false,
@@ -197,6 +200,7 @@ class Login extends Component {
                     return
                 }else{
 
+                    this.registerForPushNotificationsAsync()
                     //파이어베이스에 로그인 되어있고 컴포넌트에 접속이 되어있으면 푸쉬 토큰 등록 함수 시작
                     // listener = firebase.auth().onAuthStateChanged(function (user) {
                     //     if (user != null) {
@@ -205,7 +209,6 @@ class Login extends Component {
                     //     }
                     //     listener();
                     // });
-
                     this.props.loginSucess(responseData.data, responseData.data.usridx, this.state.userData)
                     Actions.Main({
                         loginMessage: "loginSucess"
@@ -213,6 +216,7 @@ class Login extends Component {
                 }
             })
             .catch((error) => {
+                alert('서버접속실패 관리자에게 문의하세요')
                 console.log(error)
             })
             .done(()=> 
@@ -223,7 +227,8 @@ class Login extends Component {
 
 
     //파이어베이스 엑스포 토큰 등록 함수 
-    registerForPushNotificationsAsync = async (currentUser) => {
+    registerForPushNotificationsAsync = async () => {
+        
         const { existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
         let finalStatus = existingStatus;
         // only ask if permissions have not already been determined, because
@@ -234,16 +239,24 @@ class Login extends Component {
             const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
             finalStatus = status;
         }
+       
         // 사용자 권한을 부여하지 않은경우 여기서 중지
         if (finalStatus !== 'granted') {
+
+            console.log('진입은완료',finalStatus)
+
             return;
         }
         // Get the token that uniquely identifies this device
         let token = await Notifications.getExpoPushTokenAsync();
         // POST the token to our backend so we can use it to send pushes from there
         var updates = {}
+
         updates['/expoToken'] = token
-        await firebase.database().ref('/users/' + currentUser.uid).update(updates)
+
+        console.log('기기의토큰값', token)
+
+        // await firebase.database().ref('/users/' + currentUser.uid).update(updates)
     }
 
     firebaseLogin() {
@@ -288,7 +301,7 @@ class Login extends Component {
     }
 
     render() {
-
+        console.log('현재버전체크', Platform.Version )
         return (
             <View style={{flex:1, backgroundColor: "#0099ff",  }}>
                 <Image
@@ -336,25 +349,36 @@ class Login extends Component {
                     </View>
 
                     <View style={{ flex: 3, marginLeft:30, marginRight:40, }}>
+
                         <Form style={{ alignItems: "center", width: "100%", }}>
+
                             <Item style={{ width: "100%",
-                                    borderBottomWidth: (Platform.OS === 'ios') ? 0.5 : 0 
-                                }}>
+                                           borderBottomWidth: 0.5,
+                                           borderColor:'#fff',}}>
                                 <TextInput
                                     placeholder="아이디"
-                                    placeholderTextColor="#fff"
+                                    selectionColor='#fff'
+                                    placeholderTextColor="#ddd"
                                     onChangeText={this.onChangeInput_Id}
-                                    underlineColorAndroid={"#fff"}
-                                    onBlur={()=> this.setState({ inputMargin : false })}
-                                    onFocus={()=> this.setState({ inputMargin : true })}
+                                    underlineColorAndroid='transparent'
+                                    onBlur={()=> this.setState({ 
+                                        inputMargin : false, 
+                                        isIdFocus : false,
+                                    })}
+                                    onFocus={()=> this.setState({ 
+                                        inputMargin : true ,
+                                        isIdFocus: true
+                                    })}
                                     style={{
                                         flex: 1,
-                                        height: 50,
+                                        height: 40,
                                         color: "#eee",
+                                        backgroundColor: this.state.isIdFocus ? 'rgba(0,0,0,0.1)' : null 
                                     }}
                                     value={this.state.userData.userid}
                                 />
-                                <TouchableOpacity style={{ position: "absolute", right: 0, top: 20, }}
+
+                                <TouchableOpacity style={{ position: "absolute", right: 0, top: 15, }}
                                     onPress={() => {
                                         this.setState({
                                             userData: update(this.state.userData, {
@@ -367,28 +391,43 @@ class Login extends Component {
                                         style={{
                                             width: 25,
                                             height: 19,
-                                            fontSize: 17,
+                                            fontSize: 20,
                                             color: "#fff",
                                         }}
                                     />
                                 </TouchableOpacity>
+
                             </Item>
-                            <Item style={{ width: "100%", 
-                                borderBottomWidth: (Platform.OS === 'ios') ? 0.5 : 0 
+
+                            <Item style={{ 
+                                marginTop:20,
+                                width: "100%", 
+                                borderBottomWidth: 0.5,
+                                borderColor:'#fff',
                             }}>
                                 <TextInput
                                     placeholder="비밀번호"
-                                    placeholderTextColor="#fff"
+                                    selectionColor='#fff'
+                                    placeholderTextColor="#ddd"
                                     onChangeText={this.onChangeInput_pass}
-                                    style={{ flex: 1, height: 50, color: "#eee" }}
-                                    onBlur={()=> this.setState({inputMargin : false})}
-                                    onFocus={()=> this.setState({inputMargin : true})}
+                                    style={{ flex: 1, height: 40, color: "#eee", backgroundColor: this.state.isPassFocus ? 'rgba(0,0,0,0.1)' : null  }}
+                                    onBlur={()=> this.setState({ 
+                                        inputMargin : false, 
+                                        isPassFocus : false,
+                                    })}
+                                    onFocus={()=> this.setState({ 
+                                        inputMargin : true ,
+                                        isPassFocus: true
+                                    })}
                                     value={this.state.userData.password}
                                     secureTextEntry={true}
-                                    underlineColorAndroid={"#fff"}
+                                    underlineColorAndroid='transparent'
                                 />
                             </Item>
+
+                            
                         </Form>
+
                         <View style={{ flexDirection: 'row', justifyContent: "space-around", marginLeft: 5 }}>
                             <TouchableOpacity
                                 onPress={
@@ -480,7 +519,7 @@ class Login extends Component {
                         borderWidth: 2,
                         borderColor: "#fff",
                     }}
-                        onPress={() => { Actions.SIgnUp_Policy() }}>
+                        onPress={() => { Actions.SIgnUp_Policy({ version : Platform.OS ==='android' ? Platform.Version : 30 }) }}>
                         <Text>무료 회원가입</Text>
                     </Button>
                 </View>     

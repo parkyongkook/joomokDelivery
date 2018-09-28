@@ -5,22 +5,19 @@ import {Text} from 'native-base';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
-import Toast, { DURATION } from 'react-native-easy-toast'
 import { Actions } from 'react-native-router-flux';
 import CartList from './listComponent/CartList';
 import Head from './Head';
-// import MapLocation from './MapLocation';
 import BackGroundImage from './util/backGroundImage';
 import AndroidSwiper from './mainSwiper/androidSwiper'
 import IosSwiper from './mainSwiper/iosSwiper'
-
+import Toast, { DURATION } from 'react-native-easy-toast'
 import call from 'react-native-phone-call'
 
 let iosSlider;
 let andSlider;
 let newOrderListData = [];
 
-let width = Dimensions.get('window').width;
 let height = Dimensions.get('window').height;
 
 const args = {
@@ -47,8 +44,6 @@ class Main extends React.Component {
         this.numberWithCommas = this.numberWithCommas.bind(this);
         this.marinReorderDataUpdate = this.marinReorderDataUpdate.bind(this);
     }
-
-
     componentWillMount() {
         const that = this;
         if (this.props.drinkJsonData === null) {
@@ -58,17 +53,15 @@ class Main extends React.Component {
                 })
                 // 제이슨으로 상품 목록 데이터 받아오기
                 //code 부분 수정해야함.
-                return fetch('https://api.joomok.net/products?posit=list&usridx=' + this.props.usridx + '&istart=0&ilimit=1000&')
+                return fetch('https://api.joomok.net/products?posit=list&usridx='+this.props.usridx+'&istart=0&ilimit=1000&')
                     .then((response) => response.json())
                     .then((drinkListJson) => {
                         this.setState({
                             isLoading: false,
                             dataSource: drinkListJson,
-                        },
-
-                            function () {
-                                this.props.drinkListUpdate(drinkListJson)
-                            })
+                        },function () {
+                            this.props.drinkListUpdate(drinkListJson)
+                        })
 
                         //월별 결제데이터 받아오기
                         fetch('https://api.joomok.net/statistics/monthly', {
@@ -83,48 +76,47 @@ class Main extends React.Component {
                                 limit: 3,
                             })
                         })
-                            .then((response) => response.json())
-                            .then((responseData) => {
+                        .then((response) => response.json())
+                        .then((responseData) => {
 
-                                console.log('최근결데이터',responseData.data)
-                                let arr = {
-                                    Price: [],
-                                    term: []
-                                };
-                                if( responseData.data ){
-                                    for (const i in responseData.data) {
-                                        arr.Price.push(responseData.data[i].ord_sum)
-                                        arr.term.push(responseData.data[i].mm)
-                                    }
+                            let arr = {
+                                Price: [],
+                                term: []
+                            };
+                            if( responseData.data ){
+                                for (const i in responseData.data) {
+                                    arr.Price.push(responseData.data[i].ord_sum)
+                                    arr.term.push(responseData.data[i].mm)
                                 }
-                               
-                                iosSlider = <IosSwiper
-                                    chartData={arr}
-                                    cartListData={this.props.cartListData}
-                                    reOrderProduct={this.reOrderProduct}
-                                    numberWithCommas={this.numberWithCommas}
-                                    marinReorderDataUpdate = {this.marinReorderDataUpdate}
-                                />
+                            }
+                            iosSlider = <IosSwiper
+                                chartData={arr}
+                                cartListData={this.props.cartListData}
+                                reOrderProduct={this.reOrderProduct}
+                                numberWithCommas={this.numberWithCommas}
+                                marinReorderDataUpdate = {this.marinReorderDataUpdate}
+                            />
 
-                                andSlider = <AndroidSwiper
-                                    chartData={arr}
-                                    cartListData={this.props.cartListData}
-                                    reOrderProduct={this.reOrderProduct}
-                                    numberWithCommas={this.numberWithCommas}
-                                    marinReorderDataUpdate = {this.marinReorderDataUpdate}
-                                />
+                            andSlider = <AndroidSwiper
+                                chartData={arr}
+                                cartListData={this.props.cartListData}
+                                reOrderProduct={this.reOrderProduct}
+                                numberWithCommas={this.numberWithCommas}
+                                marinReorderDataUpdate = {this.marinReorderDataUpdate}
+                            />
 
-                                this.setState({
-                                    chartData: arr,
-                                })
-
+                            this.setState({
+                                chartData: arr,
                             })
-                            .catch((error) => {
-                                console.log(error)
-                            })
-                            .done();
+
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                        })
+                        .done();
                     })
                     .catch((error) => {
+                        alert('서버접속실패 관리자에게 문의하세요')
                         console.error(error);
                     });
             }
@@ -143,7 +135,7 @@ class Main extends React.Component {
             isLoading : true
         })
 
-        let cartArr = { 
+        var cartArr = { 
             carts :[],
             usridx : this.props.usridx 
         };
@@ -155,7 +147,6 @@ class Main extends React.Component {
                 title : data[idx].pd_str
             })
         }
-
         const that = this;
 
         fetch('https://api.joomok.net/merchants/prices', {
@@ -166,30 +157,31 @@ class Main extends React.Component {
             },
             body: JSON.stringify(cartArr)
         })
-            .then((response) => response.json())
-            .then((responseData) => {
-                if (title === '수정구매') {
-                    Actions.Cart({
-                        reOrderCartListData: cartArr.carts,
-                        title: title
-                    })
-                } else {
-                    Actions.BuyProduct({
-                        cartListData: responseData.data,
-                        mapToCartList: that.mapToCartList,
-                        cartProductData: cartArr.carts,
-                        reOrderTitle: title ? title : '재주문하기'
-                    })
-                }
-            })
-            .catch((error) => {
-                alert('problem while adding data');
-            })
-            .done(()=>
-                this.setState({
-                    isLoading : false
+        .then((response) => response.json())
+        .then((responseData) => {
+            if (title === '수정구매') {
+                this.props.reOrderProductUpdate(cartArr.carts)
+                Actions.Cart({
+                    reOrderCartListData: cartArr.carts,
+                    title: title
                 })
-            );
+            } else {
+                Actions.BuyProduct({
+                    cartListData: responseData.data,
+                    mapToCartList: that.mapToCartList,
+                    cartProductData: cartArr.carts,
+                    reOrderTitle: title ? title : '재주문하기'
+                })
+            }
+        })
+        .catch((error) => {
+            alert('서버접속실패 관리자에게 문의하세요')
+        })
+        .done(()=>
+            this.setState({
+                isLoading : false
+            })
+        );
     }
 
     mapToCartList = (data, bool) => {
@@ -400,7 +392,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         drinkListUpdate: (drinkListData) => dispatch(actions.drinkListUpdate(drinkListData)),
-        // cartListUpdate : (cartListData) => dispatch( actions.cartListUpdate(cartListData) )
+        reOrderProductUpdate : (cartListData) => dispatch( actions.reOrderProductUpdate(cartListData) )
     };
 };
 

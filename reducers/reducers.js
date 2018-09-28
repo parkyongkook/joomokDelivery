@@ -3,6 +3,7 @@ import * as AppType from '../actions/ActionTypes'
 const initialState = {
 	drinkJsonData : null ,
 	cartList : [],
+	reorderList : [],
 	userData : null,
 	usridx : null,
 	displayInfo : null
@@ -22,6 +23,15 @@ const cartListUpdate = ( state, cartListData) => {
 		...state,
 		cartList : [
 		  ...cartListData
+		]
+	};
+}
+
+const reOrderProductUpdate = ( state, reorderList) => {
+	return {
+		...state,
+		reorderList : [
+		  ...reorderList
 		]
 	};
 }
@@ -47,17 +57,35 @@ const cartListDelete = ( state, code) => {
 
 }
 
-const updateTocartListData = ( state, idx, qty) => {
-	
+const updateTocartListData = ( state, idx, qty, cartType ) => {
+
+
+
+	if( cartType == '수정구매' ){
+
+		var arr = state.reorderList
+		arr[idx].qty = qty
+
+		return {
+			...state,
+			reorderList : [
+				...arr
+			]
+		};
+
+	}
+
 	var arr = state.cartList
 	arr[idx].qty = qty
-
+	
 	return {
 		...state,
 		cartList : [
 			...arr
 		]
 	};
+
+
 }
 
 const loginSucess = ( state, userData , usridx, displayInfo) => {
@@ -73,6 +101,8 @@ const loginSucess = ( state, userData , usridx, displayInfo) => {
 
 export default function reducer(state = initialState , action ){
   switch (action.type){
+		case AppType.REORDER_PRODUCT_UPDATE:
+			return reOrderProductUpdate(state, action.reorderList)
 		case AppType.DRINK_LIST_UPDATE:
 			return drinkListUpdate(state, action.drinkListData)
 		case AppType.CART_LIST_UPDATE:
@@ -80,7 +110,7 @@ export default function reducer(state = initialState , action ){
 		case AppType.CART_LIST_DELETE:
 			return cartListDelete(state, action.id)
 		case AppType.CART_LIST_QTY_UPDATE:
-			return updateTocartListData(state, action.idx, action.qty)	
+			return updateTocartListData(state, action.idx, action.qty, action.cartType)	
 		case AppType.LOGIN_SUCESS:
 			return loginSucess(state, action.userData, action.usridx, action.displayInfo)	
 		default :	

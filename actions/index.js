@@ -14,6 +14,13 @@ export function cartListUpdate(cartListData){
 	}
 }
 
+export function reOrderProductUpdate(reorderList){
+	return {
+		type : AppType.REORDER_PRODUCT_UPDATE,
+		reorderList : reorderList
+	}
+}
+
 export function cartListDelete(id){
 	return {
 		type : AppType.CART_LIST_DELETE,
@@ -21,11 +28,12 @@ export function cartListDelete(id){
 	}
 }
 
-export function updateTocartListData( idx, qty ){
+export function updateTocartListData( idx, qty, cartType ){
 	return {
 		type : AppType.CART_LIST_QTY_UPDATE,
 		idx : idx,
-		qty : qty
+		qty : qty,
+		cartType : cartType
 	}
 }
 

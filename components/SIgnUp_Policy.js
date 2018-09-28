@@ -37,6 +37,7 @@ export default class SignUp_Policy extends Component {
   }
 
   render() {
+
     return (
       <Container style={{flex:1, backgroundColor:"#0099ff",}}>
 
@@ -147,7 +148,8 @@ export default class SignUp_Policy extends Component {
                                     ()=> {
                                         if( this.state.checked1 && this.state.checked2 ){
                                             Actions.MyWeb({
-                                                url : "http://pay.joomok.net/certify/doit"
+                                                url : "http://pay.joomok.net/certify/doit",
+                                                version : this.props.version <= 22 ? true : false
                                             })  
                                         }else{
                                             alert("이용약관에 동의해주세요")  

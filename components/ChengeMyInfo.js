@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, AsyncStorage, TextInput, Image  } from 'react-native';
+import { StyleSheet, View,  TextInput, } from 'react-native';
 import { Container, Content, Item,Button,Text, } from 'native-base';
 
 import update from 'immutability-helper'; // 2.6.5  
-import * as firebase from 'firebase';
-import * as actions from '../actions';
 
 import {Actions} from 'react-native-router-flux';
-import { database } from '../firebase/Config';
 import {connect} from 'react-redux';
 
 import Head from './Head';

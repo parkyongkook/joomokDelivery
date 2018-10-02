@@ -143,10 +143,8 @@ class Payment extends Component {
             })
             .then((response) => response.json())
             .then((responseData) => {
-                
                 var filnalPrice = this.props.FinalPriceData.finalTotalPrice.replace(/\,/g,'');
                 var filnalVat = this.props.FinalPriceData.vat.replace(/\,/g,'');
-                console.log('최종결제금액 확인',filnalPrice)
                 /*  기본필수정보 */
                 formdata.append('allat_shop_id', 'doomok0130') //상점 아이디
                 formdata.append('allat_amt', filnalPrice) //총 결제금액
@@ -187,7 +185,9 @@ class Payment extends Component {
                     },
                     body: formdata
                 }).then(response => { 
-                    if(response.status !== 200 ){
+
+                    if( response.status !== 200 ){
+                        console.log(response)
                         return alert('결제실패 잠시 후 다시 시도해 주십시오.')
                     }
                     return response.text() 
@@ -199,10 +199,13 @@ class Payment extends Component {
                     this.setState({ result });
 
                 }).catch(err => {
+                    console.log('-------------------------------------------------------')
+                    console.log('에러1',err)
                     return alert('결제실패 잠시 후 다시 시도해 주십시오.')
                 })  
             })
             .catch((error) => {
+                console.log('에러2',error)
                 return alert('결제실패 잠시 후 다시 시도해 주십시오.')
             })
             .done(()=>{
@@ -251,27 +254,27 @@ class Payment extends Component {
                                 <View style={{ width:"92%", height:40,  flexDirection:"row", justifyContent:"space-between", 
                                                 borderBottomWidth:1, borderBottomColor:'#aaa', marginBottom:10, marginTop:10,
                                             }}>
-                                    <Text style={{fontSize:20,}}>최종결제금액</Text>
+                                    <Text allowFontScaling={false} style={{fontSize:20,}}>최종결제금액</Text>
                                 </View>
                                 <View style={styles.detailText}>
-                                    <Text style={{color:'#777',}}>공급가액</Text>
-                                    <Text>{this.state.FinalPriceData.sales}원</Text>
+                                    <Text allowFontScaling={false} style={{color:'#777',}}>공급가액</Text>
+                                    <Text allowFontScaling={false} >{this.state.FinalPriceData.sales}원</Text>
                                 </View>
                                 <View style={styles.detailText}>
-                                    <Text style={{color:'#777',}}>부가세액</Text>
-                                    <Text>{this.state.FinalPriceData.vat}원</Text>
+                                    <Text allowFontScaling={false} style={{color:'#777',}}>부가세액</Text>
+                                    <Text allowFontScaling={false} >{this.state.FinalPriceData.vat}원</Text>
                                 </View>
                                 <View style={styles.detailText}>
-                                    <Text style={{color:'#777',}}>소계</Text>
-                                    <Text>{this.state.FinalPriceData.total}원</Text>
+                                    <Text allowFontScaling={false} style={{color:'#777',}}>소계</Text>
+                                    <Text allowFontScaling={false} >{this.state.FinalPriceData.total}원</Text>
                                 </View>
                                 <View style={styles.detailText}>
-                                    <Text style={{color:'#777',}}>비주류금액(공병)</Text>
-                                    <Text>{this.state.FinalPriceData.bottle}원</Text>
+                                    <Text allowFontScaling={false} style={{color:'#777',}}>비주류금액(공병)</Text>
+                                    <Text allowFontScaling={false} >{this.state.FinalPriceData.bottle}원</Text>
                                 </View>
                                 <View style={styles.detailText}>
-                                    <Text style={{color:'#777',}}>비주류금액(박스)</Text>
-                                    <Text>{this.state.FinalPriceData.box}원</Text>
+                                    <Text allowFontScaling={false} style={{color:'#777',}}>비주류금액(박스)</Text>
+                                    <Text allowFontScaling={false} >{this.state.FinalPriceData.box}원</Text>
                                 </View>
 
                                 <View style={{
@@ -283,8 +286,8 @@ class Payment extends Component {
                                     height:50,
                                     backgroundColor:'#e1f2fe',
                                 }}>
-                                    <Text style={styles.paymentTxt}>최종결제금액</Text>
-                                    <Text style={styles.paymentTxt}>{this.state.FinalPriceData.finalTotalPrice}원</Text>
+                                    <Text allowFontScaling={false} style={styles.paymentTxt}>최종결제금액</Text>
+                                    <Text allowFontScaling={false} style={styles.paymentTxt}>{this.state.FinalPriceData.finalTotalPrice}원</Text>
                                 </View>
 
                             </Row>
@@ -306,7 +309,7 @@ class Payment extends Component {
                                     onPress={ ()=>{this.setState({deliveryCheckd: "0"})}}
                                     //체크박스 옵션
                                 />
-                                <Text style={{marginLeft:15, fontSize:14,}}>긴급(당일/익일)</Text>
+                                <Text allowFontScaling={false} style={{marginLeft:15, fontSize:14,}}>긴급(당일/익일)</Text>
                             </TouchableOpacity>    
                         </View>
 
@@ -320,7 +323,7 @@ class Payment extends Component {
                                     onPress={ ()=>{this.setState({deliveryCheckd: "3"})}}
                                     //체크박스 옵션
                                 />
-                                <Text style={{ marginLeft:15, fontSize:14,}}>3일이내</Text>
+                                <Text allowFontScaling={false} style={{ marginLeft:15, fontSize:14,}}>3일이내</Text>
                             </TouchableOpacity>    
                         </View>
 
@@ -334,13 +337,14 @@ class Payment extends Component {
                                     onPress={ ()=>{this.setState({deliveryCheckd: "5"})}}
                                     //체크박스 옵션
                                 />
-                                <Text style={{marginLeft:15,fontSize:14,}}>5일이내</Text>
+                                <Text allowFontScaling={false} style={{marginLeft:15,fontSize:14,}}>5일이내</Text>
                             </TouchableOpacity>    
                         </View>
 
                     </View>
                     <Item regular style={{marginTop:10, height:120, backgroundColor:'#fff',}}>
                         <TextInput 
+                            allowFontScaling={false}
                             underlineColorAndroid={"#fff"}
                             placeholder='메모를 작성해 주세요'
                             multiline={true} 
@@ -364,7 +368,9 @@ class Payment extends Component {
                                 onPress={ ()=>{ this.setState({saveDeliveryInfo: !this.state.saveDeliveryInfo}) }}
                                 //체크박스 옵션
                             />
-                            <Text style={{ 
+                            <Text 
+                                allowFontScaling={false} 
+                                style={{ 
                                 marginLeft:15,
                                 fontSize:14,
                             }}>
@@ -388,7 +394,7 @@ class Payment extends Component {
                                           that.startPayment("card")}}
                             style={styles.paymentButton}
                         >
-                            <Text style={{color:'#0099ff', fontSize:16,}}>신용카드결제</Text>
+                            <Text allowFontScaling={false} style={{color:'#0099ff', fontSize:16,}}>신용카드결제</Text>
                         </Button>
                     </View>
 

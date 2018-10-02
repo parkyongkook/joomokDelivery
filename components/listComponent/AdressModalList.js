@@ -19,9 +19,9 @@
         <View style={{ flex:1, }}>
             <TouchableOpacity onPress={()=>this.props.selectAdress(this.props.jibun,this.props.zip)} >
                 <View style={{ flex:1, marginTop:5, borderBottomWidth:1, borderBottomColor:"#ddd", }}>
-                    <Text style={{fontSize:12, marginTop:10,}}>지번 : {this.props.jibun} </Text>
-                    <Text style={{fontSize:12, marginTop:3,}}>신주소 : {this.props.roadbun} </Text>
-                    <Text style={{fontSize:12, marginTop:3, marginBottom:5,}}>우편번호 : {this.props.zip} </Text>
+                    <Text allowFontScaling={false} style={{fontSize:12, marginTop:10,}}>지번 : {this.props.jibun} </Text>
+                    <Text allowFontScaling={false} style={{fontSize:12, marginTop:3,}}>신주소 : {this.props.roadbun} </Text>
+                    <Text allowFontScaling={false} style={{fontSize:12, marginTop:3, marginBottom:5,}}>우편번호 : {this.props.zip} </Text>
                 </View>
             </TouchableOpacity>
         </View>

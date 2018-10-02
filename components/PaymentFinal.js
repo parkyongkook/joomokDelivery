@@ -31,6 +31,7 @@ export default class PaymentFinal extends Component {
                 <View >
                     <Item Regular >
                         <TextInput
+                            allowFontScaling={false}
                             selectionColor={"#555"}
                             placeholder={"카드번호"}
                             secureTextEntry={true}
@@ -42,6 +43,7 @@ export default class PaymentFinal extends Component {
                 <View >
                     <Item Regular >
                         <TextInput
+                            allowFontScaling={false}
                             selectionColor={"#555"}
                             placeholder={"카드번호"}
                             secureTextEntry={true}
@@ -53,6 +55,7 @@ export default class PaymentFinal extends Component {
                 <View >
                     <Item Regular >
                         <TextInput
+                            allowFontScaling={false}
                             selectionColor={"#555"}
                             placeholder={"카드번호"}
                             secureTextEntry={true}

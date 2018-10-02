@@ -82,9 +82,9 @@ class PaymentList extends Component {
       }
 
       //건별 주문통계 받아오기
+
       fetchTodata('https://api.joomok.net/statistics/orders')
       .then((responseData) => {
-
         if( moreData === "moreData" ){
           if(this.state.totalOrder === responseData.data.length){
             return alert("더이상 조회할 데이터가 없습니다.")
@@ -157,13 +157,13 @@ class PaymentList extends Component {
         <View style={{ width:"88%", marginLeft:"6%"}}> 
             <View style={styles.researchComponentHeader}>
               <View style={[styles.drinkResearchComTitle]}>
-                  <Text style={{color:"#fff", fontSize:14,}}>거래일자</Text>
+                  <Text allowFontScaling={false} style={{color:"#fff", fontSize:14,}}>거래일자</Text>
               </View>
               <View style={[styles.drinkResearchComTitle]}>
-                  <Text style={{color:"#fff", fontSize:14,}}>거래처명</Text>
+                  <Text allowFontScaling={false} style={{color:"#fff", fontSize:14,}}>거래처명</Text>
               </View>
               <View style={[styles.drinkResearchComTitle]}>
-                  <Text style={{color:"#fff", fontSize:14,}}>매입금액</Text>
+                  <Text allowFontScaling={false} style={{color:"#fff", fontSize:14,}}>매입금액</Text>
               </View>
             </View>
             {this.state.mapToOrderList_company}
@@ -175,16 +175,16 @@ class PaymentList extends Component {
       <View style={{ width:"88%", marginLeft:"6%"}}>  
         <View style={styles.researchComponentHeader}>
             <View style={[styles.drinkResearchComTitle,{flex:5}]}>
-                    <Text style={{color:"#fff", fontSize:14,}}>거래일자</Text>
+                    <Text allowFontScaling={false}  style={{color:"#fff", fontSize:14,}}>거래일자</Text>
             </View>
             <View style={[styles.drinkResearchComTitle,{flex:3}]}>
-                    <Text style={{color:"#fff", fontSize:14,}}>종류</Text>
+                    <Text allowFontScaling={false}  style={{color:"#fff", fontSize:14,}}>종류</Text>
             </View>
             <View style={[styles.drinkResearchComTitle,{flex:4}]}>
-                <Text style={{color:"#fff",  fontSize:14,}}>상세</Text>
+                <Text allowFontScaling={false}  style={{color:"#fff",  fontSize:14,}}>상세</Text>
             </View>
             <View style={[styles.drinkResearchComTitle,{flex:4}]}>
-                <Text style={{color:"#fff", fontSize:14,}}>매입금액</Text>
+                <Text allowFontScaling={false}  style={{color:"#fff", fontSize:14,}}>매입금액</Text>
             </View>
         </View>
         {this.state.mapToOrderList_drink}
@@ -221,14 +221,14 @@ class PaymentList extends Component {
                 onPress={() =>
                   this.setState({ listCategory: "com" })
                 }>
-                <Text>거래처별</Text>
+                <Text allowFontScaling={false} >거래처별</Text>
               </Button>
 
               <Button active={this.state.listCategory === "drink"}
                 onPress={() =>
                   this.setState({ listCategory: "drink" })
                 }>
-                <Text>주종별</Text>
+                <Text allowFontScaling={false} >주종별</Text>
               </Button>
 
               {/* <Button last active={this.state.listCategory === "all"}
@@ -243,7 +243,9 @@ class PaymentList extends Component {
             <View style={{ flex: 1 }}>
 
               <View style={{ marginTop: Platform.OS === 'ios' ? 20 : 10, }}>
-                <Text style={{
+                <Text 
+                  allowFontScaling={false} 
+                  style={{
                   marginTop: 5,
                   marginBottom: 10,
                   marginLeft: 20,
@@ -257,13 +259,13 @@ class PaymentList extends Component {
 
                   <View style={{ flex: 1, flexDirection: "row", marginLeft: 15, marginRight: 20, }}>
                     <Button style={styles.searchButton} onPress={() => this.dateChanger(1)}>
-                      <Text style={{ color: '#777', }}>1개월</Text>
+                      <Text allowFontScaling={false} style={{ color: '#777', }}>1개월</Text>
                     </Button>
                     <Button style={styles.searchButton} onPress={() => this.dateChanger(3)}>
-                      <Text style={{ color: '#777', }}>3개월</Text>
+                      <Text allowFontScaling={false} style={{ color: '#777', }}>3개월</Text>
                     </Button>
                     <Button style={styles.searchButton} onPress={() => this.dateChanger(6)}>
-                      <Text style={{ color: '#777', }}>6개월</Text>
+                      <Text allowFontScaling={false} style={{ color: '#777', }}>6개월</Text>
                     </Button>
                   </View>
                 </View>
@@ -275,6 +277,7 @@ class PaymentList extends Component {
                 <View style={{ flexDirection: "row", }}>
                 
                 <DatePicker
+                    allowFontScaling={false} 
                     style={styles.datePickerStyle}
                     date={this.state.researchData.sdate}
                     mode="date"
@@ -303,9 +306,10 @@ class PaymentList extends Component {
                     }}
                   />
 
-                  <Text style={{ height: 30, marginTop: 10, color: '#aaa', }}>~</Text>
+                  <Text allowFontScaling={false} style={{ height: 30, marginTop: 10, color: '#aaa', }}>~</Text>
 
                   <DatePicker
+                    allowFontScaling={false} 
                     style={styles.datePickerStyle}
                     date={this.state.researchData.edate}
                     mode="date"
@@ -344,7 +348,7 @@ class PaymentList extends Component {
                   }}
                   onPress={()=>this.updateToResearchData()}
                 >
-                  <Text>조회</Text>
+                  <Text allowFontScaling={false} >조회</Text>
                 </Button>
 
               </View>
@@ -353,6 +357,7 @@ class PaymentList extends Component {
 
           <ScrollView style={{ flex: 7 }}>
             <Text 
+              allowFontScaling={false} 
               style={styles.totalInfoTxt}>
               {` 총 주문건수 : ${this.state.totalOrder} | 총 매입금액 : ${this.state.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").split(".")[0]}원`}
             </Text>
@@ -385,7 +390,7 @@ class PaymentList extends Component {
                 this.updateToResearchData("moreData",moment().subtract( subTractNum = subTractNum+1, 'months').format("YYYY-MM-DD"))
               }
               }>
-              <Text style={{ fontSize: 20, }}>더보기</Text>
+              <Text allowFontScaling={false} style={{ fontSize: 20, }}>더보기</Text>
             </Button>
           </View>
 

@@ -78,17 +78,18 @@ class Main extends React.Component {
                         })
                         .then((response) => response.json())
                         .then((responseData) => {
-
                             let arr = {
                                 Price: [],
                                 term: []
                             };
+
                             if( responseData.data ){
                                 for (const i in responseData.data) {
                                     arr.Price.push(responseData.data[i].ord_sum)
                                     arr.term.push(responseData.data[i].mm)
                                 }
                             }
+
                             iosSlider = <IosSwiper
                                 chartData={arr}
                                 cartListData={this.props.cartListData}
@@ -116,7 +117,6 @@ class Main extends React.Component {
                         .done();
                     })
                     .catch((error) => {
-                        alert('서버접속실패 관리자에게 문의하세요')
                         console.error(error);
                     });
             }
@@ -175,7 +175,7 @@ class Main extends React.Component {
             }
         })
         .catch((error) => {
-            alert('서버접속실패 관리자에게 문의하세요')
+            console.log(error)
         })
         .done(()=>
             this.setState({
@@ -208,7 +208,7 @@ class Main extends React.Component {
     _renderItem({ item, index }) {
         return (
             <View style={styles.slide}>
-                <Text style={styles.title}>{item.title}</Text>
+                <Text allowFontScaling={false} style={styles.title}>{item.title}</Text>
             </View>
         );
     }
@@ -252,7 +252,8 @@ class Main extends React.Component {
                 >
                     <View style={styles.orderButton}
                     >
-                        <Text style={{ fontSize: 24, color: "#fff", fontWeight: "800", }}>
+                        <Text  allowFontScaling={false} 
+                            style={{ fontSize: 24, color: "#fff", fontWeight: "800", }}>
                             주문하기
                         </Text>
                     </View>
@@ -261,7 +262,7 @@ class Main extends React.Component {
                 <View style={{ flex: 1, flexDirection: 'row', backgroundColor: "#fff", paddingTop: 15, }}>
 
                     <TouchableOpacity style={styles.customerButtom}
-                        onPress={() => Actions.Notice({
+                        onPress={() => Actions.MyAlram({
                             usridx: this.props.usridx
                         })}
                     >
@@ -269,7 +270,7 @@ class Main extends React.Component {
                             style={styles.imageStyle}
                             source={require('../assets/img/1.png')}
                         />
-                        <Text style={styles.buttonTxt}>my알람</Text>
+                        <Text allowFontScaling={false} style={styles.buttonTxt}>my알람</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.customerButtom}
@@ -279,7 +280,7 @@ class Main extends React.Component {
                             style={styles.imageStyle}
                             source={require('../assets/img/2.png')}
                         />
-                        <Text style={styles.buttonTxt}>수정구매</Text>
+                        <Text allowFontScaling={false} style={styles.buttonTxt}>수정구매</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -292,14 +293,14 @@ class Main extends React.Component {
                             style={styles.imageStyle}
                             source={require('../assets/img/3.png')}
                         />
-                        <Text style={styles.buttonTxt}>문의전화</Text>
+                        <Text allowFontScaling={false} style={styles.buttonTxt}>문의전화</Text>
                     </TouchableOpacity>
 
 
                 </View>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', }}>
-                    <Text style={{ width: '90%', marginBottom: 10, color: '#555', textAlign: 'center', fontSize: 8, backgroundColor: '#fff', }}>
+                    <Text allowFontScaling={false} style={{ width: '90%', marginBottom: 10, color: '#555', textAlign: 'center', fontSize: 8, backgroundColor: '#fff', }}>
                         {`주)두몫은 통신판매중개자로서 거래당사자가 아니며 입점 판매자가 등록한 상품,
 거래정보 및 거래에 대하여 (주)두몫은 일체의 책임을 지지 않습니다`}
                     </Text>

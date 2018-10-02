@@ -15,10 +15,10 @@ const Headers = ({ isOpen }) =>
     }}>
         <View style={[{flex:5 , flexDirection:"row",},styles.noticeFormShare]}>
             <Icon type="FontAwesome" name="quora" style={{marginLeft:10, marginRight:10, fontSize:16, color:"orange",}}/>
-            <Text>구입은 어떻게 하나요?</Text>
+            <Text allowFontScaling={false} >구입은 어떻게 하나요?</Text>
         </View>
         <View style={[{flex:1, marginRight:5,},styles.noticeFormShare]}>
-            <Icon type="FontAwesome" name="chevron-down" style={{marginLeft:10, marginRight:10, fontSize:16, color:"orange",}}/>
+            <Icon allowFontScaling={false} type="FontAwesome" name="chevron-down" style={{marginLeft:10, marginRight:10, fontSize:16, color:"orange",}}/>
         </View>
     </View>;
  
@@ -26,7 +26,9 @@ const Contents = (
   <View style={{
       display: 'flex',
     }}>
-      <Text style={{
+      <Text 
+        allowFontScaling={false}
+        style={{
         paddingTop: 15,
         paddingRight: 15,
         paddingBottom: 15,

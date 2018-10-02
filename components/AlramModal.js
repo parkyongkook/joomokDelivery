@@ -49,7 +49,7 @@ class AlramModal extends Component {
                     >
                         <View style={{ flexDirection: "column", }}>
 
-                            <Text style={{ marginTop: 20, marginLeft: 20, fontSize: 20, color: '#0099ff', }}>알람설정</Text>
+                            <Text allowFontScaling={false} style={{ marginTop: 20, marginLeft: 20, fontSize: 20, color: '#0099ff', }}>알람설정</Text>
 
                             <TouchableHighlight
                                 onPress={() => {
@@ -73,7 +73,7 @@ class AlramModal extends Component {
                                 borderLeftColor: '#999',
                             }}
                             >
-                                <Text style={{ flex: 4, marginLeft: 30, }}>공지사항</Text>
+                                <Text allowFontScaling={false} style={{ flex: 4, marginLeft: 30, }}>공지사항</Text>
                                 <Switch
                                     value={this.state.alram1}
                                     onValueChange={() => this.setState({ alram1: !this.state.alram1 })}
@@ -95,7 +95,7 @@ class AlramModal extends Component {
                                 borderLeftColor: '#999',
                             }}
                             >
-                                <Text style={{ flex: 4, marginLeft: 30, }}>결제정보</Text>
+                                <Text allowFontScaling={false} style={{ flex: 4, marginLeft: 30, }}>결제정보</Text>
                                 <Switch
                                     value={this.state.alram2}
                                     onValueChange={() => this.setState({ alram2: !this.state.alram2 })}
@@ -117,7 +117,7 @@ class AlramModal extends Component {
                                 borderLeftColor: '#999',
                             }}
                             >
-                                <Text style={{ flex: 4, marginLeft: 30, }}>배송정보</Text>
+                                <Text allowFontScaling={false} style={{ flex: 4, marginLeft: 30, }}>배송정보</Text>
                                 <Switch
                                     value={this.state.alram3}
                                     onValueChange={() => this.setState({ alram3: !this.state.alram3 })}
@@ -139,7 +139,7 @@ class AlramModal extends Component {
                                 borderLeftColor: '#999',
                             }}
                             >
-                                <Text style={{ flex: 4, marginLeft: 30, }}>이벤트정보</Text>
+                                <Text allowFontScaling={false} style={{ flex: 4, marginLeft: 30, }}>이벤트정보</Text>
                                 <Switch
                                     value={this.state.alram4}
                                     onValueChange={() => this.setState({ alram4: !this.state.alram4 })}
@@ -149,7 +149,7 @@ class AlramModal extends Component {
 
                             <View style={{ height: "100%", top: 50, flexDirection: "row", justifyContent: "center", }}>
                                 <Button style={{ width: 200, height: 50, backgroundColor: '#0099ff', justifyContent: "center", }} onPress={() => this.props.setModalVisible(false)} >
-                                    <Text>확인</Text>
+                                    <Text allowFontScaling={false} >확인</Text>
                                 </Button>
                             </View>
 

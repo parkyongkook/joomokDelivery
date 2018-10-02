@@ -14,7 +14,7 @@ export default class Notice_list extends Component {
             flexDirection:"row",
         }}>
             <View style={[{flex:5, flexDirection:"row",},styles.noticeFormShare]}>
-                <Text style={{marginLeft:10,}}>{this.props.noticeData.title}</Text>
+                <Text allowFontScaling={false} style={{marginLeft:10,}}>{this.props.noticeData.title}</Text>
             </View>
 
             <View style={[{flex:1},styles.noticeFormShare]}>
@@ -27,7 +27,7 @@ export default class Notice_list extends Component {
         <View style={{
             display: 'flex',
             }}>
-            <Text style={{
+            <Text allowFontScaling={false} style={{
                 paddingTop: 15,
                 paddingRight: 15,
                 paddingBottom: 15,
@@ -37,15 +37,7 @@ export default class Notice_list extends Component {
             </Text>
         </View>);
     return (
-        <Content>
-            <View style={{
-                flexDirection:"row",
-                paddingTop:10,
-                }}>
-                <View style={[{flex:3 },styles.noticeFormTitle]}><Text style={{color:"#fff", fontSize:16 }}>날짜</Text></View>
-                <View style={[{flex:2 },styles.noticeFormTitle]}><Text style={{color:"#fff", fontSize:16 }}>종류</Text></View>
-                <View style={[{flex:6 },styles.noticeFormTitle]}><Text style={{color:"#fff", fontSize:16 }}>제목</Text></View>
-            </View>
+
             <View>
                 <Accordion
                     header={Headers}
@@ -53,18 +45,12 @@ export default class Notice_list extends Component {
                     duration={300}
                 />
             </View>
-        </Content>
+
     );
   }
 }
 
 const styles = StyleSheet.create({
-    noticeFormTitle:{
-        backgroundColor: "#999",
-        paddingBottom: 10, 
-        paddingTop: 10,  
-        alignItems: "center",
-    },
     noticeFormShare:{
         backgroundColor: "#ddd",
         paddingBottom: 10, 

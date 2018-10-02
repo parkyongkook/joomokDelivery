@@ -36,10 +36,10 @@
                 this.props.type ==1 ? 
                 <ScrollView >
                     <Body scrollEnabled={true}>
-                        <Text style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5, }}>
+                        <Text allowFontScaling={false} style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5, }}>
                             {userInfo.Terms1}
                         </Text>
-                        <Text style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5, }}>
+                        <Text allowFontScaling={false} style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5, }}>
                             {userInfo.Terms2}
                         </Text>
                     </Body>
@@ -47,7 +47,7 @@
                 : 
                 <ScrollView >
                     <Body scrollEnabled={true}>
-                        <Text style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5,}}>
+                        <Text allowFontScaling={false} style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5,}}>
                             {userInfo.Privacy}
                         </Text>
                     </Body>
@@ -61,7 +61,7 @@
                         ()=> this.props.closeModal()
                     }      
                 >
-                    <Text>닫기</Text>
+                    <Text allowFontScaling={false} >닫기</Text>
                 </Button>
             </View>   
 

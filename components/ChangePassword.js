@@ -101,7 +101,7 @@ class ChangePassword extends Component {
                         marginTop: 20,
                     }
                 }>
-                    <Text style={{fontSize:14, fontWeight:"100", color:"#ddd", marginLeft:20, marginRight:20,}}>
+                    <Text allowFontScaling={false} style={{fontSize:14, fontWeight:"100", color:"#ddd", marginLeft:20, marginRight:20,}}>
                         주기적인 비밀번호 변경은 개인정보를 안전하게 보호하고 개인정보 도용 피해를 예방합니다.
                     </Text>
                 </View>
@@ -113,12 +113,13 @@ class ChangePassword extends Component {
                         marginTop: 20,
                     }
                 }>
-                    <View style={styles.SignUpTitle}><Text style={{color:"#fff"}} >현재비밀번호</Text></View>
+                    <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={{color:"#fff"}} >현재비밀번호</Text></View>
 
                     <View style={styles.SignUpSubText}>
                         <View Regular style={{flex:1, height:30, backgroundColor:"#ddd",}}>
                             <TextInput
                                 underlineColorAndroid='transparent'
+                                allowFontScaling={false}
                                 selectionColor={"#fff"}
                                 placeholder={"비밀번호 10자이상"}
                                 placeholderTextColor={'#555'}
@@ -142,7 +143,7 @@ class ChangePassword extends Component {
 
                 <View style={styles.SignUpFormParent}>
 
-                    <View style={styles.SignUpTitle}><Text style={{color:"#fff"}} >새 비밀번호</Text></View>
+                    <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={{color:"#fff"}} >새 비밀번호</Text></View>
 
                     <View style={{
                             flex : 5, 
@@ -153,6 +154,7 @@ class ChangePassword extends Component {
 
                         <View Regular style={{flex:1, height:30, backgroundColor:"#ddd",}}>
                             <TextInput
+                                allowFontScaling={false}
                                 underlineColorAndroid='transparent'
                                 selectionColor={"#fff"}
                                 placeholder={"새 비밀번호 입력"}
@@ -171,12 +173,13 @@ class ChangePassword extends Component {
                             /> 
                         </View>
 
-                        <Text style={{fontSize:14, fontWeight:"100", color:"#ddd", marginTop:10,}}>
+                        <Text allowFontScaling={false} style={{fontSize:14, fontWeight:"100", color:"#ddd", marginTop:10,}}>
                             8~20자, 영문, 숫자, 특수문자 사용
                         </Text>
 
                         <View Regular style={{flex:1, height:30, backgroundColor:"#ddd", marginTop:10,}}>
                             <TextInput
+                                allowFontScaling={false}
                                 underlineColorAndroid='transparent'
                                 selectionColor={"#fff"}
                                 placeholder={"새 비밀번호 확인"}
@@ -212,7 +215,7 @@ class ChangePassword extends Component {
                         borderColor:"#fff",
                     }} 
                     onPress={()=> this.confirmToChengePassword()}>
-                    <Text>확인</Text>
+                    <Text allowFontScaling={false} >확인</Text>
                 </Button>
 
             </View>

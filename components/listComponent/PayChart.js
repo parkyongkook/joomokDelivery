@@ -7,7 +7,7 @@ export default class PayChart extends React.Component {
         return (
             <Card style={{marginTop:10,}}>
                 <CardItem header bordered style={{ justifyContent: 'center',}}>
-                    <Text style={styles.cardHeader}>여신한도</Text>
+                    <Text allowFontScaling={false} style={styles.cardHeader}>여신한도</Text>
                 </CardItem>
                 <CardItem style={{flexDirection:"row", justifyContent:"space-between",  }}>
                     <Speedometer

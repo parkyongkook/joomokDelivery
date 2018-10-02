@@ -15,7 +15,7 @@ export default class Faq_list extends Component {
         }}>
             <View style={[{flex:5 ,flexDirection:"row",},styles.noticeFormShare]}>
                 <Icon type="FontAwesome" name="quora" style={{marginLeft:10, marginRight:10, fontSize:16, color:"orange",}}/>
-                <Text>
+                <Text allowFontScaling={false}>
                 {this.props.faqData.title}
                 </Text>
             </View>
@@ -28,7 +28,9 @@ export default class Faq_list extends Component {
         <View style={{
             display: 'flex',
             }}>
-            <Text style={{
+            <Text 
+            allowFontScaling={false}
+            style={{
                 paddingTop: 15,
                 paddingRight: 15,
                 paddingBottom: 15,

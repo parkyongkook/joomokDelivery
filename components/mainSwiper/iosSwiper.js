@@ -170,17 +170,17 @@ class iosSwiper extends Component {
                             <View style={{justifyContent:"center", alignItems:"center",}}>
 
                                 <View style={{ marginTop:30 }}>
-                                    <Text style={styles.priceList}> 이달의결제내역</Text>
-                                    <Text style={{fontSize:24, color:"#000", marginTop:7, textAlign:"right"}}>{`${price[2]}원`}</Text>
-                                    <Text style={styles.priceTxt}>{`${this.props.chartData.term[1]}월 : ${price[1]} 원`}</Text>
-                                    <Text style={styles.priceTxt}>{`${this.props.chartData.term[0]}월 : ${price[0]} 원`}</Text>
+                                    <Text allowFontScaling={false} style={styles.priceList}> 이달의결제내역</Text>
+                                    <Text allowFontScaling={false} style={{fontSize:24, color:"#000", marginTop:7, textAlign:"right"}}>{`${price[2]}원`}</Text>
+                                    <Text allowFontScaling={false} style={styles.priceTxt}>{`${this.props.chartData.term[1]}월 : ${price[1]} 원`}</Text>
+                                    <Text allowFontScaling={false} style={styles.priceTxt}>{`${this.props.chartData.term[0]}월 : ${price[0]} 원`}</Text>
                                 </View>
 
                                 <View style={{width:120, height:1, marginTop:20, backgroundColor:"#aaa",}}/>
 
                                 <View style={{marginTop:20,}}>
-                                    <Text style={styles.priceList}> 최근결제내역</Text>
-                                    <Text style={{fontSize:20, color:"#000", marginTop:7, textAlign:"right"}}>{price[2]}</Text>
+                                    <Text allowFontScaling={false} style={styles.priceList}> 최근결제내역</Text>
+                                    <Text allowFontScaling={false} style={{fontSize:20, color:"#000", marginTop:7, textAlign:"right"}}>{price[2]}</Text>
                                 </View> 
 
                             </View>
@@ -195,7 +195,7 @@ class iosSwiper extends Component {
                                     title : '최근구매내역'
                                 })}
                                 >
-                                <Text style={{fontSize:14, color:"yellow",}}>최근구매내역</Text>
+                                <Text allowFontScaling={false} style={{fontSize:14, color:"yellow",}}>최근구매내역</Text>
                             </Button>
 
                             <Button 
@@ -206,7 +206,7 @@ class iosSwiper extends Component {
                                 }
                                 }
                             >
-                                <Text style={{fontSize:14, color:"#fff",}}>장바구니</Text>
+                                <Text allowFontScaling={false} style={{fontSize:14, color:"#fff",}}>장바구니</Text>
                             </Button>
 
                         </View>
@@ -218,7 +218,7 @@ class iosSwiper extends Component {
                     <View style={{width:"96%", backgroundColor: 'white', marginLeft:"2%", overflow:"hidden",}}>
                     
                         <View style={{marginLeft:20,}}>
-                            <Text style={styles.maymnetListTxt}>최근구매내역</Text>
+                            <Text allowFontScaling={false} style={styles.maymnetListTxt}>최근구매내역</Text>
                         </View>
 
                         <View style={{ height:250, }}>
@@ -229,13 +229,13 @@ class iosSwiper extends Component {
                                 <View style={{ width:"88%", marginLeft:"6%"}}>  
                                     <View style={styles.researchHeaderWrap}>
                                         <View style={[styles.researchHeader,{flex:5}]}>
-                                            <Text style={{color:"#fff", fontSize:14,}}>거래일자</Text>
+                                            <Text allowFontScaling={false} style={{color:"#fff", fontSize:14,}}>거래일자</Text>
                                         </View>
                                         <View style={[styles.researchHeader,{flex:3}]}>
-                                            <Text style={{color:"#fff", fontSize:14,}}>종류</Text>
+                                            <Text allowFontScaling={false} style={{color:"#fff", fontSize:14,}}>종류</Text>
                                         </View>
                                         <View style={[styles.researchHeader,{flex:4}]}>
-                                            <Text style={{color:"#fff",  fontSize:14,}}>상세</Text>
+                                            <Text allowFontScaling={false} style={{color:"#fff",  fontSize:14,}}>상세</Text>
                                         </View>
                                         <View style={[{
                                             flex:4, 
@@ -243,7 +243,7 @@ class iosSwiper extends Component {
                                             paddingTop: 10,  
                                             alignItems: "center",
                                             }]}>
-                                            <Text style={{color:"#fff", fontSize:14,}}>매입금액</Text>
+                                            <Text allowFontScaling={false} style={{color:"#fff", fontSize:14,}}>매입금액</Text>
                                         </View>
                                     </View>
                                     {this.state.mapToOrderList_drink}
@@ -256,14 +256,14 @@ class iosSwiper extends Component {
                                 style={styles.sliderButton}
                                 onPress={() => this.props.reOrderProduct( newOrderListData, '수정구매')}
                             >
-                                <Text style={{color:'#fff'}}>수정구매</Text>
+                                <Text allowFontScaling={false} style={{color:'#fff'}}>수정구매</Text>
                             </Button>
 
                             <Button 
                                 style={[styles.sliderButton,{marginRight:5,}]}
                                 onPress={() => this.props.reOrderProduct( newOrderListData, '바로구매')}
                             >
-                                <Text style={{color:'#fff',}}>바로구매</Text>
+                                <Text allowFontScaling={false} style={{color:'#fff',}}>바로구매</Text>
                             </Button>
                         </View>
 
@@ -273,7 +273,7 @@ class iosSwiper extends Component {
                 <View style={{height:300, width:"100%" }}>
                     <View style={{width:"96%", backgroundColor: 'white', marginLeft:"2%", overflow:"hidden",}}>
                             <View style={{marginLeft:20,}}>
-                                <Text style={styles.maymnetListTxt}>구매내역</Text>
+                                <Text allowFontScaling={false} style={styles.maymnetListTxt}>구매내역</Text>
                             </View>
 
                             <View style={{ height:250, }}>
@@ -282,13 +282,13 @@ class iosSwiper extends Component {
                                         <View style={{ width:"88%", marginLeft:"6%"}}> 
                                             <View style={styles.researchHeaderWrap}>
                                             <View style={[styles.researchHeader]}>
-                                                <Text style={{color:"#fff", fontSize:14,}}>거래일자</Text>
+                                                <Text allowFontScaling={false} style={{color:"#fff", fontSize:14,}}>거래일자</Text>
                                             </View>
                                             <View style={[styles.researchHeader]}>
-                                                <Text style={{color:"#fff", fontSize:14,}}>거래처명</Text>
+                                                <Text allowFontScaling={false} style={{color:"#fff", fontSize:14,}}>거래처명</Text>
                                             </View>
                                             <View style={[styles.researchHeader]}>
-                                                <Text style={{color:"#fff", fontSize:14,}}>매입금액</Text>
+                                                <Text allowFontScaling={false} style={{color:"#fff", fontSize:14,}}>매입금액</Text>
                                             </View>
                                             </View>
                                             {this.state.mapToOrderList_company}
@@ -302,7 +302,7 @@ class iosSwiper extends Component {
                                 style={styles.statisticsButton}
                                 onPress={()=>Actions.PaymentList()}
                             >
-                                <Text style={{color:'#fff',}}>통계보기</Text>
+                                <Text allowFontScaling={false} style={{color:'#fff',}}>통계보기</Text>
                             </Button>
                         </View>     
                     </View>        

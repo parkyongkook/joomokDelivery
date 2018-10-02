@@ -69,7 +69,7 @@
                         ()=> this.props.closeModal()
                     }      
                 >
-                    <Text>닫기</Text>
+                    <Text allowFontScaling={false}>닫기</Text>
                 </Button>
 
              </View>   

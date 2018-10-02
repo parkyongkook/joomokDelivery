@@ -34,6 +34,24 @@ class Cart extends Component {
 
     BuyProduct(){
 
+        //씨오투 관련 로직
+        // for( const v in this.state.cartData.carts ){
+        //     let value =  this.state.cartData.carts[v].code
+        //     if( value.code == 3272){
+               
+        //         if( value.code !== 1433 || value.code !== 1433 || value.code !== 1433 || value.code !== 1433 ){
+
+        //         }
+                
+        //     }
+        // }
+
+        // if( this.state.cartData.carts.code == 3272){
+        //     alert('씨오투 있음')
+        // }
+
+        console.log('c02확인', this.state.cartData)
+
         if(this.state.cartData.carts.length === 0 || this.state.cartData.carts.length === undefined ){
             return alert('구매할 상품을 선택해주세요')
         }
@@ -110,7 +128,6 @@ class Cart extends Component {
     allCheckedHandler(onlyFalse){
 
         if( onlyFalse === 'disable' ){
-            console.log('제대로 들어오는가~~~~')
             this.setState({
                 idSaveChecked : false,
                 allChecked : false ,
@@ -227,10 +244,10 @@ class Cart extends Component {
                             onPress={()=> this.allCheckedHandler("empty") } 
                             //전체선택 체크박스 옵션
                         />
-                        <Text style={{marginLeft:15, marginTop:8, color:"#555"}}>전체선택 총</Text>
-                        <Text style={{marginLeft:15, marginTop:8, color:"red",}}>{this.state.cartCheckCount}</Text>
-                        <Text style={{marginLeft:15, marginTop:8, color:"#555"}}>/ 
-                            {this.props.reorderListData ? this.props.reorderListData.length : this.props.cartListData.length}개
+                        <Text allowFontScaling={false} style={{marginLeft:15, marginTop:8, color:"#555"}}>전체선택 총</Text>
+                        <Text allowFontScaling={false} style={{marginLeft:15, marginTop:8, color:"red",}}>{this.state.cartCheckCount}</Text>
+                        <Text allowFontScaling={false} style={{marginLeft:15, marginTop:8, color:"#555"}}>/ 
+                            { this.props.title == '수정구매' ? this.props.reorderListData.length : this.props.cartListData.length }개
                         </Text>
                     </TouchableOpacity>
                     
@@ -261,7 +278,7 @@ class Cart extends Component {
                         }}
                         onPress={ ()=> Actions.OrderMain() }
                     >
-                        <Text style={{color:'#fff',}}>계속쇼핑</Text>
+                        <Text allowFontScaling={false} style={{color:'#fff',}}>계속쇼핑</Text>
                     </Button>
                     
                     <Button 
@@ -269,7 +286,7 @@ class Cart extends Component {
                         onPress={
                            this.BuyProduct
                         }>
-                        <Text style={{color:'#0099ff',}}>최저가 구매하기</Text>
+                        <Text allowFontScaling={false} style={{color:'#0099ff',}}>최저가 구매하기</Text>
                     </Button>
                 </View>
             </View>

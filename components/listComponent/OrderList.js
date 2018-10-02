@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Text , CheckBox } from 'native-base';
-import { Actions } from 'react-native-router-flux';
+import { View } from 'react-native';
+import { Text , CheckBox } from 'native-base';
 
 export default class OrderList extends React.Component {
 

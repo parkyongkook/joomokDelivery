@@ -1,8 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Platform } from 'react-native';
-import { Container, Header, Title, 
-    Content, Footer, Button,Left,Icon,Body,Right,Item,Input,Text,Row,Col,Grid,CheckBox,CardItem,Badge } from 'native-base';
-import {Actions} from 'react-native-router-flux';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Text,Row,Grid,CheckBox,CardItem,Badge } from 'native-base';
 import { numberWithCommas } from '../Functions'
 
 export default class CompanyList_pay extends React.Component {
@@ -63,17 +61,17 @@ export default class CompanyList_pay extends React.Component {
                                             //체크박스 옵션
                                             onPress={ ()=> this.clickToCheckBox() } 
                                         />
-                                        <Text style={{fontSize:16, fontWeight:"bold",}}>{this.state.companyPriceData.coname}</Text>
+                                        <Text allowFontScaling={false} style={{fontSize:16, fontWeight:"bold",}}>{this.state.companyPriceData.coname}</Text>
                                     </TouchableOpacity>  
 
                                     <CardItem footer style={{justifyContent:"space-between", marginTop:-10}}>
-                                        <Badge style={ this.state.companyPriceData.transable[6] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>일</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[0] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>월</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[1] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>화</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[2] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>수</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[3] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>목</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[4] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>금</Text></Badge>
-                                        <Badge style={ this.state.companyPriceData.transable[5] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text style={{fontSize:12,}}>토</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[6] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text allowFontScaling={false} style={{fontSize:12,}}>일</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[0] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text allowFontScaling={false} style={{fontSize:12,}}>월</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[1] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text allowFontScaling={false} style={{fontSize:12,}}>화</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[2] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text allowFontScaling={false} style={{fontSize:12,}}>수</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[3] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text allowFontScaling={false} style={{fontSize:12,}}>목</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[4] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text allowFontScaling={false} style={{fontSize:12,}}>금</Text></Badge>
+                                        <Badge style={ this.state.companyPriceData.transable[5] === "1" ?  styles.dayBadgeOn : styles.dayBadgeOff }><Text allowFontScaling={false} style={{fontSize:12,}}>토</Text></Badge>
                                     </CardItem>
 
                                 </View>
@@ -81,16 +79,16 @@ export default class CompanyList_pay extends React.Component {
                                 <View style={{ justifyContent:'center', alignItems:'center',}}>
 
                                     <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
-                                        <Text>공급가액</Text>
-                                        <Text>{ this.state.createFinalPriceData.sales }원</Text>
+                                        <Text allowFontScaling={false} >공급가액</Text>
+                                        <Text allowFontScaling={false} >{ this.state.createFinalPriceData.sales }원</Text>
                                     </View>
                                     <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
-                                        <Text>부가세액</Text>
-                                        <Text>{ this.state.createFinalPriceData.vat }원</Text>
+                                        <Text allowFontScaling={false} >부가세액</Text>
+                                        <Text allowFontScaling={false} >{ this.state.createFinalPriceData.vat }원</Text>
                                     </View>
                                     <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
-                                        <Text>소계</Text>
-                                        <Text>{ this.state.createFinalPriceData.total }원</Text>
+                                        <Text allowFontScaling={false} >소계</Text>
+                                        <Text allowFontScaling={false} >{ this.state.createFinalPriceData.total }원</Text>
                                     </View>
 
                                     <View
@@ -106,12 +104,12 @@ export default class CompanyList_pay extends React.Component {
                                         }}
                                     />
                                     <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
-                                        <Text>비주류금액(공병)</Text>
-                                        <Text>{ this.state.createFinalPriceData.bottle }원</Text>
+                                        <Text allowFontScaling={false} >비주류금액(공병)</Text>
+                                        <Text allowFontScaling={false} >{ this.state.createFinalPriceData.bottle }원</Text>
                                     </View>
                                     <View style={{width:"92%", flexDirection:"row", justifyContent:"space-between",}}>
-                                        <Text>비주류금액(박스)</Text>
-                                        <Text>{ this.state.createFinalPriceData.box }원</Text>
+                                        <Text allowFontScaling={false} >비주류금액(박스)</Text>
+                                        <Text allowFontScaling={false} >{ this.state.createFinalPriceData.box }원</Text>
                                     </View>
 
                                     <View style={{
@@ -122,8 +120,8 @@ export default class CompanyList_pay extends React.Component {
                                         height:30,
                                         borderTopWidth:1,
                                     }}>
-                                        <Text style={{marginTop:10, color:"#0099ff", fontWeight:"bold",}}>최종결제금액</Text>
-                                        <Text style={{marginTop:10, color:"#0099ff", fontWeight:"bold"}}>{ this.state.createFinalPriceData.finalTotalPrice }원</Text>
+                                        <Text allowFontScaling={false} style={{marginTop:10, color:"#0099ff", fontWeight:"bold",}}>최종결제금액</Text>
+                                        <Text allowFontScaling={false} style={{marginTop:10, color:"#0099ff", fontWeight:"bold"}}>{ this.state.createFinalPriceData.finalTotalPrice }원</Text>
                                     </View>
                                 </View>    
                             </Row>
@@ -155,8 +153,6 @@ const styles = StyleSheet.create({
         backgroundColor:"#0099ff",
         height:22,
         width:22,
-        // paddingLeft: Platform.OS == "ios" ? 2 : 3 ,
-        // paddingTop: Platform.OS == "ios" ? 2 : 0,
         paddingLeft: 0,
         paddingTop: 0,
         paddingRight: 0 ,
@@ -170,8 +166,6 @@ const styles = StyleSheet.create({
         paddingTop: 0,
         paddingRight: 0 ,
         paddingBottom: 0,
-        // paddingLeft:Platform.OS == "ios" ? 2 : 3,
-        // paddingTop: Platform.OS == "ios" ? 2 : 0,
         marginLeft:3,
     }
 })

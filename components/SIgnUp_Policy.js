@@ -69,16 +69,16 @@ export default class SignUp_Policy extends Component {
                                     // backgroundColor:"#000",
                                 }} 
                             />
-                            <Text style={{marginLeft:15, color:"#555",}}>이용약관에 동의합니다.</Text>
+                            <Text  allowFontScaling={false} style={{marginLeft:15, color:"#555",}}>이용약관에 동의합니다.</Text>
                         </View>
 
                         <View style={{ flex:9, backgroundColor:"#fff", borderWidth:1, borderColor:'#aaa' }} >
                             <ScrollView >
                                 <Body scrollEnabled={true}>
-                                    <Text style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5, }}>
+                                    <Text allowFontScaling={false} style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5, }}>
                                         {userInfo.Terms1}
                                     </Text>
-                                    <Text style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5, }}>
+                                    <Text allowFontScaling={false} style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5, }}>
                                         {userInfo.Terms2}
                                     </Text>
                                 </Body>
@@ -104,13 +104,13 @@ export default class SignUp_Policy extends Component {
                                     // backgroundColor:"#000",
                                 }} 
                             />
-                            <Text style={{marginLeft:15, color:"#555",}}>개인정보 취급방침에 동의합니다.</Text>
+                            <Text allowFontScaling={false} style={{marginLeft:15, color:"#555",}}>개인정보 취급방침에 동의합니다.</Text>
                         </View>
 
                         <View style={{ flex:9, backgroundColor:"#fff",  borderWidth:1, borderColor:'#aaa'}} >
                             <ScrollView >
                                 <Body scrollEnabled={true}>
-                                    <Text style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5,}}>
+                                    <Text allowFontScaling={false} style={{marginLeft:5, marginTop:5, marginRight:5, marginBottom:5,}}>
                                         {userInfo.Privacy}
                                     </Text>
                                 </Body>
@@ -131,7 +131,7 @@ export default class SignUp_Policy extends Component {
                                 onPress={this.checkedChanger} 
                                 style={{marginLeft:-10, marginTop:-2,}}
                             />
-                            <Text style={{marginLeft:15, color:"#555",}}>모두동의합니다.</Text>
+                            <Text allowFontScaling={false} style={{marginLeft:15, color:"#555",}}>모두동의합니다.</Text>
 
                         </View> 
 
@@ -157,7 +157,7 @@ export default class SignUp_Policy extends Component {
                                     }
                                 }
                             >
-                                <Text style={{color:"#fff", fontSize:18,}}>확  인</Text>
+                                <Text allowFontScaling={false} style={{color:"#fff", fontSize:18,}}>확  인</Text>
                             </Button> 
 
                             <Button style={{
@@ -171,7 +171,7 @@ export default class SignUp_Policy extends Component {
                                     }} 
                                     onPress={()=> Actions.pop()}
                             >
-                                <Text style={{color:"#0099ff", fontSize:18,}}>취   소</Text>
+                                <Text allowFontScaling={false} style={{color:"#0099ff", fontSize:18,}}>취   소</Text>
                             </Button> 
                             
                         </View>

@@ -48,26 +48,27 @@ class MenuSlider extends Component {
         })
             .then((response) => {
 
-                //토큰 초기화
-                firebase.auth().onAuthStateChanged(function (user) {
-                    if(user){
-                        firebase.database().ref('users/' + user.uid ).set({
-                            email: user.email,
-                            uid : user.uid
-                        });
-                    }
-                    
+                if(response.status !== 200 ){
+                   return alert('로그아웃 실패 관리자에게 문의하세요')
+                }
+
+                Actions.reset('Login',{
+                    isLogout: "true"
                 });
 
-                firebase.auth().signOut().then(function (resolve) {
-                    Actions.reset('Login',{
-                        isLogout: "true"
-                    });
-                    alert("로그아웃 되었습니다.")
-                    that.props.closeDrawer()   
-                }).catch(function (error) {
-                    console.log(error)
-                })
+                alert("로그아웃 되었습니다.")
+                that.props.closeDrawer()  
+                
+                
+                //토큰 초기화
+                // firebase.auth().onAuthStateChanged(function (user) {
+                //     if(user){
+                //         firebase.database().ref('users/' + user.uid ).set({
+                //             email: user.email,
+                //             uid : user.uid
+                //         });
+                //     }
+                // });
         
             })
             .catch((error) => {
@@ -117,10 +118,10 @@ class MenuSlider extends Component {
                     <View style={{ flex:4.5}}>
 
                         <View style={{ marginTop: 20, marginBottom: 20, marginLeft:30, }}>
-                            <Text style={{ fontSize: 26, }}>
+                            <Text allowFontScaling={false} style={{ fontSize: 26, }}>
                                 {this.props.userData !== null ? this.props.userData.store : null}
                             </Text>
-                            <Text style={{ fontSize: 18, fontWeight: "100", color: "#333", marginTop: 10, }}>
+                            <Text allowFontScaling={false} style={{ fontSize: 18, fontWeight: "100", color: "#333", marginTop: 10, }}>
                                 {this.props.userData !== null ? this.props.userData.name : null} 업주님 환영합니다.
                             </Text>
                         </View>
@@ -130,7 +131,7 @@ class MenuSlider extends Component {
                                 style={styles.iconImage}
                                 source={require('../assets/img/slideMenu_1.jpg')}
                             />
-                            <Text style={styles.slideTitleText}>마이페이지</Text>
+                            <Text allowFontScaling={false} style={styles.slideTitleText}>마이페이지</Text>
                         </ListItem>
 
                         <TouchableHighlight
@@ -139,7 +140,7 @@ class MenuSlider extends Component {
                         >
                             <View style={styles.listItem}>
                 
-                                    <Text style={styles.slideText}>로그아웃</Text>
+                                    <Text allowFontScaling={false} style={styles.slideText}>로그아웃</Text>
                             
                             </View>
                         </TouchableHighlight>
@@ -153,7 +154,7 @@ class MenuSlider extends Component {
                         >
                             <View style={styles.listItem}>
                                 
-                                    <Text style={styles.slideText}>내정보 변경</Text>
+                                    <Text allowFontScaling={false} style={styles.slideText}>내정보 변경</Text>
                                 
                             </View>
                         </TouchableHighlight>
@@ -168,7 +169,7 @@ class MenuSlider extends Component {
                         >
                             <View style={styles.listItem}>
 
-                                <Text style={styles.slideText}>비밀번호 변경</Text>
+                                <Text allowFontScaling={false} style={styles.slideText}>비밀번호 변경</Text>
                                 
                             </View>
                         </TouchableHighlight>
@@ -181,7 +182,7 @@ class MenuSlider extends Component {
                         >
                             <View style={styles.listItem}>
                                 
-                                    <Text style={styles.slideText}>주문목록</Text>
+                                    <Text allowFontScaling={false} style={styles.slideText}>주문목록</Text>
                                 
                             </View>
                         </TouchableHighlight>
@@ -194,7 +195,7 @@ class MenuSlider extends Component {
                                     style={styles.iconImage}
                                     source={require('../assets/img/slideMenu_2.jpg')}
                                 />
-                                <Text style={styles.slideTitleText}>앱설정</Text>
+                                <Text allowFontScaling={false} style={styles.slideTitleText}>앱설정</Text>
                             </ListItem>
                             <TouchableHighlight
                                 onPress={() => {
@@ -203,7 +204,7 @@ class MenuSlider extends Component {
                                 underlayColor ={'#eee'} 
                             >
                                 <View style={styles.listItem}>
-                                    <Text style={styles.slideText}>알람설정</Text>
+                                    <Text allowFontScaling={false} style={styles.slideText}>알람설정</Text>
                                 </View>
                             </TouchableHighlight>
                         </View>
@@ -216,7 +217,7 @@ class MenuSlider extends Component {
                                     style={styles.iconImage}
                                     source={require('../assets/img/slideMenu_2.jpg')}
                                 />
-                                <Text style={styles.slideTitleText}>고객센터</Text>
+                                <Text allowFontScaling={false} style={styles.slideTitleText}>고객센터</Text>
                             </ListItem>
                             <TouchableHighlight onPress={() => {
                                     Actions.Notice({usridx: this.props.userData.usridx})
@@ -225,7 +226,7 @@ class MenuSlider extends Component {
                                     underlayColor ={'#eee'} 
                                 >
                                 <View style={styles.listItem}>
-                                    <Text style={styles.slideText}>공지사항</Text>
+                                    <Text allowFontScaling={false} style={styles.slideText}>공지사항</Text>
                                 </View>
                             </TouchableHighlight>
                             <TouchableHighlight onPress={() => {
@@ -234,7 +235,7 @@ class MenuSlider extends Component {
                                     underlayColor ={'#eee'} 
                                 >
                                 <View style={styles.listItem}>
-                                    <Text style={styles.slideText}>FAQ</Text>
+                                    <Text allowFontScaling={false} style={styles.slideText}>FAQ</Text>
                                 </View>
                             </TouchableHighlight>
                             <TouchableHighlight onPress={() => {
@@ -243,7 +244,7 @@ class MenuSlider extends Component {
                                     underlayColor ={'#eee'} 
                                 >
                                 <View last style={styles.listItem}>
-                                    <Text style={styles.slideText}>고객센터</Text>
+                                    <Text allowFontScaling={false} style={styles.slideText}>고객센터</Text>
                                 </View>
                             </TouchableHighlight>
                         </View>

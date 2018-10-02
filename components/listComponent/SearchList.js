@@ -103,7 +103,7 @@ class SearchList extends React.Component {
             this.props.title === "제품이 없습니다." ?
                 <View style={{flex:1, marginLeft: 20, marginRight: 20,  }}>
                     <View style={{flex:2, }}>
-                        <Text style={{color:'#fff',}}>
+                        <Text allowFontScaling={false} style={{color:'#fff',}}>
                            { `해당제품이 없습니다. 
 필요하신 제품이 있으시면
 메모를 남겨주세요 신속히 답변드리겠습니다.`}
@@ -113,6 +113,7 @@ class SearchList extends React.Component {
                     
                     <View style={{flex:2}}>
                         <TextInput 
+                            allowFontScaling={false}
                             placeholder={`필요한 제품을 남겨주세요
 예) 제품명 : 참이슬 용량 :350ml`}fil
                             multiline={true} 
@@ -139,7 +140,7 @@ class SearchList extends React.Component {
                         >
                             <View style={styles.submitButton}
                             >
-                                <Text style={{ fontSize: 24, color: "#fff", fontWeight: "800", }}>
+                                <Text allowFontScaling={false} style={{ fontSize: 24, color: "#fff", fontWeight: "800", }}>
                                     전송
                                 </Text>
                             </View>
@@ -172,10 +173,10 @@ class SearchList extends React.Component {
 
                         <Col style={{ flex: 4.5 }}>
 
-                            <Row><Text style={{fontSize:14,}}>{this.props.title}</Text></Row>
-                            <Row><Text style={{fontSize:14,}}>{"1박스(짝) "+this.props.unit + "개"}</Text></Row>
+                            <Row><Text allowFontScaling={false} style={{fontSize:14,}}>{this.props.title}</Text></Row>
+                            <Row><Text allowFontScaling={false} style={{fontSize:14,}}>{"1박스(짝) "+this.props.unit + "개"}</Text></Row>
                             <Row>
-                                <Text style={{fontSize:14,}}>수량</Text>
+                                <Text allowFontScaling={false} style={{fontSize:14,}}>수량</Text>
                                 <View style={{ flexDirection: "row", marginLeft: 10, }}>
 
                                     <TouchableOpacity 
@@ -186,7 +187,7 @@ class SearchList extends React.Component {
                                     </TouchableOpacity>
 
                                     <View style={{ height: 20, marginLeft: 5, marginRight: 5, alignItems: 'center', borderColor: '#999', }}>
-                                        <Text style={{ marginLeft: 3, marginRight: 3, color: '#777', fontSize: 14, marginTop: 1, }}>{this.state.qty}</Text>
+                                        <Text allowFontScaling={false} style={{ marginLeft: 3, marginRight: 3, color: '#777', fontSize: 14, marginTop: 1, }}>{this.state.qty}</Text>
                                     </View>
 
                                     <TouchableOpacity 

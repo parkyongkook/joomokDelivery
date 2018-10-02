@@ -313,9 +313,15 @@ export default class SignUp_Information extends Component {
     }
 
     adressSearch(address) {
+
+        if( address.length == 0 || address.length == 1 ){
+            return alert('주소는 2글자 이상의 한글, 영문 으로 검색해 주세요')
+        }
+
         this.setState({
             isLoading:true
         })
+
         fetch('https://api.joomok.net/members/search?com_addr='+address)
             .then((response) => response.json())
             .then((adressDataList) => {
@@ -334,7 +340,7 @@ export default class SignUp_Information extends Component {
                 })
             })
             .catch((error) => {
-                console.error(error);
+                console.error('에러메시지',error);
             })
             .done(()=>this.setState({isLoading:false,})
         );
@@ -603,29 +609,30 @@ export default class SignUp_Information extends Component {
 
                     <View style={{ width: '90%', marginLeft: '5%', marginTop: 10, marginBottom: 10, flexDirection: 'row', }}>
                         <View style={{ flex: 1, height: 50, borderBottomWidth: 1, marginBottom:5, borderBottomColor: '#0099ff', }}>
-                            <Text style={{ fontSize: 24, marginBottom:5, color: '#0099ff', }}>회원정보입력</Text>
-                            <Text style={{ fontSize: 10,  color: '#0099ff', }}>*파란색 색상은 필수 항목입니다.</Text>
+                            <Text allowFontScaling={false} style={{ fontSize: 24, marginBottom:5, color: '#0099ff', }}>회원정보입력</Text>
+                            <Text allowFontScaling={false} style={{ fontSize: 10,  color: '#0099ff', }}>*파란색 색상은 필수 항목입니다.</Text>
                         </View>
                         <View style={{ flex: 1, height: 50, borderBottomWidth: 1, borderBottomColor: '#ddd', }}></View>
                     </View>
 
                     <View style={styles.SignUpFormParent}>
                         <View style={styles.SignUpTitle}>
-                            <Text style={styles.loginSubText}>이름</Text>
+                            <Text allowFontScaling={false} style={styles.loginSubText}>이름</Text>
                         </View>
-                        <View style={styles.SignUpSubText}><Text style={[styles.loginSubText,{color:'#000'}]}>{this.state.necessaryUserData.username}</Text></View>
+                        <View style={styles.SignUpSubText}><Text allowFontScaling={false} style={[styles.loginSubText,{color:'#000'}]}>{this.state.necessaryUserData.username}</Text></View>
                     </View>
                     <View style={styles.SignUpFormParent}>
                         <View style={styles.SignUpTitle}>
-                            <Text style={styles.loginSubText}>휴대폰</Text>
+                            <Text allowFontScaling={false} style={styles.loginSubText}>휴대폰</Text>
                         </View>
-                        <View style={styles.SignUpSubText}><Text style={[styles.loginSubText,{color:'#000'}]}>{this.state.necessaryUserData.mobile}</Text></View>
+                        <View style={styles.SignUpSubText}><Text allowFontScaling={false} style={[styles.loginSubText,{color:'#000'}]}>{this.state.necessaryUserData.mobile}</Text></View>
                     </View>
                     <View style={styles.SignUpFormParent}>
-                        <View style={styles.SignUpTitle}><Text style={styles.loginSubText} >아이디</Text></View>
+                        <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={styles.loginSubText} >아이디</Text></View>
                         <View style={{ flex: 5, height: 25, marginRight: 15, flexDirection: "row", }}>
                             <Item Regular style={{ flex: 4, height: 25, marginRight: 10, backgroundColor: "#fff", borderRadius: 5, }} >
                                 <TextInput
+                                    allowFontScaling={false} 
                                     underlineColorAndroid='transparent'
                                     selectionColor={"#555"}
                                     placeholder={"아이디 입력"}
@@ -654,14 +661,14 @@ export default class SignUp_Information extends Component {
                                     this.overlapCheck(this.state.necessaryUserData.userid)
                                 }
                             }>
-                                <Text style={{ fontSize: 11, textAlign: "center", color: '#777', }}>중복확인</Text>
+                                <Text allowFontScaling={false} style={{ fontSize: 11, textAlign: "center", color: '#777', }}>중복확인</Text>
                             </Button>
                         </View>
                     </View>
 
                     <View style={styles.SignUpFormParent}>
                         <View style={styles.SignUpTitle}>
-                            <Text style={styles.loginSubText}>생년월일</Text>
+                            <Text allowFontScaling={false} style={styles.loginSubText}>생년월일</Text>
                         </View>
                         <View style={styles.SignUpSubText}><Text style={[styles.loginSubText,{color:'#000'}]}>{this.state.necessaryUserData.birth}</Text></View>
                     </View>
@@ -669,12 +676,13 @@ export default class SignUp_Information extends Component {
                     <View style={styles.SignUpFormParent}>
 
                         <View style={styles.SignUpTitle}>
-                            <Text style={styles.loginSubText} >비밀번호</Text>
+                            <Text allowFontScaling={false} style={styles.loginSubText} >비밀번호</Text>
                         </View>
 
                         <View style={styles.SignUpSubText}>
                             <Item Regular style={styles.SignUpMobileInput}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     underlineColorAndroid='transparent'
                                     selectionColor={"#555"}
                                     placeholder={"비밀번호 10자이상"}
@@ -693,10 +701,11 @@ export default class SignUp_Information extends Component {
                         </View>
                     </View>
                     <View style={styles.SignUpFormParent}>
-                        <View style={styles.SignUpTitle}><Text style={styles.loginSubText} >비밀번호확인</Text></View>
+                        <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={styles.loginSubText} >비밀번호확인</Text></View>
                         <View style={styles.SignUpSubText}>
                             <Item Regular style={styles.SignUpMobileInput}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     underlineColorAndroid='transparent'
                                     selectionColor={"#555"}
                                     placeholder={"비밀번호 확인"}
@@ -715,10 +724,11 @@ export default class SignUp_Information extends Component {
                         </View>
                     </View>
                     <View style={styles.SignUpFormParent}>
-                        <View style={styles.SignUpTitle}><Text style={styles.loginSubText}>이메일</Text></View>
+                        <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={styles.loginSubText}>이메일</Text></View>
                         <View style={{ flex: 5, height: 25, marginRight: 15, flexDirection: "row", }}>
                             <Item Regular style={styles.SignUpMobileInput}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     keyboardType={'email-address'}
                                     underlineColorAndroid='transparent'
                                     selectionColor={"#555"}
@@ -741,7 +751,7 @@ export default class SignUp_Information extends Component {
                     <View style={styles.SignUpFormParent}>
 
                         <View style={styles.SignUpTitle}>
-                            <Text style={styles.loginSubText}>사업장주소</Text>
+                            <Text allowFontScaling={false} style={styles.loginSubText}>사업장주소</Text>
                         </View>
 
                         <View style={{
@@ -762,6 +772,7 @@ export default class SignUp_Information extends Component {
                                         borderRadius: 5,
                                     }}>
                                         <TextInput
+                                            allowFontScaling={false} 
                                             value={
                                                 this.state.necessaryUserData.com_addr ? this.state.necessaryUserData.com_addr : null
                                             }
@@ -797,13 +808,14 @@ export default class SignUp_Information extends Component {
                                             borderColor: "#777",
                                         }]}
                                     >
-                                        <Text style={{ fontSize: 11, textAlign: "center", color: '#777', }}>우편번호</Text>
+                                        <Text allowFontScaling={false} style={{ fontSize: 11, textAlign: "center", color: '#777', }}>우편번호</Text>
                                     </Button>
                                 </View>
 
                                 <View style={{ height: 25, }} >
                                     <Item Regular style={{ flex: 1, height: 25, backgroundColor: "#fff", borderRadius: 5, }}>
                                         <TextInput
+                                            allowFontScaling={false} 
                                             underlineColorAndroid='transparent'
                                             selectionColor={"#555"}
                                             placeholder={"상세주소"}
@@ -827,10 +839,11 @@ export default class SignUp_Information extends Component {
                     </View>
 
                     <View style={styles.SignUpFormParent}>
-                        <View style={styles.SignUpTitle}><Text style={styles.loginSubText} >사업장명</Text></View>
+                        <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={styles.loginSubText} >사업장명</Text></View>
                         <View style={styles.SignUpSubText}>
                             <Item Regular style={styles.SignUpMobileInput}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     underlineColorAndroid='transparent'
                                     selectionColor={"#555"}
                                     onChangeText={
@@ -855,7 +868,7 @@ export default class SignUp_Information extends Component {
                             marginLeft: 15,
                             justifyContent: "center",
                         }}>
-                            <Text style={styles.loginSubText} >사업장전화</Text></View>
+                            <Text allowFontScaling={false} style={styles.loginSubText} >사업장전화</Text></View>
 
                         <View style={{ flex: 5, height: 25, marginRight: 15, flexDirection: "row", }}>
 
@@ -867,7 +880,7 @@ export default class SignUp_Information extends Component {
                                 flexDirection: "row",
                                 alignItems: "center",
                             }}>
-                                <Text style={{ fontSize: 14, flex: 3, textAlign: "center", color: "#70aed5", }}>
+                                <Text allowFontScaling={false} style={{ fontSize: 14, flex: 3, textAlign: "center", color: "#70aed5", }}>
                                     {
                                         this.state.localNum.localNumArr[this.state.localNum.localNumIndex]
                                     }
@@ -901,6 +914,7 @@ export default class SignUp_Information extends Component {
 
                             <Item Regular style={{ flex: 3, height: 25, backgroundColor: "#fff", borderRadius: 5, }}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     keyboardType={'numeric'}
                                     underlineColorAndroid='transparent'
                                     selectionColor={"#555"}
@@ -914,6 +928,7 @@ export default class SignUp_Information extends Component {
 
                             <Item Regular style={{ flex: 3, height: 25, backgroundColor: "#fff", borderRadius: 5, }}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     keyboardType={'numeric'}
                                     underlineColorAndroid='transparent'
                                     selectionColor={"#555"}
@@ -931,10 +946,11 @@ export default class SignUp_Information extends Component {
 
 
                     <View style={styles.SignUpFormParent}>
-                        <View style={styles.SignUpTitle}>< Text style={styles.loginSubText} >사업자번호</Text></View>
+                        <View style={styles.SignUpTitle}>< Text allowFontScaling={false} style={styles.loginSubText} >사업자번호</Text></View>
                         <View style={{ flex: 5, height: 25, marginRight: 15, flexDirection: "row", }}>
                             <Item Regular style={{ flex: 3, height: 25, backgroundColor: "#eee", borderRadius: 5, }}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     maxLength={3}
                                     keyboardType={'numeric'}
                                     underlineColorAndroid='transparent'
@@ -956,6 +972,7 @@ export default class SignUp_Information extends Component {
                             </Item>
                             <Item Regular style={{ flex: 3, height: 25, backgroundColor: "#eee", borderRadius: 5, }}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     maxLength={2}
                                     keyboardType={'numeric'}
                                     underlineColorAndroid='transparent'
@@ -976,6 +993,7 @@ export default class SignUp_Information extends Component {
                             </Item>
                             <Item Regular style={{ flex: 3, height: 25, marginRight: 5, backgroundColor: "#eee", borderRadius: 5, }}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     maxLength={5}
                                     keyboardType={'numeric'}
                                     underlineColorAndroid='transparent'
@@ -1005,16 +1023,17 @@ export default class SignUp_Information extends Component {
                                             }]}
                                     onPress={ this.companyValidation }        
                             >
-                                <Text style={{ fontSize: 10, textAlign: "center", color: '#777', }}>유효검사</Text>
+                                <Text allowFontScaling={false} style={{ fontSize: 10, textAlign: "center", color: '#777', }}>유효검사</Text>
                             </Button>
                         </View>
                     </View>
 
                     <View style={styles.SignUpFormParent}>
-                        <View style={styles.SignUpTitle}><Text style={styles.loginSubText} >주류판매번호</Text></View>
+                        <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={styles.loginSubText} >주류판매번호</Text></View>
                         <View style={{ flex: 5, height: 25, marginRight: 15, flexDirection: "row", }}>
                             <Item Regular style={{ flex: 3, height: 25, backgroundColor: "#eee", borderRadius: 5, }}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     maxLength={3}
                                     keyboardType={'numeric'}
                                     underlineColorAndroid='transparent'
@@ -1037,6 +1056,7 @@ export default class SignUp_Information extends Component {
                             </Item>
                             <Item Regular style={{ flex: 3, height: 25, backgroundColor: "#eee", borderRadius: 5, }}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     maxLength={1}
                                     keyboardType={'numeric'}
                                     underlineColorAndroid='transparent'
@@ -1060,6 +1080,7 @@ export default class SignUp_Information extends Component {
                             </Item>
                             <Item Regular style={{ flex: 3, height: 25, marginRight: 5, backgroundColor: "#eee", borderRadius: 5, }}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     maxLength={5}
                                     keyboardType={'numeric'}
                                     underlineColorAndroid='transparent'
@@ -1086,11 +1107,11 @@ export default class SignUp_Information extends Component {
 
                     <View style={styles.SignUpFormParent}>
 
-                        <View style={styles.SignUpTitle}><Text style={[styles.loginSubText,{color:'#000'}]} >사업자등록증</Text></View>
+                        <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={[styles.loginSubText,{color:'#000'}]} >사업자등록증</Text></View>
 
                         <View style={{ flex: 5, height: 25, marginRight: 15, flexDirection: "row", }}>
                             <Item Regular style={{ flex: 4, height: 25, marginRight: 5, backgroundColor: "#eee", borderRadius: 5, }}>
-                                <Text style={{ marginLeft: 10, fontSize: 14, color: "#bbb", }}>{this.state.imageText}</Text>
+                                <Text allowFontScaling={false} style={{ marginLeft: 10, fontSize: 14, color: "#bbb", }}>{this.state.imageText}</Text>
                             </Item>
                             <Button style={[styles.inputButton, {
                                 flex: 2,
@@ -1100,7 +1121,7 @@ export default class SignUp_Information extends Component {
                                 borderColor: "#777",
                             }]}
                                 onPress={this._pickImage} >
-                                <Text style={{ fontSize: 11, textAlign: "center", color: '#777' }}>파일첨부</Text>
+                                <Text allowFontScaling={false} style={{ fontSize: 11, textAlign: "center", color: '#777' }}>파일첨부</Text>
                                 {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} >
                                     {image && <Image source={{ url: image }} style={{ height: 100 }} />}
                                 </View> */}
@@ -1111,10 +1132,11 @@ export default class SignUp_Information extends Component {
                     </View>
 
                     <View style={styles.SignUpFormParent}>
-                        <View style={styles.SignUpTitle}><Text style={styles.loginSubText} >사업장 분류</Text></View>
+                        <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={styles.loginSubText} >사업장 분류</Text></View>
                         <View style={{ flex: 5, height: 25, marginRight: 15, flexDirection: "row", }}>
                             <Item Regular style={styles.SignUpMobileInput}>
                                     <Picker
+                                        allowFontScaling={false} 
                                         mode="dropdown"
                                         placeholder="업종선택"
                                         placeholderStyle={{ color: "#bfc6ea", fontSize: 14, }}
@@ -1134,10 +1156,11 @@ export default class SignUp_Information extends Component {
                     </View>
 
                     <View style={styles.SignUpFormParent}>
-                        <View style={styles.SignUpTitle}><Text style={[styles.loginSubText,{color:'#000'}]}>추천인</Text></View>
+                        <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={[styles.loginSubText,{color:'#000'}]}>추천인</Text></View>
                         <View style={{ flex: 5, height: 25, marginRight: 15, flexDirection: "row", }}>
                             <Item Regular style={styles.SignUpMobileInput}>
                                 <TextInput
+                                    allowFontScaling={false} 
                                     underlineColorAndroid='transparent'
                                     selectionColor={"#555"}
                                     placeholder={"추천인 아이디 입력"}
@@ -1166,7 +1189,7 @@ export default class SignUp_Information extends Component {
                                 style={{  marginTop:5, }}
                             />
                             <View style={{ marginTop: 7, marginLeft:15,}}>
-                                <Text style={styles.checkBoxFont}>이용약관</Text>
+                                <Text allowFontScaling={false} style={styles.checkBoxFont}>이용약관</Text>
                             </View>
                         </TouchableOpacity> 
 
@@ -1177,7 +1200,7 @@ export default class SignUp_Information extends Component {
                                 policyType : 1
                             })}
                         >
-                            <Text style={styles.loginSubText}>펼쳐보기</Text>
+                            <Text allowFontScaling={false} style={styles.loginSubText}>펼쳐보기</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -1194,7 +1217,7 @@ export default class SignUp_Information extends Component {
                                 style={{ marginTop:5, }}
                             />
                             <View style={{ marginTop: 7, marginLeft:15,}}>
-                                <Text style={styles.checkBoxFont}>개인정보 처리방침 안내</Text>
+                                <Text allowFontScaling={false} style={styles.checkBoxFont}>개인정보 처리방침 안내</Text>
                             </View>
 
                         </TouchableOpacity> 
@@ -1206,7 +1229,7 @@ export default class SignUp_Information extends Component {
                                 policyType : 2
                              })}
                         >
-                            <Text style={styles.checkBoxFont}>펼쳐보기</Text>
+                            <Text allowFontScaling={false} style={styles.checkBoxFont}>펼쳐보기</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -1225,7 +1248,7 @@ export default class SignUp_Information extends Component {
                                     this.confirmSignup(this.state.necessaryUserData)
                                 }
                             }>
-                            <Text style={{ color: "#fff", fontSize: 20, }}>확인</Text>
+                            <Text allowFontScaling={false} style={{ color: "#fff", fontSize: 20, }}>확인</Text>
                         </Button>
                         <Button style={{
                             width: "45%",
@@ -1243,7 +1266,7 @@ export default class SignUp_Information extends Component {
                                 }
                             }
                         >
-                            <Text style={{ color: '#0099ff', fontSize: 20, }}>취소</Text>
+                            <Text allowFontScaling={false} style={{ color: '#0099ff', fontSize: 20, }}>취소</Text>
                         </Button>
                     </View>
                 </Content>

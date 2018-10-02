@@ -67,7 +67,7 @@ class OrderMain extends Component {
                     </View>
 
                     <View style={styles.drinkListText}>
-                        <Text style={{color:'#fff', fontWeight:'800', fontSize:14,}}>{title}</Text>
+                        <Text allowFontScaling={false} style={{color:'#fff', fontWeight:'800', fontSize:14,}}>{title}</Text>
                     </View>
                 </TouchableOpacity>
     }
@@ -241,6 +241,7 @@ class OrderMain extends Component {
 
                     <View style={[styles.orderButton,{ height:40,}]}>
                         <TextInput
+                            allowFontScaling={false}
                             underlineColorAndroid='transparent'
                             placeholder="검색하기"
                             placeholderTextColor='#fff'
@@ -271,13 +272,13 @@ class OrderMain extends Component {
                         <Button style={styles.orderButton} 
                             onPress={ ()=> this.props.reOrderProduct(this.props.newOrderListData, '바로구매') }
                         >
-                            <Text style={{ fontSize: 14, }}>최근내역재주문</Text>
+                            <Text allowFontScaling={false} style={{ fontSize: 14, }}>최근내역재주문</Text>
                         </Button>
 
                         <Button style={styles.orderButton} onPress={this.clickToCartButton} >
-                            <Text style={{ fontSize: 14, }}>장바구니</Text>
+                            <Text allowFontScaling={false} style={{ fontSize: 14, }}>장바구니</Text>
                             <Badge style={styles.badge}>
-                                <Text style={{ color: "#555" }}>{this.props.cartListData.length}</Text>
+                                <Text allowFontScaling={false} style={{ color: "#555" }}>{this.props.cartListData.length}</Text>
                             </Badge>
                         </Button>
                     </View>

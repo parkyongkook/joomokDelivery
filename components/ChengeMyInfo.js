@@ -129,21 +129,22 @@ class ChengeMyInfo extends Component {
 
                 <View style={styles.SignUpFormParent}>
                     <View style={styles.SignUpTitle}>
-                        <Text style={styles.titleText}>이름</Text>
+                        <Text allowFontScaling={false} style={styles.titleText}>이름</Text>
                     </View>
                     <View style={styles.SignUpSubText}>
-                        <Text style={styles.subText}>{this.props.userData.name}</Text>
+                        <Text allowFontScaling={false} style={styles.subText}>{this.props.userData.name}</Text>
                     </View>
                 </View>
 
                 <View style={styles.SignUpFormParent}>
 
                     <View style={styles.SignUpTitle}>
-                        <Text style={styles.titleText} >휴대폰</Text>
+                        <Text allowFontScaling={false} style={styles.titleText} >휴대폰</Text>
                     </View>
 
                     <View style={styles.viewStyle}>
                         <TextInput 
+                            allowFontScaling={false}
                             keyboardType={'numeric'}
                             editable={this.state.isChangeToPhoneNum}
                             underlineColorAndroid='transparent'
@@ -177,8 +178,8 @@ class ChengeMyInfo extends Component {
                         onPress={()=> this.ChangeToinfo("mobile")}
                     >
                         {!this.state.isChangeToPhoneNum ? 
-                        <Text style={styles.changeButtonText}>변경</Text> : 
-                        <Text style={styles.changeButtonText}>수정</Text>}
+                        <Text allowFontScaling={false} style={styles.changeButtonText}>변경</Text> : 
+                        <Text allowFontScaling={false} style={styles.changeButtonText}>수정</Text>}
                     </Button>
 
                 </View>
@@ -186,11 +187,12 @@ class ChengeMyInfo extends Component {
                 <View style={styles.SignUpFormParent}>
 
                     <View style={styles.SignUpTitle}>
-                        <Text style={styles.titleText} >이메일</Text>
+                        <Text allowFontScaling={false} style={styles.titleText} >이메일</Text>
                     </View>
 
                     <View style={styles.viewStyle}>
                         <TextInput 
+                            allowFontScaling={false}
                             editable={this.state.isChangeToEmail}
                             underlineColorAndroid='transparent'
                             caretHidden={!this.state.isChangeToEmail}
@@ -223,8 +225,8 @@ class ChengeMyInfo extends Component {
                         onPress={()=> this.ChangeToinfo("email")}
                     >
                         {!this.state.isChangeToEmail ? 
-                        <Text style={styles.changeButtonText}>변경</Text> : 
-                        <Text style={styles.changeButtonText}>수정</Text>}
+                        <Text allowFontScaling={false} style={styles.changeButtonText}>변경</Text> : 
+                        <Text allowFontScaling={false} style={styles.changeButtonText}>수정</Text>}
                     </Button>
                     
                 </View>
@@ -245,13 +247,13 @@ class ChengeMyInfo extends Component {
                         justifyContent:"center"
 
                     }}>
-                        <Text style={styles.titleText} >사업장주소</Text>
+                        <Text allowFontScaling={false} style={styles.titleText} >사업장주소</Text>
                     </View>
 
                     <View style={ {flex:5,}}>
                         <View style={{flex:1, height:30, marginRight:15, flexDirection:"row", }}>
                             <Item Regular style={styles.SignUpMobileInput}>
-                                <Text style={styles.subText}>{this.props.userData.address}</Text>
+                                <Text allowFontScaling={false} style={styles.subText}>{this.props.userData.address}</Text>
                             </Item>
                         </View>
                     </View>
@@ -260,21 +262,22 @@ class ChengeMyInfo extends Component {
 
                 <View style={styles.SignUpFormParent}>
                     <View style={styles.SignUpTitle}>
-                        <Text style={styles.titleText} >사업장명</Text>
+                        <Text allowFontScaling={false} style={styles.titleText} >사업장명</Text>
                     </View>
                     <View style={styles.SignUpSubText}>
                         <Item Regular style={{flex:1, height:30, borderBottomWidth:0, }}>
-                            <Text style={styles.subText}>{this.props.userData.store}</Text>
+                            <Text allowFontScaling={false} style={styles.subText}>{this.props.userData.store}</Text>
                         </Item>
                     </View>
                 </View>
 
                 <View style={styles.SignUpFormParent}>
                     <View style={styles.SignUpTitle}>
-                        <Text style={styles.titleText}>회사전화번호</Text>
+                        <Text allowFontScaling={false} style={styles.titleText}>회사전화번호</Text>
                     </View>
                     <View style={styles.viewStyle}>
                         <TextInput 
+                            allowFontScaling={false}
                             keyboardType={'numeric'}
                             underlineColorAndroid='transparent'
                             caretHidden={!this.state.isChangeToComPhone}
@@ -313,25 +316,25 @@ class ChengeMyInfo extends Component {
                         }
                     >
                         {!this.state.isChangeToComPhone ? 
-                            <Text style={styles.changeButtonText}>변경</Text> : 
-                            <Text style={styles.changeButtonText}>수정</Text>}
+                            <Text allowFontScaling={false} style={styles.changeButtonText}>변경</Text> : 
+                            <Text allowFontScaling={false} style={styles.changeButtonText}>수정</Text>}
                     </Button>
                 </View>
 
                 <View style={styles.SignUpFormParent}>
-                    <View style={styles.SignUpTitle}><Text style={styles.titleText} >사업자번호</Text></View>
+                    <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={styles.titleText} >사업자번호</Text></View>
                     <View style={styles.viewStyle2}>
                         <Item Regular style={{flex:3, height:30,borderBottomWidth:0,}}>
-                            <Text style={styles.subText}>{this.props.userData.serial}</Text>
+                            <Text allowFontScaling={false} style={styles.subText}>{this.props.userData.serial}</Text>
                         </Item>
                     </View>
                 </View>
 
                 <View style={styles.SignUpFormParent}>
-                    <View style={styles.SignUpTitle}><Text style={styles.titleText} >주류판매번호</Text></View>
+                    <View style={styles.SignUpTitle}><Text allowFontScaling={false} style={styles.titleText} >주류판매번호</Text></View>
                     <View style={styles.viewStyle2}>
                         <Item Regular style={{flex:3, height:30,borderBottomWidth:0,}}>
-                            <Text style={styles.subText}>{this.props.userData.certified}</Text>
+                            <Text allowFontScaling={false} style={styles.subText}>{this.props.userData.certified}</Text>
                         </Item>
                     </View>
                 </View>
@@ -359,9 +362,11 @@ class ChengeMyInfo extends Component {
                         
                     }
                 >
-                    <Text style={{
-                        color : "#0099ff"
-                    }}>확인</Text>
+                    <Text 
+                        allowFontScaling={false} 
+                        style={{color : "#0099ff"}}>
+                        확인
+                    </Text>
 
                 </Button>
 
@@ -378,7 +383,7 @@ class ChengeMyInfo extends Component {
                         Actions.Main()
                     }}
                     >
-                    <Text>취소</Text>
+                    <Text allowFontScaling={false} >취소</Text>
                 </Button>
             </View>
 

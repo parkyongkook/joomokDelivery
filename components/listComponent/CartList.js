@@ -77,7 +77,6 @@ class CartList extends React.Component {
             } 
         }
 
-
     }
 
     counter(action){
@@ -143,10 +142,10 @@ class CartList extends React.Component {
                             this.props.isVisibleItem ? { marginLeft : 20, justifyContent:"space-between" } : {marginTop:5,}
                         ]}>
                         
-                        <Text>{this.state.cartData.title}</Text>
+                        <Text allowFontScaling={false}>{this.state.cartData.title}</Text>
                         {
                         this.props.isVisibleItem ? 
-                        <Text>
+                        <Text allowFontScaling={false}>
                             {`수량 :${this.state.cartCount}ea`}
                         </Text>
                         : null
@@ -161,7 +160,7 @@ class CartList extends React.Component {
                             this.props.isVisibleItem ? null :
                             <Row style={{marginBottom:5,}}>
 
-                                <Text style={{marginRight:10,}}>수량</Text>
+                                <Text allowFontScaling={false} style={{marginRight:10,}}>수량</Text>
 
                                 <TouchableOpacity 
                                     onPress={()=> this.counter("minus")}
@@ -171,7 +170,7 @@ class CartList extends React.Component {
                                 </TouchableOpacity>
 
                                 <View style={{width:35, height:20, alignItems:'center', borderColor:'#999',}}>
-                                    <Text style={{ marginLeft:3, marginRight:3, color:'#777', fontSize:18, marginTop:1, }}>{this.state.cartCount}</Text>
+                                    <Text allowFontScaling={false} style={{ marginLeft:3, marginRight:3, color:'#777', fontSize:18, marginTop:1, }}>{this.state.cartCount}</Text>
                                 </View>
                                     
                                 <TouchableOpacity 
@@ -188,7 +187,7 @@ class CartList extends React.Component {
                 {
                     this.props.isVisibleItem ? null :  
 
-                    <View style={{ flex:3.5, flexDirection:'row', marginTop:8,}}>
+                    <View style={{ flex: this.props.type == '수정구매' ? 1.8 : 3.5, flexDirection:'row', marginTop:8,}}>
 
                         <TouchableOpacity style={[
                             styles.cartModifyButton, { 
@@ -216,25 +215,28 @@ class CartList extends React.Component {
                                 }
                         }>
 
-                            <Text style={{fontSize:14, color:'#fff'}}>수정</Text>
+                            <Text allowFontScaling={false} style={{fontSize:14, color:'#fff'}}>수정</Text>
                         </TouchableOpacity>
 
-
-                        <TouchableOpacity style={{
-                            width:50, 
-                            height:50, 
-                            justifyContent:"center", 
-                            alignItems:"center",
-                            borderWidth:1, 
-                            borderColor:'#0099ff',
-                            }} 
-                            onPress={
-                                ()=> {this.clickToDeleteButton(this.props.code, this.state.cartData)}
-                            }
-                        >
-                            <Text style={{fontSize:14, color:'#0099ff',}}>삭제</Text>
-                        </TouchableOpacity>
-
+                        {
+                            this.props.type == '수정구매' ? null : 
+                            <TouchableOpacity style={{
+                                width:50, 
+                                height:50, 
+                                justifyContent:"center", 
+                                alignItems:"center",
+                                borderWidth:1, 
+                                borderColor:'#0099ff',
+                                }} 
+                                onPress={
+                                    ()=> {this.clickToDeleteButton(this.props.code, this.state.cartData)}
+                                }
+                            >
+                                <Text allowFontScaling={false} style={{fontSize:14, color:'#0099ff',}}>삭제</Text>
+                            </TouchableOpacity>
+    
+                        }
+                        
                     </View>
                 }
                 

@@ -38,7 +38,7 @@ export default class BarChart extends Component {
                         </View>
 
                         <View>
-                            <Text style={{fontSize:14, fontWeight:"100", color:"#555", marginTop:5,}}>{this.props.chartData.term[0]}월</Text>
+                            <Text allowFontScaling={false} style={{fontSize:14, fontWeight:"100", color:"#555", marginTop:5,}}>{this.props.chartData.term[0]}월</Text>
                         </View>
                     </View>
                     
@@ -63,7 +63,7 @@ export default class BarChart extends Component {
                                 <View style={{ width :12 , height: this.props.chartData.Price[1] * maxPriceValue , backgroundColor:"#16a5a1", }}/>    
                             </View>
                         </View>
-                        <View><Text style={{fontSize:14, fontWeight:"100", color:"#555", marginTop:5,}}>{this.props.chartData.term[1]}월</Text></View>
+                        <View><Text  allowFontScaling={false} style={{fontSize:14, fontWeight:"100", color:"#555", marginTop:5,}}>{this.props.chartData.term[1]}월</Text></View>
                     </View>
 
                     <View style={{ marginLeft:20,}}>
@@ -91,7 +91,7 @@ export default class BarChart extends Component {
 
                         </View>
 
-                        <View><Text style={{fontSize:14, fontWeight:"100", color:"#555", marginTop:5,}}>{this.props.chartData.term[2]}월</Text></View>
+                        <View><Text  allowFontScaling={false} style={{fontSize:14, fontWeight:"100", color:"#555", marginTop:5,}}>{this.props.chartData.term[2]}월</Text></View>
                     </View>
                 </View>
 

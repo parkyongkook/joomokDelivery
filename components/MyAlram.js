@@ -8,7 +8,7 @@ import Notice_list from './listComponent/Notice_list';
 import BackGroundImage from './util/backGroundImage';
 import Head from './Head';
 
-export default class Notice extends Component {
+export default class MyAlram extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -18,7 +18,7 @@ export default class Notice extends Component {
   
 componentWillMount(){
     // 제이슨으로 상품 목록 데이터 받아오기
-    return fetch('https://api.joomok.net/boards/notice?usridx='+this.props.usridx+'&key=title&word=두몫&istart=0&ilimit=10')
+    return fetch('https://api.joomok.net/boards/push?usridx='+this.props.usridx+'&key=title&word=두몫&istart=0&ilimit=10')
     .then((response) => response.json())
     .then((noticeBoardData) => {
         this.setState({
@@ -45,7 +45,7 @@ render() {
         <BackGroundImage/>
 
         <Head 
-            title={"공지사항"}
+            title={"My알람"}
             openDrawer={this.props.openDrawer} 
             closeDrawerHome={this.props.closeDrawer} 
             beforePage = { ()=> Actions.Main() }
@@ -64,9 +64,9 @@ render() {
                         flexDirection:"row",
                         paddingTop:10,
                         }}>
-                        <View style={[{flex:1 },styles.noticeFormTitle]}>
-                            <Text allowFontScaling={false} style={{color:"#fff", fontSize:16 }}>공지메시지</Text>
-                        </View>
+                        <View style={[{flex:1 },styles.noticeFormTitle]}><Text allowFontScaling={false} style={{color:"#fff", fontSize:16 }}>메시지</Text></View>
+                        {/* <View style={[{flex:2 },styles.noticeFormTitle]}><Text style={{color:"#fff", fontSize:16 }}>종류</Text></View>
+                        <View style={[{flex:6 },styles.noticeFormTitle]}><Text style={{color:"#fff", fontSize:16 }}>제목</Text></View> */}
                     </View>
                     { this.state.noticeBoardData }
                 </Content>

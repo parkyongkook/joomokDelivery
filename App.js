@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackHandler } from 'react-native';
+import { BackHandler, Alert } from 'react-native';
 import { Drawer} from 'native-base';
 import { Font, AppLoading } from "expo";
 
@@ -16,11 +16,11 @@ import Payment from './components/Payment';
 import SignUp_Authentication from './components/SignUp_Authentication';
 import SignUp_Information from './components/SignUp_Information';
 
-import SendPushNotification from './components/SendPushNotification';
 import MenuSlider from './components/MenuSlider';
 import SIgnUp_Policy from './components/SIgnUp_Policy';
 import OrderSelect from './components/OrderSelect';
 import Notice from './components/Notice';
+import MyAlram from './components/MyAlram';
 import Customer from './components/Customer';
 import Faq from './components/Faq';
 import PaymentList from './components/PaymentList';
@@ -38,10 +38,6 @@ console.warn = message => {
     _console.warn(message);
   }
 };
-
-// import MapLocation from './components/MapLocation';
-// import PaymentFinal from './components/PaymentFinal';
-// import CameraExample from './components/CameraExample';
 
 const ReduxRouter = connect((state) => ({ state: state.route }))(Router);
 const reducers = require('./reducers').default;
@@ -85,11 +81,37 @@ export default class App extends React.Component {
     componentWillUnmount(){
         BackHandler.removeEventListener('hardwareBackPress', this.handleAndroidBack())
     }
+
+    button() {
+        Alert.alert(
+            'Alert Title',
+            'Alert message here...',
+            [
+                {text: 'NO', onPress: () => console.warn('NO Pressed'), style: 'cancel'},
+                {text: 'YES', onPress: () => console.warn('YES Pressed')},
+            ]
+        );
+    }
     
     handleAndroidBack = () =>{
        
         if( drawerState === true ){
             this.closeDrawer()
+            return true
+        }
+
+
+        if( Actions.currentScene === 'SignUp_Information'){
+
+            Alert.alert(
+                '회원가입폼 화면을 나가시겠습니까?',
+                '승인하시면 작성하던 내용은 모두 삭제되며 전단계로 뒤돌아갑니다.',
+                [
+                    {text: '거절', onPress: () => true },
+                    {text: '승인', onPress: () =>  Actions.pop() },
+                ]
+            );
+            
             return true
         }
 
@@ -194,7 +216,7 @@ export default class App extends React.Component {
                                 hideNavBar={true}
                                 openDrawer={this.openDrawer}
                                 closeDrawerHome={this.closeDrawer}
-                               
+                                
                             />
                             <Scene key='OrderSelect'
                                 component={OrderSelect}
@@ -221,6 +243,11 @@ export default class App extends React.Component {
                             />
                             <Scene key='Notice' 
                                 component={Notice}
+                                hideNavBar={true}
+                                openDrawer={this.openDrawer} 
+                            />
+                            <Scene key='MyAlram' 
+                                component={MyAlram}
                                 hideNavBar={true}
                                 openDrawer={this.openDrawer} 
                             />
@@ -270,8 +297,7 @@ export default class App extends React.Component {
                                 component={CameraExample}
                                 hideNavBar={true}
                             />
-
-                        */}
+                            */}
 
                         </Scene>
                     </ReduxRouter>

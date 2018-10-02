@@ -36,6 +36,7 @@ class Login extends Component {
                 userid: null,
                 password: null,
                 fb_uid: null,
+                tokenid: null,
                 width: null,
                 height: null,
             }
@@ -46,8 +47,7 @@ class Login extends Component {
         this.firebaseLogin = this.firebaseLogin.bind(this);
     }
 
-    componentWillMount() {
-
+    componentWillMount() {    
         if ( this.props.isLogout === "true" ) {
             storage.remove({
                 key: "userInfo",
@@ -55,12 +55,12 @@ class Login extends Component {
                     idSaveChecked: null,
                     userid: null,
                     password: null,
+                    tokenid : null,
                     fb_uid: null
                 },
                 expires: null
             })
         } else {
-
             this.setState({
                 isLoading: true
             })
@@ -74,13 +74,13 @@ class Login extends Component {
                     someFlag: true,
                 },
             }).then(ret => {
-
                 this.setState({
                     idSaveChecked: ret.idSaveChecked,
                     userData: update(this.state.userData, {
                         userid: { $set: ret.userid },
                         password: { $set: ret.password },
                         fb_uid: { $set: ret.fb_uid },
+                        tokenid :  { $set: ret.tokenid },
                         width: { $set: width },
                         height: { $set: height },
                     })
@@ -124,6 +124,8 @@ class Login extends Component {
         var currentUser
         var that = this
 
+        this.registerForPushNotificationsAsync()
+     
         if( this.state.userData.userid === null || this.state.userData.userid === '' ){
             this.setState({
                 isLoading: false
@@ -153,6 +155,7 @@ class Login extends Component {
                     idSaveChecked: this.state.idSaveChecked,
                     userid: this.state.userData.userid,
                     password: this.state.userData.password,
+                    tokenid : this.state.userData.tokenid
                     // fb_uid: user.uid
                 },
                 expires: null
@@ -163,7 +166,8 @@ class Login extends Component {
                 data: {
                     idSaveChecked: false,
                     userid: null,
-                    password: null
+                    password: null,
+                    tokenid : null
                 },
                 expires: null
             });
@@ -199,8 +203,6 @@ class Login extends Component {
                     return alert('로그인에 실패 하였습니다 아이디 비밀번호를 다시 확인해 주세요')
                     return
                 }else{
-
-                    this.registerForPushNotificationsAsync()
                     //파이어베이스에 로그인 되어있고 컴포넌트에 접속이 되어있으면 푸쉬 토큰 등록 함수 시작
                     // listener = firebase.auth().onAuthStateChanged(function (user) {
                     //     if (user != null) {
@@ -209,6 +211,7 @@ class Login extends Component {
                     //     }
                     //     listener();
                     // });
+
                     this.props.loginSucess(responseData.data, responseData.data.usridx, this.state.userData)
                     Actions.Main({
                         loginMessage: "loginSucess"
@@ -228,7 +231,6 @@ class Login extends Component {
 
     //파이어베이스 엑스포 토큰 등록 함수 
     registerForPushNotificationsAsync = async () => {
-        
         const { existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
         let finalStatus = existingStatus;
         // only ask if permissions have not already been determined, because
@@ -242,21 +244,26 @@ class Login extends Component {
        
         // 사용자 권한을 부여하지 않은경우 여기서 중지
         if (finalStatus !== 'granted') {
-
-            console.log('진입은완료',finalStatus)
-
             return;
         }
         // Get the token that uniquely identifies this device
-        let token = await Notifications.getExpoPushTokenAsync();
+
+        let tokenid = await Notifications.getExpoPushTokenAsync();
+
         // POST the token to our backend so we can use it to send pushes from there
-        var updates = {}
+        // var updates = {}
 
-        updates['/expoToken'] = token
+        // updates['/expoToken'] = token
 
-        console.log('기기의토큰값', token)
+        // console.log('기기의토큰값', token)
 
         // await firebase.database().ref('/users/' + currentUser.uid).update(updates)
+
+        this.setState({
+            userData: update(this.state.userData, {
+                tokenid :  { $set:  tokenid }
+            })
+        })
     }
 
     firebaseLogin() {
@@ -301,7 +308,6 @@ class Login extends Component {
     }
 
     render() {
-        console.log('현재버전체크', Platform.Version )
         return (
             <View style={{flex:1, backgroundColor: "#0099ff",  }}>
                 <Image
@@ -356,6 +362,7 @@ class Login extends Component {
                                            borderBottomWidth: 0.5,
                                            borderColor:'#fff',}}>
                                 <TextInput
+                                    allowFontScaling={false}
                                     placeholder="아이디"
                                     selectionColor='#fff'
                                     placeholderTextColor="#ddd"
@@ -406,6 +413,7 @@ class Login extends Component {
                                 borderColor:'#fff',
                             }}>
                                 <TextInput
+                                    allowFontScaling={false}
                                     placeholder="비밀번호"
                                     selectionColor='#fff'
                                     placeholderTextColor="#ddd"
@@ -436,14 +444,18 @@ class Login extends Component {
                                     })
                                 }
                             >
-                                <Text style={{
+                                <Text 
+                                    allowFontScaling={false}
+                                    style={{
                                     fontSize: 12,
                                     marginTop: 10,
                                     color: "#fff",
                                 }}>아이디 찾기</Text>
                             </TouchableOpacity>
 
-                            <Text style={{
+                            <Text 
+                                allowFontScaling={false}
+                                style={{
                                 fontSize: 12,
                                 marginLeft: 5,
                                 marginTop: 10,
@@ -457,7 +469,7 @@ class Login extends Component {
                                     })
                                 }
                             >
-                                <Text style={{ fontSize: 12, marginTop: 10, marginLeft: 5, marginRight: 8, color: "#fff", }}>비밀번호 찾기</Text>
+                                <Text allowFontScaling={false} style={{ fontSize: 12, marginTop: 10, marginLeft: 5, marginRight: 8, color: "#fff", }}>비밀번호 찾기</Text>
                             </TouchableOpacity>
                             <View style={{ flexDirection: 'row' }}>
                                 <CheckBox
@@ -492,7 +504,9 @@ class Login extends Component {
                                         }
                                     }
                                 >
-                                    <Text style={{
+                                    <Text 
+                                        allowFontScaling={false} 
+                                        style={{
                                         fontSize: 13,
                                         marginTop: 10,
                                         marginLeft: 15,
@@ -508,7 +522,7 @@ class Login extends Component {
                 <View style={{ flex: 2, alignItems: "center",  }}>
                     <Button block style={{ marginLeft: 20, marginRight: 20, backgroundColor: "#fff", }}
                         onPress={this.loginActivate}>
-                        <Text style={{ color: "#0099ff" }}>로그인</Text>
+                        <Text allowFontScaling={false} style={{ color: "#0099ff" }}>로그인</Text>
                     </Button>
                     <Button block style={{
                         marginTop: 10,
@@ -520,7 +534,7 @@ class Login extends Component {
                         borderColor: "#fff",
                     }}
                         onPress={() => { Actions.SIgnUp_Policy({ version : Platform.OS ==='android' ? Platform.Version : 30 }) }}>
-                        <Text>무료 회원가입</Text>
+                        <Text allowFontScaling={false}>무료 회원가입</Text>
                     </Button>
                 </View>     
                 {

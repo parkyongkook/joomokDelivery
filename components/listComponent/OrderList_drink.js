@@ -22,10 +22,10 @@ export default class OrderList_drink extends React.Component {
                 marginRight:5,
                 backgroundColor : bgcBool === false ? '#fff' : "#eee" ,
             }}>
-                <View style={[{flex:5, },styles.noticeFormShare]}><Text style={styles.detailText}>{this.props.date}</Text></View>
-                <View style={[{flex:3, },styles.noticeFormShare]}><Text style={styles.detailText}>{this.props.category}</Text></View>
-                <View style={[{flex:4, },styles.noticeFormShare]}><Text style={styles.detailText}>{this.props.title}</Text></View>
-                <View style={[{flex:4, },styles.noticeFormShare]}><Text style={styles.detailText}>{this.props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").split(".")[0]}</Text></View>
+                <View style={[{flex:5, },styles.noticeFormShare]}><Text allowFontScaling={false} style={styles.detailText}>{this.props.date}</Text></View>
+                <View style={[{flex:3, },styles.noticeFormShare]}><Text allowFontScaling={false} style={styles.detailText}>{this.props.category}</Text></View>
+                <View style={[{flex:4, },styles.noticeFormShare]}><Text allowFontScaling={false} style={styles.detailText}>{this.props.title}</Text></View>
+                <View style={[{flex:4, },styles.noticeFormShare]}><Text allowFontScaling={false} style={styles.detailText}>{this.props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").split(".")[0]}</Text></View>
             </View>
         );
     }

@@ -54,7 +54,9 @@ export default class Head extends React.Component {
                     <View style={{ flex: 3, justifyContent: 'center', flexDirection: "row", alignItems: "center", position: "relative", }}>
                         {
                             this.props.title ?
-                                <Text style={{ fontSize: 26, color: "#fff",
+                                <Text
+                                    allowFontScaling={false} 
+                                    style={{ fontSize: 26, color: "#fff",
                                     marginTop: Platform.OS === 'ios' ? 10 : 0, 
                                 }}>
                                     {this.props.title}

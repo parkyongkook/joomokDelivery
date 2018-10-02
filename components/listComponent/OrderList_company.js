@@ -23,13 +23,13 @@ export default class OrderList_company extends React.Component {
                 backgroundColor : bgcBool === false ? '#fff' : "#eee" ,
             }}>
                 <View style={styles.noticeFormShare}>
-                    <Text style={styles.detailText}>{this.props.date}</Text>
+                    <Text allowFontScaling={false} style={styles.detailText}>{this.props.date}</Text>
                 </View>
                 <View style={styles.noticeFormShare}>
-                <   Text style={styles.detailText}>{this.props.comName}</Text>
+                    <Text allowFontScaling={false} style={styles.detailText}>{this.props.comName}</Text>
                 </View>
                 <View style={styles.noticeFormShare}>
-                    <Text style={styles.detailText}>
+                    <Text allowFontScaling={false} style={styles.detailText}>
                         { this.props.price ? this.props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").split(".")[0] : null }
                     </Text>
                 </View>

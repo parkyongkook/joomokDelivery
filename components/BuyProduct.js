@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import {
-    Container, CheckBox, Header, Content, Form, Card, CardItem,
-    Item, Input, Label, Left, Button, Icon, Text, Body, Title, Right, Row, Col
-} from 'native-base';
+import { StyleSheet, View } from 'react-native';
+import {Container, Content, Button, Text,} from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
@@ -65,7 +62,6 @@ class BuyProduct extends Component {
     }
 
     render() {
-        console.log('this.props.cartListData',this.props.cartListData)
         return (
             <Container style={{ backgroundColor: "#0099ff", }}>
                 <BackGroundImage />
@@ -86,7 +82,7 @@ class BuyProduct extends Component {
                     <View style={{ flex: 6, width: "94%", marginTop: 20, marginLeft: "3%", backgroundColor: "#fff", borderRadius: 10 }}>
 
                         <View style={{ marginLeft:20, marginRight:20 }} >
-                            <Text style={{  marginLeft:20,  fontSize: 18, marginTop: 15, marginBottom: 8, color: "#0099ff", }}>
+                            <Text allowFontScaling={false} style={{  marginLeft:20,  fontSize: 18, marginTop: 15, marginBottom: 8, color: "#0099ff", }}>
                                 상품목록
                             </Text>
                             {
@@ -105,7 +101,7 @@ class BuyProduct extends Component {
                 <View style={{ height: 120, backgroundColor: "#eee", justifyContent: 'center', }}>
                     <Button style={{ height: 50, width: "94%", marginLeft: "3%", justifyContent: "center", backgroundColor: '#0099ff', }}
                         onPress={() => { this.clickToConfirm() }}>
-                        <Text>구매하기</Text>
+                        <Text allowFontScaling={false} >구매하기</Text>
                     </Button>
                 </View>
             </Container>

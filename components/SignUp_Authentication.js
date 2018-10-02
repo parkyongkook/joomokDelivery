@@ -75,6 +75,7 @@ export default class SignUp_Authentication extends Component {
                   <Text style={{fontSize:24, color:'#555',}}>이름</Text>
               </View>
               <TextInput 
+                  allowFontScaling={false}
                   underlineColorAndroid='transparent'
                   style={{flex:5, height:40, backgroundColor:'#eee', color:'#999', fontSize:20,}}
               />
@@ -119,6 +120,7 @@ export default class SignUp_Authentication extends Component {
                   </ModalDropdown>   
               </View>  
               <TextInput 
+                allowFontScaling={false}
                 style={{flex:3.45, height:40, backgroundColor:'#eee', color:'#999', fontSize:20, marginLeft:3,}}
                 underlineColorAndroid='transparent'
               />
@@ -160,6 +162,7 @@ export default class SignUp_Authentication extends Component {
               </View>
 
               <TextInput 
+                allowFontScaling={false}
                 style={{flex:5, height:40, marginTop:25,  backgroundColor:'#eee', color:'#999', fontSize:20,}}
                 underlineColorAndroid='transparent'
               />

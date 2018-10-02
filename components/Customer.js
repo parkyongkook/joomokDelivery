@@ -79,8 +79,9 @@ export default class Customer extends Component {
 
             <View style={{flex:3, marginTop:30, marginLeft:20, marginRight:20,}}>
 
-                <Text style={{color:'#999'}}>문의사항이 있으면 남겨주세요.</Text>
+                <Text allowFontScaling={false} style={{color:'#999'}}>문의사항이 있으면 남겨주세요.</Text>
                 <TextInput 
+                  allowFontScaling={false}
                   placeholder='메모를 작성해 주세요'
                   multiline={true} 
                   onChangeText={ this.memoTextActivate} 
@@ -121,7 +122,7 @@ export default class Customer extends Component {
                                 ()=> this.submitMemoData()
                             }
                         >
-                            <Text>전송</Text>
+                            <Text allowFontScaling={false} >전송</Text>
                         </Button>
                     </View>
                 </View>
@@ -129,13 +130,13 @@ export default class Customer extends Component {
 
                 <View style={{ height:100, marginTop:60, backgroundColor:"#fff",}}>
                     <View style={{flexDirection:'row',}}>
-                        <Text style={{flex:1, height:50, paddingLeft:10, paddingTop:15, color:'#999',}}>서울상사</Text>
-                        <Text style={{flex:1, height:50, textAlign:'right', paddingRight:10, paddingTop:15, color:'#999',}}>02-000-0000</Text>
+                        <Text allowFontScaling={false} style={{flex:1, height:50, paddingLeft:10, paddingTop:15, color:'#999',}}>서울상사</Text>
+                        <Text allowFontScaling={false} style={{flex:1, height:50, textAlign:'right', paddingRight:10, paddingTop:15, color:'#999',}}>02-000-0000</Text>
                     </View>
 
                     <View style={{flexDirection:'row'}}>
-                        <Text style={{flex:1, height:50, paddingLeft:10, paddingTop:15, color:'#999',}}>APP 문의전화</Text>
-                        <Text style={{flex:1, height:50, textAlign:'right',  paddingRight:10, paddingTop:15, color:'#999',}}>1588-1234</Text>
+                        <Text allowFontScaling={false} style={{flex:1, height:50, paddingLeft:10, paddingTop:15, color:'#999',}}>APP 문의전화</Text>
+                        <Text allowFontScaling={false} style={{flex:1, height:50, textAlign:'right',  paddingRight:10, paddingTop:15, color:'#999',}}>1588-1234</Text>
                     </View>
                 </View> 
 

@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "joomok",
-    "description": "This project is really great.",
-    "slug": "doomok0813",
+    "name": "joomokdelivery",
+    "description": "joomokdelivery",
+    "slug": "joomokdelivery1005",
     "privacy": "public",
     "sdkVersion": "29.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.2",
+    "version": "0.1",
     "orientation": "portrait",
     "icon":"./assets/icon_phone.png",
     "scheme": "joomok",
@@ -22,11 +22,11 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "co.pyk.joomok"
+      "bundleIdentifier": "co.pyk.joomokdelivery"
     },
     "android" :{
-      "versionCode": 5,
-      "package" : "co.pyk.joomok"
+      "versionCode": 1,
+      "package" : "co.pyk.joomokdelivery"
     },
     "androidStatusBar": {
       "backgroundColor": "#000000"

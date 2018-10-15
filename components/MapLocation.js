@@ -7,6 +7,8 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { MapView } from 'expo';
 import Head from './Head';
+import BackGroundImage from './util/backGroundImage';
+
 
 export default class MapLocation extends Component {
     constructor(props) {
@@ -83,7 +85,8 @@ export default class MapLocation extends Component {
 
     render() {
         return (
-            <Container>
+            <View style={{ flex: 1, backgroundColor: "#0099ff", }}>
+                <BackGroundImage />
                 <Head
                     title={"지도보기"}
                     openDrawer={this.props.openDrawer}
@@ -124,7 +127,7 @@ export default class MapLocation extends Component {
                             );
                         })}
                 </MapView>
-            </Container>
+            </View>
         );
     }
 }

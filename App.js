@@ -9,29 +9,17 @@ import { Scene, Actions, Router, ActionConst } from 'react-native-router-flux';
 
 import Main from './components/Main';
 import Login from './components/Login';
-import OrderMain from './components/OrderMain';
-import Cart from './components/Cart';
-import BuyProduct from './components/BuyProduct';
-import Payment from './components/Payment';
-import SignUp_Authentication from './components/SignUp_Authentication';
-import SignUp_Information from './components/SignUp_Information';
-
 import MenuSlider from './components/MenuSlider';
-import SIgnUp_Policy from './components/SIgnUp_Policy';
-import OrderSelect from './components/OrderSelect';
-import Notice from './components/Notice';
-import MyAlram from './components/MyAlram';
-import Customer from './components/Customer';
-import Faq from './components/Faq';
-import PaymentList from './components/PaymentList';
-import MyWeb from './components/MyWeb';
-import ChengeMyInfo from './components/ChengeMyInfo';
-import ChangePassword from './components/ChangePassword';
+import ComDetail from './components/ComDetail';
+import MapLocation from './components/MapLocation';
+import CalendarView from './components/Calendar';
+import AgendarView from './components/AgendarView';
+import Accounts from './components/Accounts';
+import Myalram from './components/Myalram';
 
-import { YellowBox } from 'react-native';
 import _ from 'lodash';
 
-YellowBox.ignoreWarnings(['Setting a timer']);
+
 const _console = _.clone(console);
 console.warn = message => {
   if (message.indexOf('Setting a timer') <= -1) {
@@ -92,7 +80,7 @@ export default class App extends React.Component {
             ]
         );
     }
-    
+
     handleAndroidBack = () =>{
        
         if( drawerState === true ){
@@ -168,10 +156,6 @@ export default class App extends React.Component {
                             panHandlers={null}
                             type={ActionConst.RESET}
                         >
-                            <Scene key='MyWeb'
-                                component={MyWeb}
-                                hideNavBar={true}
-                            />
                             <Scene key='Main'
                                 component={Main}
                                 hideNavBar={true}
@@ -179,125 +163,54 @@ export default class App extends React.Component {
                                 closeDrawerHome={this.closeDrawer}
                             />
                             <Scene key='Login'
-                                closeDrawerHome={this.closeDrawer}
                                 component={Login}
+                                closeDrawerHome={this.closeDrawer}
+                                hideNavBar={true}
+                            />
+
+                            <Scene key='ComDetail'
+                                component={ComDetail}
+                                openDrawer={this.openDrawer}
+                                closeDrawerHome={this.closeDrawer}
+                                hideNavBar={true}
+                            />
+
+                            <Scene key='MapLocation'
+                                component={MapLocation}
+                                openDrawer={this.openDrawer}
+                                closeDrawerHome={this.closeDrawer}
+                                hideNavBar={true}
+                            />
+
+                            <Scene key='CalendarView'
+                                component={CalendarView}
+                                openDrawer={this.openDrawer}
+                                closeDrawerHome={this.closeDrawer}
+                                hideNavBar={true}
+                            />
+
+                            <Scene key='AgendarView'
+                                component={AgendarView}
+                                openDrawer={this.openDrawer}
+                                closeDrawerHome={this.closeDrawer}
                                 hideNavBar={true}
                                 initial={true} 
-                            />
-                            <Scene key='OrderMain'
-                                component={OrderMain}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer}
-                                closeDrawerHome={this.closeDrawer} 
-                                backButtonHandller ={this.backButtonHandller}
-                                backButton = { this.handleAndroidBack }
-                                resetOrderMainProps = {this.resetOrderMainProps} 
-                            />
-                            <Scene key='Cart'
-                                component={Cart}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer}
-                                closeDrawerHome={this.closeDrawer}
-                            />
-                            <Scene key='SIgnUp_Policy'
-                                component={SIgnUp_Policy}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer}
-                                closeDrawerHome={this.closeDrawer}
-                            />
-                            <Scene key='SignUp_Authentication'
-                                component={SignUp_Authentication}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer}
-                                closeDrawerHome={this.closeDrawer}
-                            />
-                            <Scene key='SignUp_Information'
-                                component={SignUp_Information}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer}
-                                closeDrawerHome={this.closeDrawer}
-                                
-                            />
-                            <Scene key='OrderSelect'
-                                component={OrderSelect}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer}
-                                closeDrawerHome={this.closeDrawer}
-                            />
-                            <Scene key='BuyProduct'
-                                component={BuyProduct}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer}
-                                closeDrawerHome={this.closeDrawer}
-                            />
-                            <Scene key='Payment'
-                                component={Payment}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer}
-                                closeDrawerHome={this.closeDrawer}
-                            />
-                            <Scene key='PaymentList' 
-                                component={PaymentList}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer} 
-                            />
-                            <Scene key='Notice' 
-                                component={Notice}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer} 
-                            />
-                            <Scene key='MyAlram' 
-                                component={MyAlram}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer} 
-                            />
-                            <Scene key='ChengeMyInfo'
-                                component={ChengeMyInfo}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer} 
-                                closeDrawerHome={this.closeDrawer}
-                            />
-                            <Scene key='ChangePassword'
-                                component={ChangePassword}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer} 
-                                closeDrawerHome={this.closeDrawer}
-                            />
-                            <Scene key='Faq' 
-                                component={Faq}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer} 
-                            />
-                            <Scene key='Customer' 
-                                component={Customer}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer} 
+
                             />
 
-
-                            {/* <Scene key='SendPushNotification'
-                                component={SendPushNotification}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer} 
+                            <Scene key='Accounts'
+                                component={Accounts}
+                                openDrawer={this.openDrawer}
                                 closeDrawerHome={this.closeDrawer}
+                                hideNavBar={true}
                             />
 
-                            <Scene key='MapLocation' 
-                                component={MapLocation}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer} 
+                            <Scene key='Myalram'
+                                component={Myalram}
+                                openDrawer={this.openDrawer}
                                 closeDrawerHome={this.closeDrawer}
-                            />
-                            <Scene key='PaymentFinal' 
-                                component={PaymentFinal}
-                                hideNavBar={true}
-                                openDrawer={this.openDrawer} 
-                            /> 
-                            <Scene key='CameraExample'
-                                component={CameraExample}
                                 hideNavBar={true}
                             />
-                            */}
 
                         </Scene>
                     </ReduxRouter>

@@ -31,6 +31,7 @@
     "react-native-android-back-button": "^0.3.0",
     "react-native-awesome-alerts": "^1.0.8",
     "react-native-base": "^1.1.0",
+    "react-native-calendars": "^1.21.0",
     "react-native-datepicker": "^1.7.2",
     "react-native-device-info": "^0.22.5",
     "react-native-drawer": "^2.5.0",

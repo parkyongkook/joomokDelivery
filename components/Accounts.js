@@ -1,14 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput,Clipboard, ScrollView} from 'react-native';
+import { Button } from 'native-base';
 import Toast, { DURATION } from 'react-native-easy-toast'
 
 import Head from './Head';
 import BackGroundImage from './util/backGroundImage';
-import AlramList from './listComponent/AlramList';
-import {alramData} from './jsonData/jsonData.json';
+import ComList from './listComponent/ComList';
+import {comInfo} from './jsonData/jsonData.json';
 
 
-export default class Myalram extends React.Component {
+export default class Accounts extends React.Component {
 
     constructor(props) {
         super(props);
@@ -20,11 +21,12 @@ export default class Myalram extends React.Component {
         Clipboard.setString(msg);
     };
 
-    mapToAlramInfo = (data) => {
-        return data.map((alramData, i) => {
+    mapToComInfo = (data) => {
+        return data.map((comData, i) => {
             return (
-                <AlramList
-                    alramData={alramData}
+                <ComList
+                    setClipboardContent = {this.setClipboardContent.bind(this)}
+                    comData={comData}
                     key={i}
                     i={i}
                 />);
@@ -32,17 +34,14 @@ export default class Myalram extends React.Component {
     }
 
     render() {
-
         return (
 
             <View style={{ flex: 1, backgroundColor: "#0099ff", }}>
-
                 <BackGroundImage />
                 <View>
                     <Head
                         openDrawer={this.props.openDrawer}
                         closeDrawerHome={this.props.closeDrawer}
-                        beforePage={true}
                     />
                 </View>
 
@@ -54,22 +53,17 @@ export default class Myalram extends React.Component {
 
                     <View style={{flex:10, marginTop:10}}>
                         <View style={{flex:1, flexDirection:'row', backgroundColor:"#0099ff",}}>
-
-                            <View  style={{flex:1.5, justifyContent:'center', alignItems:'center', borderRightWidth:0.3, borderColor:'#fff', }}>
-                                <Text style={{color:'#fff', fontSize:12,}}>날짜</Text>
+                            <View  style={{flex:1, justifyContent:'center', alignItems:'center', 
+                                            borderRightWidth:0.3, borderColor:'#fff',}}>
+                                <Text style={{color:'#fff', fontSize:12,}}>지역</Text>
                             </View>
-                            <View  style={{flex:1, justifyContent:'center', alignItems:'center', borderRightWidth:0.3, borderColor:'#fff',}}>
-                                <Text style={{color:'#fff', fontSize:12,}}>종류</Text>
-                            </View>
-                            <View  style={{flex:4, justifyContent:'center', alignItems:'center'}}>
-                                <Text style={{color:'#fff', fontSize:12,}}>제목</Text>
+                            <View  style={{flex:6, justifyContent:'center', alignItems:'center'}}>
+                                <Text style={{color:'#fff', fontSize:12,}}>거래처정보</Text>
                             </View>
                         </View>
-
                         <View style={{flex:14}}>
-                            {this.mapToAlramInfo(alramData)}
+                            {this.mapToComInfo(comInfo)}
                         </View>
-
                     </View>
 
                 </View>
@@ -80,4 +74,5 @@ export default class Myalram extends React.Component {
 }
 
 
+// const styles = StyleSheet.create({})
   

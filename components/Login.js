@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import {Dimensions, Platform, StyleSheet, View, TouchableOpacity, AsyncStorage, TextInput, ActivityIndicator, Image, StatusBar,} from 'react-native';
+import {Platform, StyleSheet, View, TouchableOpacity, AsyncStorage, 
+    TextInput, ActivityIndicator, Image, StatusBar, Alert, Linking} from 'react-native';
 import {CheckBox,Form,Item, Button, Icon, Text,} from 'native-base';
 
 import { Actions } from 'react-native-router-flux';
-import * as firebase from 'firebase';
 import update from 'immutability-helper'; // 2.6.5
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Storage from 'react-native-storage';
 import { Permissions, Notifications } from 'expo';
-import Toast, { DURATION } from 'react-native-easy-toast'
-
-let width = Dimensions.get('window').width;
-let height = Dimensions.get('window').height;
+import appJson from '../app.json';
 
 var storage = new Storage({
     size: 1000,
@@ -26,6 +23,7 @@ class Login extends Component {
         super(props);
         
         this.state = {
+            notification: {},
             isIdFocus: false,
             isPassFocus: false,
             loading: true,
@@ -44,64 +42,8 @@ class Login extends Component {
         this.onChangeInput_Id = this.onChangeInput_Id.bind(this);
         this.onChangeInput_pass = this.onChangeInput_pass.bind(this);
         this.loginActivate = this.loginActivate.bind(this);
-        this.firebaseLogin = this.firebaseLogin.bind(this);
     }
 
-    componentWillMount() {    
-        if ( this.props.isLogout === "true" ) {
-            storage.remove({
-                key: "userInfo",
-                data: {
-                    idSaveChecked: null,
-                    userid: null,
-                    password: null,
-                    tokenid : null,
-                    fb_uid: null
-                },
-                expires: null
-            })
-        } else {
-            this.setState({
-                isLoading: true
-            })
-
-            storage.load({
-                key: 'userInfo',
-                autoSync: true,
-                syncParams: {
-                    extraFetchOptions: {
-                    },
-                    someFlag: true,
-                },
-            }).then(ret => {
-                this.setState({
-                    idSaveChecked: ret.idSaveChecked,
-                    userData: update(this.state.userData, {
-                        userid: { $set: ret.userid },
-                        password: { $set: ret.password },
-                        fb_uid: { $set: ret.fb_uid },
-                        tokenid :  { $set: ret.tokenid },
-                        width: { $set: width },
-                        height: { $set: height },
-                    })
-                })
-
-            }).then(() => {
-                this.loginActivate( null, true )
-            })
-            .catch(err => {
-                this.setState({
-                    isLoading: false
-                })
-                switch (err.name) {
-                    case 'NotFoundError':
-                        break;
-                    case 'ExpiredError':
-                        break;
-                }
-            })
-        }
-    }
     
     onChangeInput_Id(txt) {
         this.setState({
@@ -119,13 +61,11 @@ class Login extends Component {
         })
     }
 
-    loginActivate( user , autoLogin) {
+    loginActivate( user , autoLogin , push ) {
 
         var currentUser
         var that = this
 
-        this.registerForPushNotificationsAsync()
-     
         if( this.state.userData.userid === null || this.state.userData.userid === '' ){
             this.setState({
                 isLoading: false
@@ -203,6 +143,7 @@ class Login extends Component {
                     return alert('로그인에 실패 하였습니다 아이디 비밀번호를 다시 확인해 주세요')
                     return
                 }else{
+
                     //파이어베이스에 로그인 되어있고 컴포넌트에 접속이 되어있으면 푸쉬 토큰 등록 함수 시작
                     // listener = firebase.auth().onAuthStateChanged(function (user) {
                     //     if (user != null) {
@@ -211,8 +152,29 @@ class Login extends Component {
                     //     }
                     //     listener();
                     // });
-
+                    if( appJson.expo.version+'b' !== responseData.version ){
+                       
+                        Alert.alert(
+                            '필수사항 트',
+                            '더 나은 서비스를 위해 앱을 업데이트 해주세요',
+                        [
+                            {text: '업데이트', onPress: () => {
+                                Platform.OS === 'ios' ? Linking.openURL('https://itunes.apple.com/kr/app/joomok/id1436954278?mt=8')
+                                : Linking.openURL('https://play.google.com/store/apps/details?id=co.pyk.joomok')
+                            }},
+                        ]
+                    );
+                    }
                     this.props.loginSucess(responseData.data, responseData.data.usridx, this.state.userData)
+
+                    if( push === true ){        
+                        Actions.Main({
+                            loginMessage: "loginSucess",
+                            push : 'dontHave'
+                        })
+                        return
+                    }
+
                     Actions.Main({
                         loginMessage: "loginSucess"
                     })
@@ -226,85 +188,6 @@ class Login extends Component {
             this.setState({
                 isLoading: false
             }));
-    }
-
-
-    //파이어베이스 엑스포 토큰 등록 함수 
-    registerForPushNotificationsAsync = async () => {
-        const { existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-        let finalStatus = existingStatus;
-        // only ask if permissions have not already been determined, because
-        // iOS won't necessarily prompt the user a second time.
-        if (existingStatus !== 'granted') {
-            // Android remote notification permissions are granted during the app
-            // install, so this will only ask on iOS
-            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-            finalStatus = status;
-        }
-       
-        // 사용자 권한을 부여하지 않은경우 여기서 중지
-        if (finalStatus !== 'granted') {
-            return;
-        }
-        // Get the token that uniquely identifies this device
-
-        let tokenid = await Notifications.getExpoPushTokenAsync();
-
-        // POST the token to our backend so we can use it to send pushes from there
-        // var updates = {}
-
-        // updates['/expoToken'] = token
-
-        // console.log('기기의토큰값', token)
-
-        // await firebase.database().ref('/users/' + currentUser.uid).update(updates)
-
-        this.setState({
-            userData: update(this.state.userData, {
-                tokenid :  { $set:  tokenid }
-            })
-        })
-    }
-
-    firebaseLogin() {
-
-        if (this.state.userData.userid === null || this.state.userData.userid === "") {
-            this.setState({
-                isLoading: false
-            })
-            return alert("아이디 항목이 비어있습니다.")
-        }
-        if (this.state.userData.password === null || this.state.userData.password === "") {
-            this.setState({
-                isLoading: false
-            })
-            return alert("비밀번호 항목이 비어있습니다.")
-        }
-
-        this.setState({
-            isLoading: true
-        })
-
-        let that = this;
-        let lowCaseStr = this.state.userData.userid
-        
-        //세션 유지, 푸쉬 기능을 위한 파이어베이스 로그인 시작.
-        firebase.auth().signInWithEmailAndPassword(this.state.userData.userid + "@joomok.com", lowCaseStr)
-            .then((err) => {
-                firebase.auth().onAuthStateChanged(function (user) {
-                    if (user) {
-                        that.loginActivate(user)
-                    }
-                });
-            })
-            .catch((err) => {
-                console.log(err)
-                alert(err)
-                // alert("로그인에 실패하였습니다 아이디 또는 비밀번호를 확인해 주세요")
-                this.setState({
-                    isLoading: false
-                })
-            })
     }
 
     render() {
@@ -344,7 +227,7 @@ class Login extends Component {
                     }}>
                             <Image
                                 style={{
-                                    flex: 1,
+                                    flex: 3,
                                     resizeMode: "contain",
                                     justifyContent: 'flex-start',
                                     width: '70%',
@@ -352,6 +235,7 @@ class Login extends Component {
                                 }}
                                 source={require('../assets/img/logo.png')}
                             />
+                            <Text style={{flex:1, marginTop:-70, color:'#fff', }}>배송앱</Text>
                     </View>
 
                     <View style={{ flex: 3, marginLeft:30, marginRight:40, }}>
@@ -437,40 +321,7 @@ class Login extends Component {
                         </Form>
 
                         <View style={{ flexDirection: 'row', justifyContent: "space-around", marginLeft: 5 }}>
-                            <TouchableOpacity
-                                onPress={
-                                    () => Actions.SignUp_Authentication({
-                                        title: "아이디 찾기"
-                                    })
-                                }
-                            >
-                                <Text 
-                                    allowFontScaling={false}
-                                    style={{
-                                    fontSize: 12,
-                                    marginTop: 10,
-                                    color: "#fff",
-                                }}>아이디 찾기</Text>
-                            </TouchableOpacity>
-
-                            <Text 
-                                allowFontScaling={false}
-                                style={{
-                                fontSize: 12,
-                                marginLeft: 5,
-                                marginTop: 10,
-                                color: "#fff",
-                            }}>|</Text>
-
-                            <TouchableOpacity
-                                onPress={
-                                    () => Actions.SignUp_Authentication({
-                                        title: "비밀번호 찾기"
-                                    })
-                                }
-                            >
-                                <Text allowFontScaling={false} style={{ fontSize: 12, marginTop: 10, marginLeft: 5, marginRight: 8, color: "#fff", }}>비밀번호 찾기</Text>
-                            </TouchableOpacity>
+    
                             <View style={{ flexDirection: 'row' }}>
                                 <CheckBox
                                     checked={this.state.idSaveChecked}
@@ -521,20 +372,8 @@ class Login extends Component {
 
                 <View style={{ flex: 2, alignItems: "center",  }}>
                     <Button block style={{ marginLeft: 20, marginRight: 20, backgroundColor: "#fff", }}
-                        onPress={this.loginActivate}>
+                            onPress={ ()=>Actions.Main() }>
                         <Text allowFontScaling={false} style={{ color: "#0099ff" }}>로그인</Text>
-                    </Button>
-                    <Button block style={{
-                        marginTop: 10,
-                        marginLeft: 20,
-                        marginRight: 20,
-                        backgroundColor: "rgba(0,0,0,0)", 
-                        borderRadius: 4,
-                        borderWidth: 2,
-                        borderColor: "#fff",
-                    }}
-                        onPress={() => { Actions.SIgnUp_Policy({ version : Platform.OS ==='android' ? Platform.Version : 30 }) }}>
-                        <Text allowFontScaling={false}>무료 회원가입</Text>
                     </Button>
                 </View>     
                 {

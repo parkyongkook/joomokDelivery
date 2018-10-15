@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Modal, View, TouchableHighlight, Image, Platform } from 'react-native';
-import {
-    Container, Content, Body, Title, Text, Button, Drawer, Switch,
-    Header, Grid, Col, Row, List, ListItem, Icon
-} from 'native-base';
+import { StyleSheet, Text,View, TouchableHighlight, Image, Platform } from 'react-native';
+import {Header,ListItem, Icon} from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import AlramModal from './AlramModal';
-import ChengeMyInfo from './ChengeMyInfo';
 import { connect } from 'react-redux';
-import * as firebase from 'firebase';
+
 
 class MenuSlider extends Component {
 
@@ -131,58 +126,33 @@ class MenuSlider extends Component {
                                 style={styles.iconImage}
                                 source={require('../assets/img/slideMenu_1.jpg')}
                             />
-                            <Text allowFontScaling={false} style={styles.slideTitleText}>마이페이지</Text>
+                            <Text allowFontScaling={false} style={styles.slideTitleText}>메뉴</Text>
                         </ListItem>
 
                         <TouchableHighlight
-                            onPress={() => {this.logOut()}}
+                            onPress={() => {
+                                Actions.AgendarView();
+                                this.props.closeDrawer();
+                            }}
                             underlayColor ={'#eee'} 
                         >
                             <View style={styles.listItem}>
                 
-                                    <Text allowFontScaling={false} style={styles.slideText}>로그아웃</Text>
+                                    <Text allowFontScaling={false} style={styles.slideText}>-달력</Text>
                             
                             </View>
                         </TouchableHighlight>
 
                         <TouchableHighlight
                             onPress={() => {
-                                Actions.ChengeMyInfo();
+                                Actions.Accounts();
                                 this.props.closeDrawer();
                             }}
                             underlayColor ={'#eee'}
                         >
                             <View style={styles.listItem}>
                                 
-                                    <Text allowFontScaling={false} style={styles.slideText}>내정보 변경</Text>
-                                
-                            </View>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                            onPress={
-                                () => {
-                                    Actions.ChangePassword();
-                                    this.props.closeDrawer();
-                                }
-                            }
-                            underlayColor ={'#eee'}    
-                        >
-                            <View style={styles.listItem}>
-
-                                <Text allowFontScaling={false} style={styles.slideText}>비밀번호 변경</Text>
-                                
-                            </View>
-                        </TouchableHighlight>
-                        <TouchableHighlight 
-                            onPress={() => {
-                                    Actions.PaymentList()
-                                    this.props.closeDrawer()
-                            }}
-                            underlayColor ={'#eee'}    
-                        >
-                            <View style={styles.listItem}>
-                                
-                                    <Text allowFontScaling={false} style={styles.slideText}>주문목록</Text>
+                                    <Text allowFontScaling={false} style={styles.slideText}>-거래처</Text>
                                 
                             </View>
                         </TouchableHighlight>
@@ -195,67 +165,24 @@ class MenuSlider extends Component {
                                     style={styles.iconImage}
                                     source={require('../assets/img/slideMenu_2.jpg')}
                                 />
-                                <Text allowFontScaling={false} style={styles.slideTitleText}>앱설정</Text>
+                                <Text allowFontScaling={false} style={styles.slideTitleText}>알림 센터</Text>
                             </ListItem>
                             <TouchableHighlight
                                 onPress={() => {
-                                    this.setModalVisible(true);
+                                    Actions.Myalram();
+                                    this.props.closeDrawer();
                                 }}
                                 underlayColor ={'#eee'} 
                             >
                                 <View style={styles.listItem}>
-                                    <Text allowFontScaling={false} style={styles.slideText}>알람설정</Text>
+                                    <Text allowFontScaling={false} style={styles.slideText}>-My알람</Text>
                                 </View>
                             </TouchableHighlight>
                         </View>
                     </View>
+                    <View style={{flex:6}}/>                
 
-                    <View style={{ flex:3, backgroundColor:'#fff' }}>
-                        <View style={{ flex: 1 }}>
-                            <ListItem style={styles.listItemHeader}>
-                                <Image
-                                    style={styles.iconImage}
-                                    source={require('../assets/img/slideMenu_2.jpg')}
-                                />
-                                <Text allowFontScaling={false} style={styles.slideTitleText}>고객센터</Text>
-                            </ListItem>
-                            <TouchableHighlight onPress={() => {
-                                    Actions.Notice({usridx: this.props.userData.usridx})
-                                    this.props.closeDrawer()
-                                    }}
-                                    underlayColor ={'#eee'} 
-                                >
-                                <View style={styles.listItem}>
-                                    <Text allowFontScaling={false} style={styles.slideText}>공지사항</Text>
-                                </View>
-                            </TouchableHighlight>
-                            <TouchableHighlight onPress={() => {
-                                    Actions.Faq({usridx: this.props.userData.usridx})
-                                    this.props.closeDrawer()}}
-                                    underlayColor ={'#eee'} 
-                                >
-                                <View style={styles.listItem}>
-                                    <Text allowFontScaling={false} style={styles.slideText}>FAQ</Text>
-                                </View>
-                            </TouchableHighlight>
-                            <TouchableHighlight onPress={() => {
-                                    Actions.Customer({usridx: this.props.userData.usridx})
-                                    this.props.closeDrawer()}}
-                                    underlayColor ={'#eee'} 
-                                >
-                                <View last style={styles.listItem}>
-                                    <Text allowFontScaling={false} style={styles.slideText}>고객센터</Text>
-                                </View>
-                            </TouchableHighlight>
-                        </View>
-                    </View>
-                </View>
-
-                <AlramModal
-                    modalVisible={this.state.modalVisible}
-                    setModalVisible={this.setModalVisible}
-                />
-
+                </View>   
 
             </View>
         );

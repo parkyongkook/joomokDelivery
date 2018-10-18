@@ -166,6 +166,7 @@ export default class App extends React.Component {
                                 component={Login}
                                 closeDrawerHome={this.closeDrawer}
                                 hideNavBar={true}
+                                initial={true} 
                             />
 
                             <Scene key='ComDetail'
@@ -194,8 +195,6 @@ export default class App extends React.Component {
                                 openDrawer={this.openDrawer}
                                 closeDrawerHome={this.closeDrawer}
                                 hideNavBar={true}
-                                initial={true} 
-
                             />
 
                             <Scene key='Accounts'

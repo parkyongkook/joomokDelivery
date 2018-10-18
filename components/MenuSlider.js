@@ -26,50 +26,20 @@ class MenuSlider extends Component {
         });
     }
 
-    logOut() {
-        const that = this;
+    
+    logOut = () => {
 
-        const userData = {
-            usridx: this.props.userData.usridx
-        }
+        fetch('http://dnbs.joomok.net/logout')
+        .then((response) => response.json())
+        .then((dateData)=>{
+            console.log("로그아웃 메시지",dateData)
+        }).done(()=>{
+            this.props.closeDrawer()
+            Actions.reset('Login',{
+                logout: true
+            });
+        })  
 
-        fetch('https://api.joomok.net/auth/signout', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData)
-        })
-            .then((response) => {
-
-                if(response.status !== 200 ){
-                   return alert('로그아웃 실패 관리자에게 문의하세요')
-                }
-
-                Actions.reset('Login',{
-                    isLogout: "true"
-                });
-
-                alert("로그아웃 되었습니다.")
-                that.props.closeDrawer()  
-                
-                
-                //토큰 초기화
-                // firebase.auth().onAuthStateChanged(function (user) {
-                //     if(user){
-                //         firebase.database().ref('users/' + user.uid ).set({
-                //             email: user.email,
-                //             uid : user.uid
-                //         });
-                //     }
-                // });
-        
-            })
-            .catch((error) => {
-                alert(error);
-            })
-            .done();
     }
 
     render() {
@@ -151,11 +121,21 @@ class MenuSlider extends Component {
                             underlayColor ={'#eee'}
                         >
                             <View style={styles.listItem}>
-                                
-                                    <Text allowFontScaling={false} style={styles.slideText}>-거래처</Text>
-                                
+                                <Text allowFontScaling={false} style={styles.slideText}>-거래처</Text>
                             </View>
                         </TouchableHighlight>
+
+                        <TouchableHighlight
+                            onPress={() => {
+                                this.logOut();
+                            }}
+                            underlayColor ={'#eee'}
+                        >
+                            <View style={styles.listItem}>
+                                <Text allowFontScaling={false} style={styles.slideText}>-로그아웃</Text>
+                            </View>
+                        </TouchableHighlight>
+
                     </View>
 
                     <View style={{ flex:1.5, backgroundColor:'#fff' }}>

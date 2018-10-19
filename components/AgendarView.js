@@ -9,7 +9,8 @@ import Head from './Head';
 import {Icon} from 'native-base';
 import {items} from './jsonData/jsonData.json';
 
-var dateArr = [];
+const stanDardDate = "2018-10-19"
+var dateArr = {};
 
 LocaleConfig.locales['en'] = {
   monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
@@ -32,17 +33,129 @@ class AgendarView extends Component {
     //로그인 완료 후 메인 진입시 업체 데이터 가져오기
     fetch('http://dnbs.joomok.net/tasks')
     .then((response) => response.json())
-    .then((dateData)=>{
-      let v = dateData.data.rs
+    .then((response)=>{
+        
+      let dateData = response.data.rs
+      this.props.dateDataUpdate(dateData);
 
-      //키이름으로 내려주는 날짜명을 delist 안에다가 삽입
-      for(let k in v){
-        let delList = v[k][0].delList;
-        for(let i in delList){
-          delList[i].date = k 
+      //날자 데이터가 존재하는 경우 마킹을 할 빈객체 만들기.
+      for(let k in dateData){
+        dateArr[k] = {}
+      }
+
+      //배송완료 미완료에 따른 도트 색상값 변경옵션 
+      const payBackNotComplete = {key:'vacation', color: '#000', selectedDotColor: '#000'};
+      const payBackComplete = {key:'massage', color: 'orange', selectedDotColor: 'orange'};
+
+
+      let count = 0;
+      let paybackCount = 0;
+      let isPayBack = 0;
+
+      
+
+      //만들어진 빈 객체 가공
+      for(let dateKey in dateArr){
+        for(let Key in dateData){
+          if( dateKey == Key ){
+
+
+              //2. 각 날짜의 배열안의 status값이 모두 true면 배송완료 마킹 색상을 넣어줌.
+              function func(arr){
+                let len = arr.length;
+
+                //카운트값들 초기화
+                count = 0;
+                paybackCount = 0;
+                isPayBack = 0;
+
+                for(var i = 0 ; i < len ; i++ ){
+                  //배송 완료여부
+                  arr[i].status === 90 ? count = count+1 : null
+                  //환불 금액이 있느지 여부
+                  arr[i].payback !== 0 ? paybackCount = paybackCount+1 : null
+                  //환불 완료 여부
+                  arr[i].isPayback === true ? isPayBack = isPayBack+1 : null
+                }
+
+                //배송목록의 배송이 모두 완료면 
+                if( count == arr.length ){
+                  //배송 완료 환불 금액 있음.
+                  if( paybackCount !== 0 ){
+                    if( isPayBack == arr.length ){
+                      //배송완료, 환불금액있고,  환불도 완료.
+                      return "deliveryFinishHavePaybackTrue"
+                    }else{
+                      //배송완료, 환불금액있고,  환불 미완료.
+                      return "deliveryFinishHavePaybackFalse"
+                    }
+                  }
+                  //배송완료 환불금액 없음.
+                  return "deliveryFinish"
+                //배송 미완료  
+                }else{
+                  //배송미완료,  이전 날짜
+                  if(stanDardDate.replace(/-/gi,"") > Key.replace(/-/gi,"")){
+                    //배송미완료, 이전 날짜, 환불 금액 있음.
+                    if( paybackCount !== 0 ){
+                        return "deliveryNotHavePayTrueBeforeData"
+                    }
+                    //배송미완료, 이전 날짜, 환불 금액 없음.
+                    return "deliveryNotTrueBeforeData"
+                  }
+                  // 배송미완료, 현재날짜 또는 미래날짜 , 환불 금액 있음.
+                  if( paybackCount !== 0 ){
+                    //배송미완료 환불 금액 있음.
+                    return "deliveryNotFinishHavePaybackTrue"
+                  }
+                  //배송미완료, 현재날짜 또는 미래날짜, 환불 없음.
+                  return "deliveryNotFinishHavePaybackfalse"
+                }
+              }
+
+               /*  배송 완료  */
+               //배송완료, 환불금액 없음
+              if( func(dateData[Key][0].delList) == "deliveryFinish" ){
+                dateArr[dateKey] = { selected:true, selectedColor: '#64c690' }
+              }  
+
+              //배송완료, 환불금액있고,  환불 미완료.
+              if( func(dateData[Key][0].delList) == "deliveryFinishHavePaybackFalse" ){
+                dateArr[dateKey] = { selected:true, selectedColor: '#64c690',  marked:true, dots: [payBackNotComplete] }
+              }  
+
+              //배송완료, 환불금액있고,  환불도 완료.
+              if( func(dateData[Key][0].delList) == "deliveryFinishHavePaybackTrue" ){
+                dateArr[dateKey] = { selected:true, selectedColor: '#64c690', marked:true, dots: [payBackComplete] }
+              }  
+
+              /*  배송 미완료  */
+              //배송미완료 , 이전날짜  환불금액 없음.
+              if( func(dateData[Key][0].delList) == "deliveryNotTrueBeforeData" ){
+                dateArr[dateKey] = { selected:true, selectedColor: 'red'}
+              }  
+
+              //배송미완료 , 이전날짜  환불금액 있음.
+              if( func(dateData[Key][0].delList) == "deliveryNotHavePayTrueBeforeData" ){
+                dateArr[dateKey] = { selected:true, selectedColor: 'red', marked:true,  dots: [payBackNotComplete]}
+              }  
+
+              //배송미완료 환불금액 없음.
+              if( func(dateData[Key][0].delList) == "deliveryNotFinishHavePaybackfalse" ){
+                dateArr[dateKey] = { selected:true, selectedColor: '#4eaae5'}
+              }  
+
+              // 배송미완료 환불금액 있음.
+              if( func(dateData[Key][0].delList) == "deliveryNotFinishHavePaybackTrue" ){
+                dateArr[dateKey] = { selected:true, selectedColor: '#4eaae5', marked:true, dots: [payBackNotComplete] }
+              }  
+
+
+          }
         }
       }
-      this.props.dateDataUpdate(v);
+
+
     })  
   }
 
@@ -89,7 +202,6 @@ class AgendarView extends Component {
         </View>
         <Agenda
         items={this.props.dateData}
-        // loadItemsForMonth={this.loadItems.bind(this)}
         selected={'2018-10-18'}
         minDate={'2018-10-17'}
         maxDate={'2018-10-19'}
@@ -104,43 +216,19 @@ class AgendarView extends Component {
         renderEmptyDate = {this.renderEmptyDate.bind(this)}
         renderEmptyData = {this.renderEmptyDate.bind(this)}
         rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
-
+        markingType={'multi-dot'}
         onRefresh={() => console.log('refreshing...')}
         refreshing={false}
         refreshControl={null}
-
-        // renderEmptyDate={this.renderEmptyDate.bind(this)}
-        // rowHasChanged={this.rowHasChanged.bind(this)}
-        // items={this.state.items}
-        // loadItemsForMonth={(month) => {console.log('trigger items loading')}}
-        // onCalendarToggled={(calendarOpened) => {console.log(calendarOpened)}}
-        // onDayPress={(day)=>{console.log('day pressed')}}
-        // onDayChange={(day)=>{console.log('day changed')}}
-        // selected={'2017-05-22'}
-        // minDate={'2017-05-10'}
-        // maxDate={'2017-06-30'}
         pastScrollRange={50}
         futureScrollRange={50}
-        // renderItem={this.renderItem.bind(this)}
-        // renderEmptyDate={this.renderEmptyDate.bind(this)}
-       
-
-        // hideKnob={false}
-
-        //배송이 안되었을경우 빨간색으로 셀렉트 한다.
-        markedDates={{
-          '2017-05-22': { selected: true, marked: true, selectedColor: 'red' },
-          '2017-05-23': { marked: true },
-          '2017-05-24': { disabled: true }
-        }}
-
+        markedDates={dateArr}
         theme={{
         //   agendaDayTextColor: 'yellow',
         //   agendaDayNumColor: 'green',
         //   agendaTodayColor: 'red',
         //   agendaKnobColor: 'blue'
         }}
-        // style={{backgroundColor:'#000',}}
       />
     </View>
     );
@@ -162,14 +250,12 @@ class AgendarView extends Component {
           }
         }
       }
-      //console.log(this.state.items);
       const newItems = {};
       Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
       this.setState({
         items: newItems
       });
     }, 1000);
-    // console.log(`Load Items for ${day.year}-${day.month}`);
   }
 
   renderItem(item) {

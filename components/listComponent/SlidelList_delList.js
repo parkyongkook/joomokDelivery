@@ -21,7 +21,7 @@ export default class SlidelList_delList extends React.Component {
     }
 
     render() {
-        console.log("메인에서의",this.props.comData)
+        // console.log("메인에서의",this.props.comData)
         return (
             <TouchableOpacity onPress={()=>Actions.ComDetail({
                 comData : this.props.comData

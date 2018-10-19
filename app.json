@@ -22,11 +22,11 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "co.pyk.joomokdelivery"
+      "bundleIdentifier": "co.joomokdelivery"
     },
     "android" :{
       "versionCode": 1,
-      "package" : "co.pyk.joomokdelivery"
+      "package" : "co.joomokdelivery"
     },
     "androidStatusBar": {
       "backgroundColor": "#000000"

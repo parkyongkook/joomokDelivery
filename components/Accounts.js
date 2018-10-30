@@ -40,6 +40,7 @@ export default class Accounts extends React.Component {
                 <BackGroundImage />
                 <View>
                     <Head
+                        beforePage={true}
                         openDrawer={this.props.openDrawer}
                         closeDrawerHome={this.props.closeDrawer}
                     />

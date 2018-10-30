@@ -5,6 +5,8 @@ import {CheckBox,Form,Item, Button, Icon, Text,} from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import update from 'immutability-helper'; // 2.6.5
 import Storage from 'react-native-storage';
+import { Permissions, Notifications } from 'expo';
+
 
 var storage = new Storage({
     size: 1000,
@@ -19,22 +21,24 @@ export default class Login extends Component {
         this.state = {
             isIdFocus: false,
             isPassFocus: false,
-            isLoading: false,
+            isLoading: true,
             idSaveChecked: false,
             userData: {
+                tokenid:null,
                 usrid: null,
                 passwd: null,
             }
         }
         this.onChangeInput = this.onChangeInput.bind(this);
         this.login = this.login.bind(this);
+        this.registerForPushNotificationsAsync = this.registerForPushNotificationsAsync.bind(this);
     }
 
     componentWillMount(){
-
         //로그아웃으로 진입 시 저장되어있는 로컬 정보 삭제.
         if(this.props.logout){
             this.setState({ 
+                isLoading: false,
                 idSaveChecked : false 
             })
             storage.remove({
@@ -69,7 +73,7 @@ export default class Login extends Component {
             })
 
         })
-        .then( ()=>this.state.idSaveChecked ? this.login() : null )
+        .then( ()=>this.state.idSaveChecked ? this.registerForPushNotificationsAsync() : null )
         .catch(err => {
             this.setState({
                 isLoading: false
@@ -116,7 +120,6 @@ export default class Login extends Component {
                     expires: null
                 })
             } 
-    
 
             fetch('http://dnbs.joomok.net/login', {
                 method: 'POST',
@@ -173,6 +176,38 @@ export default class Login extends Component {
                 passwd: { $set: text },
             })
         })
+    }
+
+
+    registerForPushNotificationsAsync = async ( user , autoLogin ) => {
+        
+        const { existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+        let finalStatus = existingStatus;
+        // only ask if permissions have not already been determined, because
+        // iOS won't necessarily prompt the user a second time.
+        if (existingStatus !== 'granted') {
+            // Android remote notification permissions are granted during the app
+            // install, so this will only ask on iOS
+            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            finalStatus = status;
+        }
+        
+        // 사용자 권한을 부여하지 않은경우 여기서 중지
+        if (finalStatus !== 'granted') {
+            this.login()
+            return;
+        }
+
+        // Get the token that uniquely identifies this device
+        let tokenid = await Notifications.getExpoPushTokenAsync();
+
+        this.setState({
+            userData: update(this.state.userData, {
+                tokenid :  { $set:  tokenid }
+            })
+        })
+        this.login()
+
     }
 
     render() {
@@ -357,7 +392,7 @@ export default class Login extends Component {
 
                 <View style={{ flex: 2, alignItems: "center",  }}>
                     <Button block style={{ marginLeft: 20, marginRight: 20, backgroundColor: "#fff", }}
-                            onPress={ this.login }>
+                            onPress={ this.registerForPushNotificationsAsync }>
                         <Text allowFontScaling={false} style={{ color: "#0099ff" }}>로그인</Text>
                     </Button>
                 </View>     

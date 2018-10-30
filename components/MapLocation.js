@@ -1,75 +1,67 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Platform } from 'react-native';
 import {
     Container, CheckBox, Header, Content, Form,
     Item, Input, Label, Left, Button, Icon, Text, Body, Title, Right
 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import { MapView } from 'expo';
+import { MapView,  Constants, Location, Permissions } from 'expo';
 import Head from './Head';
 import BackGroundImage from './util/backGroundImage';
+import update from 'immutability-helper'; // 2.6.5
 
 
 export default class MapLocation extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            location: null,
+            errorMessage: null,
             idSaveChecked: false,
             Region: {
-                latitude: 37.55505189274621,
-                longitude: 126.91136816088806,
-                latitudeDelta: 0.0922,
+                latitude: Number(this.props.pointXy[1]),
+                longitude :  Number(this.props.pointXy[0]),
+                latitudeDelta: 0.0922, 
                 longitudeDelta: 0.0421
             },
             error: null,
             isLoading: true,
-            markers: [
-
-                {
-                    "altitude": "",
-                    "availableBikes": 8,
-                    "availableDocks": 15,
-                    "city": "",
-                    "id": 1,
-                    "landMark": "",
-                    "lastCommunicationTime": "2018-05-30 04:00:34 AM",
-                    "latitude": 37.5026224,
-                    "location": "",
-                    "longitude": 127.03482910000002,
-                    "postalCode": "",
-                    "stAddress1": "India St & West St",
-                    "stAddress2": "",
-                    "stationName": "두몫",
-                    "statusKey": 1,
-                    "statusValue": "In Service",
-                    "testStation": true,
-                    "totalDocks": 23,
-                },
-                {
-                    "altitude": "",
-                    "availableBikes": 8,
-                    "availableDocks": 15,
-                    "city": "",
-                    "id": 1,
-                    "landMark": "",
-                    "lastCommunicationTime": "2018-05-30 04:00:34 AM",
-                    "latitude": 37.5018143,
-                    "location": "",
-                    "longitude": 127.03710810000007,
-                    "postalCode": "",
-                    "stAddress1": "India St & West St",
-                    "stAddress2": "",
-                    "stationName": "gs타워",
-                    "statusKey": 1,
-                    "statusValue": "In Service",
-                    "testStation": true,
-                    "totalDocks": 23,
-                },
-
-            ]
         };
 
     }
+
+
+    // componentWillMount() {
+    //     if (Platform.OS === 'android' && !Constants.isDevice) {
+    //       this.setState({
+    //         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+    //       });
+    //     } else {
+    //       this._getLocationAsync();
+    //     }
+    //   }
+    
+    // _getLocationAsync = async () => {
+    //     let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    //     if (status !== 'granted') {
+    //       this.setState({
+    //         errorMessage: 'Permission to access location was denied',
+    //       });
+    //     }
+    
+    //     let location = await Location.getCurrentPositionAsync({});
+    //     this.setState({ location });
+    //     this.setState({ 
+    //         Region : update(this.state.Region, { 
+    //             latitude : {$set:location.coords.latitude},
+    //             longitude : {$set:location.coords.longitude},
+    //         }),
+    //     });
+
+    //     console.log('로케이션',location.coords.latitude)
+    // };
+
+
 
     // fetchMarkerData() {
     //   //제이슨 형태로 자전거의 위치를 반환함 같은형태로 데이터를 가공하여 받아 사용하여 마커 생성 가능.
@@ -97,35 +89,20 @@ export default class MapLocation extends Component {
                     style={{ flex: 1 }}
                     region={this.state.Region}
                     loadingEnabled={true}
-
                 >
-                    {/* <MapView.Marker
-          coordinate={{
-            latitude: 37.5026224,
-            longitude: 127.03482910000002
-          }}
-          title={"두몫"}
-          description={"o2o플랫폼 서비스"}
-        /> */}
-                    {!this.state.isLoading
-                        ? null
-                        : this.state.markers.map((marker, index) => {
-                            const coords = {
-                                latitude: marker.latitude,
-                                longitude: marker.longitude
-                            };
-
-                            const metadata = `Status: ${marker.statusValue}`;
-
-                            return (
-                                <MapView.Marker
-                                    key={index}
-                                    coordinate={coords}
-                                    title={marker.stationName}
-                                    description={metadata}
-                                />
-                            );
-                        })}
+                    
+                    <MapView.Marker
+                        // key={index}
+                        coordinate={
+                            {
+                                latitude: Number(this.props.pointXy[1]),
+                                longitude :  Number(this.props.pointXy[0]),
+                            }
+                        }
+                        title={this.props.comData.store}
+                        description={this.props.comData.jibun}
+                    />
+     
                 </MapView>
             </View>
         );

@@ -8,8 +8,11 @@ import { connect } from 'react-redux';
 import Head from './Head';
 import {Icon} from 'native-base';
 import {items} from './jsonData/jsonData.json';
+import moment from 'moment';
 
-const stanDardDate = "2018-10-19"
+const stanDardDate = moment().format("YYYY-MM-DD");
+const minDate = moment().subtract(2, 'months').format("YYYY-MM-DD");
+const maxDate = moment().add(20, 'day').format("YYYY-MM-DD");
 var dateArr = {};
 
 LocaleConfig.locales['en'] = {
@@ -31,35 +34,31 @@ class AgendarView extends Component {
 
   componentWillMount(){
     //로그인 완료 후 메인 진입시 업체 데이터 가져오기
-    fetch('http://dnbs.joomok.net/tasks')
+    fetch('http://dnbs.joomok.net/tasks?sdate=2018-10-01&fdate=2018-11-30')
     .then((response) => response.json())
     .then((response)=>{
-        
       let dateData = response.data.rs
       this.props.dateDataUpdate(dateData);
 
       //날자 데이터가 존재하는 경우 마킹을 할 빈객체 만들기.
       for(let k in dateData){
-        dateArr[k] = {}
+        dateArr[k] = {
+          // selected: true, selectedColor: 'green'
+        }
       }
 
       //배송완료 미완료에 따른 도트 색상값 변경옵션 
-      const payBackNotComplete = {key:'vacation', color: '#000', selectedDotColor: '#000'};
-      const payBackComplete = {key:'massage', color: 'orange', selectedDotColor: 'orange'};
-
+      const payBackNotComplete = {key:'payBackNotComplete', color: '#000', selectedDotColor: '#fff'};
+      const payBackComplete = {key:'payBackComplete', color: 'orange', selectedDotColor: '#38751e'};
 
       let count = 0;
       let paybackCount = 0;
       let isPayBack = 0;
-
       
-
       //만들어진 빈 객체 가공
       for(let dateKey in dateArr){
         for(let Key in dateData){
           if( dateKey == Key ){
-
-
               //2. 각 날짜의 배열안의 status값이 모두 true면 배송완료 마킹 색상을 넣어줌.
               function func(arr){
                 let len = arr.length;
@@ -73,9 +72,9 @@ class AgendarView extends Component {
                   //배송 완료여부
                   arr[i].status === 90 ? count = count+1 : null
                   //환불 금액이 있느지 여부
-                  arr[i].payback !== 0 ? paybackCount = paybackCount+1 : null
+                  arr[i].payback.total !== 0 ? paybackCount = paybackCount+1 : null
                   //환불 완료 여부
-                  arr[i].isPayback === true ? isPayBack = isPayBack+1 : null
+                  arr[i].isPayback === false ? isPayBack = isPayBack+1 : null
                 }
 
                 //배송목록의 배송이 모두 완료면 
@@ -92,25 +91,45 @@ class AgendarView extends Component {
                   }
                   //배송완료 환불금액 없음.
                   return "deliveryFinish"
+
                 //배송 미완료  
                 }else{
+
                   //배송미완료,  이전 날짜
                   if(stanDardDate.replace(/-/gi,"") > Key.replace(/-/gi,"")){
                     //배송미완료, 이전 날짜, 환불 금액 있음.
                     if( paybackCount !== 0 ){
-                        return "deliveryNotHavePayTrueBeforeData"
+                      if( isPayBack == arr.length ){
+                        //배송미완료,  환불있고,  환불도 완료.
+                        return "deliveryNotHavePayTrueBeforeDataFalse"
+                      }else{
+                        //배송미완료, 환불있고,  환불 미완료.
+                        return "deliveryNotHavePayTrueBeforeDataTrue"
+                      }
                     }
                     //배송미완료, 이전 날짜, 환불 금액 없음.
                     return "deliveryNotTrueBeforeData"
                   }
-                  // 배송미완료, 현재날짜 또는 미래날짜 , 환불 금액 있음.
+
+                  
+
+                  // 배송미완료, 현재날짜 또는 미래날짜 , 환불 있음.
                   if( paybackCount !== 0 ){
-                    //배송미완료 환불 금액 있음.
-                    return "deliveryNotFinishHavePaybackTrue"
+
+                    if( isPayBack == arr.length ){
+                      //배송미완료,  환불있고,  환불도 완료.
+                      return "deliveryNotFinishHavePaybackFasle"
+                    }else{
+                      //배송미완료, 환불있고,  환불 미완료.
+                      return "deliveryNotFinishHavePaybackTrue"
+                    }
                   }
+
                   //배송미완료, 현재날짜 또는 미래날짜, 환불 없음.
                   return "deliveryNotFinishHavePaybackfalse"
+
                 }
+
               }
 
                /*  배송 완료  */
@@ -130,27 +149,40 @@ class AgendarView extends Component {
               }  
 
               /*  배송 미완료  */
+
+
               //배송미완료 , 이전날짜  환불금액 없음.
               if( func(dateData[Key][0].delList) == "deliveryNotTrueBeforeData" ){
-                dateArr[dateKey] = { selected:true, selectedColor: 'red'}
+                dateArr[dateKey] = { selected:true, selectedColor: '#ccc'}
               }  
 
-              //배송미완료 , 이전날짜  환불금액 있음.
-              if( func(dateData[Key][0].delList) == "deliveryNotHavePayTrueBeforeData" ){
-                dateArr[dateKey] = { selected:true, selectedColor: 'red', marked:true,  dots: [payBackNotComplete]}
+              //배송미완료 , 이전날짜  환불금액 있음 - 환불 완료.
+              if( func(dateData[Key][0].delList) == "deliveryNotHavePayTrueBeforeDataFalse" ){
+                dateArr[dateKey] = { selected:true, selectedColor: '#ccc', marked:true,  dots: [payBackNotComplete]}
               }  
 
-              //배송미완료 환불금액 없음.
+              //배송미완료 , 이전날짜  환불금액 있음 - 환불 미완료.
+              if( func(dateData[Key][0].delList) == "deliveryNotHavePayTrueBeforeDataTrue" ){
+                dateArr[dateKey] = { selected:true, selectedColor: '#ccc', marked:true,  dots: [payBackNotComplete]}
+              }  
+          
+
+              //배송미완료 현재또는 미래날짜
+
+              //배송미완료 현재또는 미래날짜  환불없음
               if( func(dateData[Key][0].delList) == "deliveryNotFinishHavePaybackfalse" ){
                 dateArr[dateKey] = { selected:true, selectedColor: '#4eaae5'}
               }  
 
-              // 배송미완료 환불금액 있음.
+              // 배송미완료 현재또는 미래날짜 환불없음 - 환불은 완료.
+              if( func(dateData[Key][0].delList) == "deliveryNotFinishHavePaybackFasle" ){
+                dateArr[dateKey] = { selected:true, selectedColor: '#4eaae5', marked:true, dots: [payBackComplete] }
+              }  
+
+              // 배송미완료 현재또는 미래날짜 환불없음 - 환불은 미완료.
               if( func(dateData[Key][0].delList) == "deliveryNotFinishHavePaybackTrue" ){
                 dateArr[dateKey] = { selected:true, selectedColor: '#4eaae5', marked:true, dots: [payBackNotComplete] }
               }  
-
-
           }
         }
       }
@@ -159,11 +191,12 @@ class AgendarView extends Component {
     })  
   }
 
-  mapToSlidelList_delList = (data) => {
+  mapToSlidelList_delList = (data , date) => {
       return data.map((comData, i) => {
           return (
               <SlidelList_delList
                   comData={comData}
+                  date={date}
                   key={i}
                   i={i}
               />);
@@ -185,7 +218,7 @@ class AgendarView extends Component {
 
   renderEmptyDate() {
     return (
-      <View style={styles.emptyDate}><Text style={{fontSize:12, color:'#999',}}>배송정보가 존재하지 않습니다.</Text></View>
+      <View style={styles.emptyDate}><Text style={{fontSize:12, color:'#999', alignSelf:'center',}}>배송정보가 존재하지 않습니다.</Text></View>
     );
   }
 
@@ -202,9 +235,10 @@ class AgendarView extends Component {
         </View>
         <Agenda
         items={this.props.dateData}
-        selected={'2018-10-18'}
-        minDate={'2018-10-17'}
-        maxDate={'2018-10-19'}
+        // current={stanDardDate}
+        current={'2018-10-18'}
+        minDate={minDate}
+        maxDate={maxDate}
         renderItem={ (item )=> this.renderItem( item) }
         // 어젠다 슬라이드 버튼
         renderKnob={() => {return (
@@ -223,12 +257,6 @@ class AgendarView extends Component {
         pastScrollRange={50}
         futureScrollRange={50}
         markedDates={dateArr}
-        theme={{
-        //   agendaDayTextColor: 'yellow',
-        //   agendaDayNumColor: 'green',
-        //   agendaTodayColor: 'red',
-        //   agendaKnobColor: 'blue'
-        }}
       />
     </View>
     );
@@ -261,21 +289,16 @@ class AgendarView extends Component {
   renderItem(item) {
     return (
         <View style={{ marginTop:20, marginRight:10, paddingBottom:10, paddingTop:10, backgroundColor:'#fff',}}>
-
             <View style={{  justifyContent: 'center',alignItems: 'center',}}>
-
                 <View style={{ width:'100%', alignItems:'center'}}>
-
                     <View  style={styles.delInfo}>
                         <View style={{ justifyContent:'center',}}>  
                             <Text style={styles.textStyle}>배달건수:{item.delData.delCount}</Text>
                         </View>
-
                         <View style={{justifyContent:'center',}}>
                             <Text style={styles.textStyle}>완료건수:{item.delData.compCount}</Text>
                         </View>
                     </View>
-
                     <View  style={{  
                         width:'96%',
                         borderWidth:0.3, 
@@ -286,19 +309,12 @@ class AgendarView extends Component {
                     }}>
                         { this.mapToProductList(item.delData.product)}
                     </View>
-
                 </View>
-
                 <View style={{marginTop:20, alignItems:'center',}}>
-
                     <Text style={{marginLeft:15, alignSelf:'flex-start', color:'#777',}}>배송목록</Text>
-
-                    { this.mapToSlidelList_delList(item.delList)}
-
+                    { this.mapToSlidelList_delList(item.delList, item.delData.date )}
                 </View>
-
             </View>
-
         </View>
     );
   }
@@ -353,7 +369,6 @@ const mapDispatchToProps = (dispatch) => {
     dateDataUpdate: (dateData) => dispatch(actions.dateDataUpdate(dateData)),
   };
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(AgendarView);
 

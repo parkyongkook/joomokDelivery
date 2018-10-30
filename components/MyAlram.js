@@ -15,6 +15,19 @@ export default class Myalram extends React.Component {
         this.state={}
     }
 
+    componentWillMount(){
+        fetch('http://dnbs.joomok.net/alarms?word=&istart=0&ilimit=10', {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            }
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+            console.log(responseData)
+        })
+    }
+
     setClipboardContent = (msg) => {
         this.refs.toast.show('복사 되었습니다.')
         Clipboard.setString(msg);

@@ -6,6 +6,11 @@ const initialState = {
 }
 
 const dateDataUpdate = (state, dateData) => {
+
+	for(let v in dateData){
+		dateData[v][0].delData.date = v
+	}
+
 	return {
 		...state,
 		dateData : {
